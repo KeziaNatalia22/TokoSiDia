@@ -2,7 +2,7 @@ package Modul;
 
 import java.util.HashMap;
 
-public class Seller extends User implements SellerMethod, ProductMethod_Interface {
+public class Seller extends User implements SellerMethod_Interface, ProductMethod_Interface {
     private HashMap<String, Product> product= new HashMap<String, Product>();
     private String shopName, cityLocated;
     
@@ -25,4 +25,19 @@ public class Seller extends User implements SellerMethod, ProductMethod_Interfac
         this.cityLocated = cityLocated;
     }
 
+    @Override
+    public void addStock(int amount, String idProduct){
+        Product searchProduct = product.get(idProduct);
+        
+        if(searchProduct != null)
+            searchProduct.setStock(searchProduct.getStock()+amount);
+    }
+
+    @Override
+    public void reduceStock(int amount, String idProduct){
+        Product searchProduct = product.get(idProduct);
+
+        if(searchProduct != null)
+            searchProduct.setStock(searchProduct.getStock()-amount);
+    }
 }
