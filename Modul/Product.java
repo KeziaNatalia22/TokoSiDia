@@ -1,21 +1,23 @@
 package Modul;
 
 public abstract class Product {
-    private String name, detail, idProduct;
+    private String name, idProduct;
     private double price, discount;
     private int stock;
 
+    public Product(String name, String idProduct, double price, double discount, int stock) {
+        this.name = name;
+        this.idProduct = idProduct;
+        this.price = price;
+        this.discount = discount;
+        this.stock = stock;
+    }
+    
     public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
-    }
-    public String getDetail() {
-        return detail;
-    }
-    public void setDetail(String detail) {
-        this.detail = detail;
     }
     public String getIdProduct() {
         return idProduct;

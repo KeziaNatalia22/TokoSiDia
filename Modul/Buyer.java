@@ -2,9 +2,14 @@ package Modul;
 
 import java.util.ArrayList;
 
-public class Buyer extends User implements BuyerMethod_Interface {
+public class Buyer extends User implements User_Interface{
     private ArrayList<Product> cart= new ArrayList<Product>();
     private Alamat alamat;
+
+    public Buyer(ArrayList<Product> cart, Alamat alamat) {
+        this.cart = cart;
+        this.alamat = alamat;
+    }
 
     public ArrayList<Product> getCart() {
         return cart;
