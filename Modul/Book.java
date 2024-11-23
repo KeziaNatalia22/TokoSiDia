@@ -3,26 +3,19 @@ package Modul;
 import java.util.Date;
 
 public class Book extends Product implements Product_Interface{
-    private String title, author, synopsis;
+    private String author, synopsis;
     private Date releaseDate;
     private int pageNum;
     
-    public Book(String name, String idProduct, double price, double discount, int stock, String title, String author,
+    public Book(String name, String idProduct, double price, double discount, int stock, String author,
             String synopsis, Date releaseDate, int pageNum) {
         super(name, idProduct, price, discount, stock);
-        this.title = title;
         this.author = author;
         this.synopsis = synopsis;
         this.releaseDate = releaseDate;
         this.pageNum = pageNum;
     }
 
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
     public String getAuthor() {
         return author;
     }
@@ -48,4 +41,9 @@ public class Book extends Product implements Product_Interface{
         this.pageNum = pageNum;
     }
 
+    @Override
+    public Product addProduct (Product product) {
+        Dummy.listProducts.add(product);
+        return product;
+    }
 }

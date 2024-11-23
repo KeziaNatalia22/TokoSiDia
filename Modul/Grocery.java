@@ -24,4 +24,10 @@ public class Grocery extends Product implements Product_Interface{
     public void setProductionDate(Date productionDate) {
         this.productionDate = productionDate;
     }
+
+    @Override
+    public Product addProduct (Product product) {
+        Dummy.listProducts.add(product);
+        return product;
+    }
 }

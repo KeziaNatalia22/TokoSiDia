@@ -1,4 +1,5 @@
 package Modul;
+import Modul.Dummy;
 
 public abstract class Product {
     private String name, idProduct;
@@ -44,6 +45,6 @@ public abstract class Product {
         this.stock = stock;
     }
 
-    
+
 }   
 

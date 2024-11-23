@@ -23,4 +23,10 @@ public class Clothing extends Product implements Product_Interface{
     public void setColor(String color) {
         this.color = color;
     }
+
+    @Override
+    public Product addProduct (Product product) {
+        Dummy.listProducts.add(product);
+        return product;
+    }
 }

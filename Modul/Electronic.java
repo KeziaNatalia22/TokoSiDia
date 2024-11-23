@@ -33,4 +33,9 @@ public class Electronic extends Product implements Product_Interface{
         this.color = color;
     }
     
+    @Override
+    public Product addProduct (Product product) {
+        Dummy.listProducts.add(product);
+        return product;
+    }
 }
