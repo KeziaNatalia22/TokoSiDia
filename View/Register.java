@@ -130,11 +130,11 @@ public class Register {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Controller.Register.checkUniqueUsername() == 0){
+                if(Controller.Register.checkUniqueUsername(textField1.getText()) == 0){
                     JOptionPane.showMessageDialog(frame, "Username is used!");
                 } 
                 
-                if(DBController.checkUniqueEmail() == 0){
+                if(Controller.Register.checkUniqueEmail(textField3.getText()) == 0){
                     JOptionPane.showMessageDialog(frame, "Email is used!");
                 }
             }
