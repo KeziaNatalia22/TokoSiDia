@@ -18,57 +18,29 @@ import Modul.Product;
 import Modul.User;
 import Modul.Seller;
 
-public class UpdateProduct { // di page update product lalu user input iduser dan updatenya apa
-        static Scanner scan = new Scanner(System.in);
-        static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Format tanggal
-
-        public boolean updateProductBook (JTextField idUser, JTextField idProduct, boolean confirm, JTextField tittle, JTextField author, JTextField pageNum, JTextField synopsis, JTextField price, Date releaseDate, JTextField stock){
-        String title, authors, sinopsis;
-        Double prices;
-        int stocks, pageNums;
-        Date releasDate;
-
+    public static boolean updateProductBook(JTextField idUser, JTextField idProduct, boolean confirm, JTextField titleField, JTextField authorField, JTextField pageNumField, JTextField synopsisField, JTextField priceField, Date releaseDate, JTextField stockField) {
+        boolean berhasil = false;
         User user = Dummy.listUser.get(idUser.getText());
-        
-        if (user instanceof Seller) {
-            Product product = ((Seller) user).getProduct().get(idProduct.getText());
-            if (product instanceof Book) {
-                Book book = (Book) product;
-                System.out.print("Masukan tittle :");
-                title = tittle.getText();
-                book.setName(title);
 
-                System.out.print("Masukan author :");
-                authors = author.getText();
-                book.setAuthor(authors);
-                
-                System.out.print("Masukan page num :");
-                pageNums = Integer.parseInt(pageNum.getText());
-                book.setPageNum(pageNums);
-                
-                System.out.print("Masukan synopsis :");
-                sinopsis = synopsis.getText();
-                book.setSynopsis(sinopsis);
-                
-                System.out.print("Masukan price :");
-                prices = Double.parseDouble(price.getText());
-                book.setPrice(prices);
-                
-                System.out.print("Masukan release date :");
-                book.setReleaseDate(releaseDate);
-                
-                System.out.print("Masukan stock :");
-                stocks = Integer.parseInt(pageNum.getText());
-                book.setStock(stocks);
-
-                
+        Product product = ((Seller) user).getProduct().get(idProduct.getText());
+        if (product instanceof Book) {
+            Book book = (Book) product;
+            
+            book.setName(titleField.getText());
+            book.setAuthor(authorField.getText());
+            book.setPageNum(Integer.parseInt(pageNumField.getText()));
+            book.setSynopsis(synopsisField.getText());
+            book.setPrice(Double.parseDouble(priceField.getText()));
+            book.setReleaseDate(releaseDate);
+            book.setStock(Integer.parseInt(stockField.getText()));
+            
+            if(DBController.updateBook(book)){
+                berhasil = true;
             }
-            Book books = new Book(sinopsis, title, stocks, stocks, stocks, authors, sinopsis, releaseDate, pageNums);
-            
-            return (DBController.updateBook(books));
-            
         }
-    }
+
+        return berhasil;
+    } 
 
         public boolean updateProductClothing (JTextField idUser, JTextField name, JTextField price, JTextField idProduct, boolean confirm, JTextField dc, JTextField stock, JRadioButton size, Date releaseDate, JTextField color){
             String names, authors, sinopsis, idProducts;
@@ -120,4 +92,4 @@ public class UpdateProduct { // di page update product lalu user input iduser da
             }
     
     }
-}
+
