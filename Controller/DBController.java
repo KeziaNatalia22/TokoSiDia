@@ -12,4 +12,13 @@ public class DBController {
     public static boolean updateBook(Book books) {
         
     }
+    public static boolean updateClothing(Clothing clothing) {
+        
+    }
+    public static boolean updateElectronic(Electronic electronic) {
+        
+    }
+    public static boolean updateGrocery(Grocery grocery) {
+        
+    }
 }
