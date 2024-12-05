@@ -4,6 +4,7 @@ import Modul.Dummy;
 import Modul.Seller;
 import Modul.User;
 
+
 public class RemoveProduct {
     public boolean removeProduct (String idUser, String idProduct, boolean confirm){
         // Product product = Dummy.listProducts.get(idProduct);
