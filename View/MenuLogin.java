@@ -63,6 +63,19 @@ public class MenuLogin {
             }
         });
 
+        JButton forgotPassword = new JButton("ForgotPassword");
+        forgotPassword.setBounds(50, 200, 200, 50);
+        forgotPassword.setFont(new Font("SansSerif", Font.BOLD, 24));
+        panel.add(forgotPassword);
+
+        forgotPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //halaman forgot password
+                frame.dispose();
+            }
+        });
+
         frame.add(panel);
         frame.setVisible(true);
     }

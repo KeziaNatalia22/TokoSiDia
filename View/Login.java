@@ -55,12 +55,13 @@ public class Login {
 
         JButton submit = new JButton("Submit");
         submit.setBounds(30, 200, 200, 50);
+        panel.add(submit);
 
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // nanti manggil function di database controller, cek usernya apakah seller or buyer
-                //if buyer di lempar ke page buyer yang nampilin menu" buyer
+                // if buyer di lempar ke page buyer yang nampilin menu" buyer
                 // else di lempar ke page seller yang nampilin page menu seller
                 frame.dispose();
             }
