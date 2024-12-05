@@ -3,19 +3,18 @@ package Controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.TimeZone;
 import javax.swing.JOptionPane;
 
 public class DatabaseHandler extends SQLException{
 
-    public Connection con;
-    private String driver = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://localhost/tokosidia_db";
-    // private String url = "jdbc:mysql://localhost/db_test?serverTimezone=" + TimeZone.getDefault().getID();
-    private String username = "root";
-    private String password = "";
+    public static Connection con;
+    private static String driver = "com.mysql.cj.jdbc.Driver";
+    private static String url = "jdbc:mysql://localhost/tokosidia_db";
+    // private static String url = "jdbc:mysql://localhost/db_test?serverTimezone=" + TimeZone.getDefault().getID();
+    private static String username = "root";
+    private static String password = "";
 
-    private Connection logOn() {
+    private static Connection logOn() {
         try {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(url, username, password);
@@ -26,7 +25,7 @@ public class DatabaseHandler extends SQLException{
         }
         return con;
     }
-    private void logOff() {
+    private static void logOff() {
         try {
             // tutup koneksi
             con.close();
@@ -35,15 +34,16 @@ public class DatabaseHandler extends SQLException{
         }
     }
 
-    public void connect() {
+    public static Connection connect() {
         try {
             con = logOn();
         } catch (Exception ex) {
             System.out.println("Error occured when connecting to database");
         }
+        return con;
     }
 
-    public void disconnect() {
+    public static void disconnect() {
         try {
             logOff();
         } catch (Exception ex) {
