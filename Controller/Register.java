@@ -14,7 +14,7 @@ public class Register {
 
             ResultSet rs = st.executeQuery();
 
-            if (rs != null) {
+            if (rs == null) {
                 return 1;
             }
             else{
@@ -35,7 +35,7 @@ public class Register {
 
             ResultSet rs = st.executeQuery();
 
-            if (rs != null) {
+            if (rs == null) {
                 return 1;
             }
             else{
