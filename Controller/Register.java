@@ -48,7 +48,7 @@ public class Register {
     }
 
     public static void inputDatatoDB(String username, String phoneNum, String email, String password, String address, String type){
-        String query = "INSERT INTO your_table_name (username, phone_number, email, passwd, address, acc_stat, type)" + 
+        String query = "INSERT INTO user (username, phone_number, email, passwrd, address, acc_stat, type)" + 
                         "VALUES (?, ?, ?, ?, ?, 'ACTIVE', ?)";
         try{
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);

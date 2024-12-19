@@ -21,7 +21,7 @@ public class MenuLogin {
         int screenHeight = screenSize.height;
 
         final int FRAME_WIDTH = 400;
-        final int FRAME_HEIGHT = 500;
+        final int FRAME_HEIGHT = 400;
 
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2);
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);

@@ -67,7 +67,7 @@ public class Login {
         JButton submit = new JButton("Login");
         submit.setBounds(50, 270, 300, 40);
         submit.setFont(new Font("Arial", Font.BOLD, 16));
-        submit.setBackground(new Color(100, 149, 237)); // Cornflower blue background
+        submit.setBackground(new Color(100, 149, 237)); 
         submit.setForeground(Color.WHITE);
         submit.setFocusPainted(false);
         panel.add(submit);
