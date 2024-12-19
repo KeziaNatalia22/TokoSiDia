@@ -27,7 +27,7 @@ public class Register {
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
         frame = new JFrame("Register Form");
-        frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
+        frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 150);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel();
@@ -133,6 +133,14 @@ public class Register {
         city.setVisible(false);
         panel.add(city);
 
+        // Submit Button
+        JButton submit = new JButton("Submit");
+        submit.setBounds(150, 450, 100, 30);
+        submit.setBackground(new Color(0, 102, 204));
+        submit.setForeground(Color.WHITE);
+        submit.setFocusPainted(false);
+        panel.add(submit);
+
         buyerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -140,6 +148,8 @@ public class Register {
                 shopName.setVisible(false);
                 cityL.setVisible(false);
                 city.setVisible(false);
+                frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 150);
+                submit.setBounds(150, 450, 100, 30);
             }
         });
 
@@ -150,16 +160,10 @@ public class Register {
                 shopName.setVisible(true);
                 cityL.setVisible(true);
                 city.setVisible(true);
+                frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
+                submit.setBounds(150, 600, 100, 30);
             }
         });
-
-        // Submit Button
-        JButton submit = new JButton("Submit");
-        submit.setBounds(150, 600, 100, 30);
-        submit.setBackground(new Color(0, 102, 204));
-        submit.setForeground(Color.WHITE);
-        submit.setFocusPainted(false);
-        panel.add(submit);
 
         submit.addActionListener(new ActionListener() {
             @Override
