@@ -4,8 +4,6 @@ import Controller.Register.*;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,123 +22,165 @@ public class Register {
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
 
-        final int FRAME_WIDTH = 300;
-        final int FRAME_HEIGHT = 600;
+        final int FRAME_WIDTH = 400;
+        final int FRAME_HEIGHT = 700;
 
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2);
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
-        frame = new JFrame("Menu");
+        frame = new JFrame("Register Form");
         frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel();
         panel.setLayout(null);
+        panel.setBackground(new Color(240, 248, 255)); // Light blue background
 
-        JLabel label1 = new JLabel("Username");
-        label1.setBounds(30, 50, 150, 30);
-        panel.add(label1);
+        JLabel titleLabel = new JLabel("Tokosidia Registration", SwingConstants.CENTER);
+        titleLabel.setBounds(50, 10, 300, 30);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        titleLabel.setForeground(new Color(0, 102, 204));
+        panel.add(titleLabel);
 
-        JTextField textField1 = new JTextField();
-        textField1.setBounds(30, 80, 150, 30);
-        panel.add(textField1);
+        // Username Field
+        JLabel usnL = new JLabel("Username");
+        usnL.setBounds(50, 60, 150, 20);
+        panel.add(usnL);
 
-        JLabel label2 = new JLabel("Password");
-        label2.setBounds(30, 120, 100, 30);
-        panel.add(label2);
+        JTextField username = new JTextField();
+        username.setBounds(50, 85, 300, 30);
+        username.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(username);
 
-        JPasswordField passwordField1 = new JPasswordField();
-        passwordField1.setBounds(30, 150, 150, 30);
-        panel.add(passwordField1);
+        // Password Field
+        JLabel passwordL = new JLabel("Password");
+        passwordL.setBounds(50, 125, 150, 20);
+        panel.add(passwordL);
 
-        JLabel label3 = new JLabel("Email");
-        label3.setBounds(30, 180, 100, 30);
-        panel.add(label3);
+        JPasswordField password = new JPasswordField();
+        password.setBounds(50, 150, 300, 30);
+        password.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(password);
 
-        JTextField textField3 = new JTextField();
-        textField3.setBounds(30, 210, 150, 30);
-        panel.add(textField3);
+        // Email Field
+        JLabel emailL = new JLabel("Email");
+        emailL.setBounds(50, 190, 150, 20);
+        panel.add(emailL);
 
-        JLabel label4 = new JLabel("Address");
-        label4.setBounds(30, 250, 100, 30);
-        panel.add(label4);
+        JTextField email = new JTextField();
+        email.setBounds(50, 215, 300, 30);
+        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(email);
 
-        JTextField textField4 = new JTextField();
-        textField4.setBounds(30, 280, 150, 30);
-        panel.add(textField4);
+        // Address Field
+        JLabel addressL = new JLabel("Address");
+        addressL.setBounds(50, 255, 150, 20);
+        panel.add(addressL);
 
-        JLabel label5 = new JLabel("Type");
-        label5.setBounds(30, 310, 100, 30);
-        panel.add(label5);
+        JTextField address = new JTextField();
+        address.setBounds(50, 280, 300, 30);
+        address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(address);
 
-        JTextField textField5 = new JTextField();
-        textField5.setBounds(30, 340, 150, 30);
-        panel.add(textField5);
+        // Phone Number Field
+        JLabel phoneL = new JLabel("Phone Number");
+        phoneL.setBounds(50, 320, 150, 20);
+        panel.add(phoneL);
 
-        JLabel label6 = new JLabel("Shop Name");
-        label6.setBounds(30, 370, 150, 30);
-        label6.setVisible(false); // Hidden by default
-        panel.add(label6);
+        JTextField phone = new JTextField();
+        phone.setBounds(50, 345, 300, 30);
+        phone.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.add(phone);
 
-        JTextField textField6 = new JTextField();
-        textField6.setBounds(30, 400, 150, 30);
-        textField6.setVisible(false); // Hidden by default
-        panel.add(textField6);
+        // Type Radio Buttons
+        JLabel typeL = new JLabel("Type");
+        typeL.setBounds(50, 385, 100, 20);
+        panel.add(typeL);
 
-        JLabel label7 = new JLabel("City Located");
-        label7.setBounds(30, 430, 150, 30);
-        label7.setVisible(false); // Hidden by default
-        panel.add(label7);
+        JRadioButton buyerButton = new JRadioButton("Buyer");
+        buyerButton.setBounds(50, 410, 100, 30);
+        buyerButton.setBackground(new Color(240, 248, 255));
 
-        JTextField textField7 = new JTextField();
-        textField7.setBounds(30, 460, 150, 30);
-        textField7.setVisible(false); // Hidden by default
-        panel.add(textField7);
+        JRadioButton sellerButton = new JRadioButton("Seller");
+        sellerButton.setBounds(160, 410, 100, 30);
+        sellerButton.setBackground(new Color(240, 248, 255));
 
-        textField5.getDocument().addDocumentListener(new DocumentListener() {
+        ButtonGroup typeGroup = new ButtonGroup();
+        typeGroup.add(buyerButton);
+        typeGroup.add(sellerButton);
+
+        panel.add(buyerButton);
+        panel.add(sellerButton);
+
+        // Shop Name and City Fields
+        JLabel shopL = new JLabel("Shop Name");
+        shopL.setBounds(50, 450, 150, 20);
+        shopL.setVisible(false);
+        panel.add(shopL);
+
+        JTextField shopName = new JTextField();
+        shopName.setBounds(50, 475, 300, 30);
+        shopName.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        shopName.setVisible(false);
+        panel.add(shopName);
+
+        JLabel cityL = new JLabel("City Located");
+        cityL.setBounds(50, 515, 150, 20);
+        cityL.setVisible(false);
+        panel.add(cityL);
+
+        JTextField city = new JTextField();
+        city.setBounds(50, 540, 300, 30);
+        city.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        city.setVisible(false);
+        panel.add(city);
+
+        buyerButton.addActionListener(new ActionListener() {
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                toggleFields();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                toggleFields();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                toggleFields();
-            }
-
-            private void toggleFields() {
-                String type = textField5.getText().trim().toLowerCase();
-                boolean isSeller = type.equals("seller");
-                label6.setVisible(isSeller);
-                textField6.setVisible(isSeller);
-                label7.setVisible(isSeller);
-                textField7.setVisible(isSeller);
+            public void actionPerformed(ActionEvent e) {
+                shopL.setVisible(false);
+                shopName.setVisible(false);
+                cityL.setVisible(false);
+                city.setVisible(false);
             }
         });
 
+        sellerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                shopL.setVisible(true);
+                shopName.setVisible(true);
+                cityL.setVisible(true);
+                city.setVisible(true);
+            }
+        });
+
+        // Submit Button
         JButton submit = new JButton("Submit");
-        submit.setBounds(30, 500, 150, 30);
+        submit.setBounds(150, 600, 100, 30);
+        submit.setBackground(new Color(0, 102, 204));
+        submit.setForeground(Color.WHITE);
+        submit.setFocusPainted(false);
         panel.add(submit);
 
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(Controller.Register.checkUniqueUsername(textField1.getText()) == 0){
+                if (Controller.Register.checkUniqueUsername(username.getText()) == 0) {
                     JOptionPane.showMessageDialog(frame, "Username is used!");
-                } 
-                
-                if(Controller.Register.checkUniqueEmail(textField3.getText()) == 0){
+                }
+
+                if (Controller.Register.checkUniqueEmail(email.getText()) == 0) {
                     JOptionPane.showMessageDialog(frame, "Email is used!");
                 }
+
+                String type = sellerButton.isSelected() ? "Seller" : "Buyer";
+
+                JOptionPane.showMessageDialog(frame, "Registration Successful for " + type);
             }
         });
 
-        frame.setVisible(true);
         frame.add(panel);
+        frame.setVisible(true);
     }
 }

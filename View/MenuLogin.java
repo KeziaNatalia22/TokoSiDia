@@ -14,7 +14,6 @@ public class MenuLogin {
     public MenuLogin() {
         Menu();
     }
-
     public void Menu() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // GET MY SCREEN SIZE
