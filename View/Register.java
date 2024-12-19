@@ -1,13 +1,11 @@
 package View;
 
-import Controller.Register.*;
-
-import javax.swing.*;
 import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class Register {
     JFrame frame;
@@ -132,8 +130,7 @@ public class Register {
             public void actionPerformed(ActionEvent e) {
                 if(Controller.Register.checkUniqueUsername(textField1.getText()) == 0){
                     JOptionPane.showMessageDialog(frame, "Username is used!");
-                } 
-                
+                }
                 if(Controller.Register.checkUniqueEmail(textField3.getText()) == 0){
                     JOptionPane.showMessageDialog(frame, "Email is used!");
                 }

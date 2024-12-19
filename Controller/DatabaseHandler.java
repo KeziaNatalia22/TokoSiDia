@@ -18,6 +18,7 @@ public class DatabaseHandler extends SQLException{
         try {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(url, username, password);
+            System.out.println("tes");
         } catch (Exception ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getLocalizedMessage());
