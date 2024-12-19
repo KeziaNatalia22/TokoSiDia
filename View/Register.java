@@ -4,11 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Register {
     JFrame frame;
@@ -173,13 +168,16 @@ public class Register {
                     JOptionPane.showMessageDialog(frame, "Username is used!");
                 } 
                 
-                if(Controller.Register.checkUniqueEmail(textField3.getText()) == 0){
+                if(Controller.Register.checkUniqueEmail(email.getText()) == 0){
                     JOptionPane.showMessageDialog(frame, "Email is used!");
                 }
 
-                String type = sellerButton.isSelected() ? "Seller" : "Buyer";
+                String type = sellerButton.isSelected() ? "seller" : "buyer";
 
-                JOptionPane.showMessageDialog(frame, "Registration Successful for " + type);
+                Controller.Register.inputDatatoDB(username.getText(), phone.getText(), email.getText(), new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText());
+
+                frame.dispose();
+                new Login();
             }
         });
 
