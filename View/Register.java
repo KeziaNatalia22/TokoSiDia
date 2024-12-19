@@ -135,11 +135,18 @@ public class Register {
 
         // Submit Button
         JButton submit = new JButton("Submit");
-        submit.setBounds(150, 450, 100, 30);
+        submit.setBounds(220, 450, 100, 30);
         submit.setBackground(new Color(0, 102, 204));
         submit.setForeground(Color.WHITE);
         submit.setFocusPainted(false);
         panel.add(submit);
+
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(70, 450, 100, 30);
+        backButton.setBackground(new Color(220, 20, 60)); // Crimson background
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        panel.add(backButton);
 
         buyerButton.addActionListener(new ActionListener() {
             @Override
@@ -149,7 +156,8 @@ public class Register {
                 cityL.setVisible(false);
                 city.setVisible(false);
                 frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 150);
-                submit.setBounds(150, 450, 100, 30);
+                submit.setBounds(220, 450, 100, 30);
+                backButton.setBounds(70, 450, 100, 30);
             }
         });
 
@@ -160,16 +168,11 @@ public class Register {
                 shopName.setVisible(true);
                 cityL.setVisible(true);
                 city.setVisible(true);
+                frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
+                submit.setBounds(220, 600, 100, 30);
+                backButton.setBounds(70, 600, 100, 30);
             }
         });
-
-        // Submit Button
-        JButton submit = new JButton("Submit");
-        submit.setBounds(150, 600, 100, 30);
-        submit.setBackground(new Color(0, 102, 204));
-        submit.setForeground(Color.WHITE);
-        submit.setFocusPainted(false);
-        panel.add(submit);
 
         submit.addActionListener(new ActionListener() {
             @Override
@@ -190,13 +193,6 @@ public class Register {
                 new Login();
             }
         });
-
-        JButton backButton = new JButton("Back");
-        backButton.setBounds(70, 600, 100, 30);
-        backButton.setBackground(new Color(220, 20, 60)); // Crimson background
-        backButton.setForeground(Color.WHITE);
-        backButton.setFocusPainted(false);
-        panel.add(backButton);
 
         backButton.addActionListener(new ActionListener() {
             @Override
