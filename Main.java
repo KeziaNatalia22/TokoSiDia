@@ -2,7 +2,9 @@ import View.*;
 
 public class Main {
     public static void main(String[] args) {
-        MenuLogin login = new MenuLogin();
-        login.Menu();
+        // MenuLogin login = new MenuLogin();
+        // login.Menu();
+
+        new MenuLogin();
     }
 }

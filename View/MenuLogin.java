@@ -1,11 +1,9 @@
 package View;
 
-import java.util.Properties;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 public class MenuLogin {
     JFrame frame;
@@ -17,45 +15,57 @@ public class MenuLogin {
 
     public void Menu() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize(); // GET MY SCREEN SIZE
+        Dimension screenSize = toolkit.getScreenSize();
 
-        int screenWidth = screenSize.width; // GET PIXELS FOR WIDTH
-        int screenHeight = screenSize.height; // GET PIXELS FOR HEIGHT
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
 
-        final int FRAME_WIDTH = 300; // SET WIDTH
-        final int FRAME_HEIGHT = 400; // SET WEIGHT
+        final int FRAME_WIDTH = 400;
+        final int FRAME_HEIGHT = 500;
 
-        int start_x = screenWidth / 2 - (FRAME_WIDTH / 2); // SET START LOCATION FOR X
-        int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2); // SET START LOCATION FOR Y
+        int start_x = screenWidth / 2 - (FRAME_WIDTH / 2);
+        int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
-        frame = new JFrame("Menu"); // CREATE FRAME AND SET TITLE
-        
-        frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT); // SET FRAME BOUND
+        frame = new JFrame("Main Menu");
+        frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         panel = new JPanel();
         panel.setLayout(null);
         panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        panel.setBackground(new Color(240, 248, 255)); // Light blue background
 
-        JButton login = new JButton("Login");
-        login.setBounds(50, 100, 200, 50);
-        login.setFont(new Font("SansSerif", Font.BOLD, 24));
-        panel.add(login);
+        JLabel titleLabel = new JLabel("Welcome to Tokosidia", SwingConstants.CENTER);
+        titleLabel.setBounds(50, 20, 300, 40);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(new Color(25, 25, 112)); // Dark blue text
+        panel.add(titleLabel);
 
-        login.addActionListener(new ActionListener() {
+        JButton loginButton = new JButton("Login");
+        loginButton.setBounds(50, 100, 300, 50);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 18));
+        loginButton.setBackground(new Color(100, 149, 237)); // Cornflower blue
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFocusPainted(false);
+        panel.add(loginButton);
+
+        loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login();
                 frame.dispose();
             }
         });
-        
-        JButton register = new JButton("Register");
-        register.setBounds(50, 200, 200, 50);
-        register.setFont(new Font("SansSerif", Font.BOLD, 24));
-        panel.add(register);
 
-        register.addActionListener(new ActionListener() {
+        JButton registerButton = new JButton("Register");
+        registerButton.setBounds(50, 180, 300, 50);
+        registerButton.setFont(new Font("Arial", Font.BOLD, 18));
+        registerButton.setBackground(new Color(60, 179, 113)); // Medium sea green
+        registerButton.setForeground(Color.WHITE);
+        registerButton.setFocusPainted(false);
+        panel.add(registerButton);
+
+        registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Register();
@@ -63,15 +73,18 @@ public class MenuLogin {
             }
         });
 
-        JButton forgotPassword = new JButton("ForgotPassword");
-        forgotPassword.setBounds(50, 200, 200, 50);
-        forgotPassword.setFont(new Font("SansSerif", Font.BOLD, 24));
-        panel.add(forgotPassword);
+        JButton forgotPasswordButton = new JButton("Forgot Password");
+        forgotPasswordButton.setBounds(50, 260, 300, 50);
+        forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 18));
+        forgotPasswordButton.setBackground(new Color(255, 165, 0)); 
+        forgotPasswordButton.setForeground(Color.WHITE);
+        forgotPasswordButton.setFocusPainted(false);
+        panel.add(forgotPasswordButton);
 
-        forgotPassword.addActionListener(new ActionListener() {
+        forgotPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //halaman forgot password
+                // Redirect to forgot password page
                 frame.dispose();
             }
         });
