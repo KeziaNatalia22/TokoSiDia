@@ -160,10 +160,16 @@ public class Register {
                 shopName.setVisible(true);
                 cityL.setVisible(true);
                 city.setVisible(true);
-                frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
-                submit.setBounds(150, 600, 100, 30);
             }
         });
+
+        // Submit Button
+        JButton submit = new JButton("Submit");
+        submit.setBounds(150, 600, 100, 30);
+        submit.setBackground(new Color(0, 102, 204));
+        submit.setForeground(Color.WHITE);
+        submit.setFocusPainted(false);
+        panel.add(submit);
 
         submit.addActionListener(new ActionListener() {
             @Override
@@ -182,6 +188,21 @@ public class Register {
 
                 frame.dispose();
                 new Login();
+            }
+        });
+
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(70, 600, 100, 30);
+        backButton.setBackground(new Color(220, 20, 60)); // Crimson background
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        panel.add(backButton);
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuLogin(); 
+                frame.dispose();
             }
         });
 

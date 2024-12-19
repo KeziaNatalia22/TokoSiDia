@@ -21,7 +21,7 @@ public class MenuLogin {
         int screenHeight = screenSize.height;
 
         final int FRAME_WIDTH = 400;
-        final int FRAME_HEIGHT = 400;
+        final int FRAME_HEIGHT = 300;
 
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2);
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);
@@ -69,22 +69,6 @@ public class MenuLogin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Register();
-                frame.dispose();
-            }
-        });
-
-        JButton forgotPasswordButton = new JButton("Forgot Password");
-        forgotPasswordButton.setBounds(50, 260, 300, 50);
-        forgotPasswordButton.setFont(new Font("Arial", Font.BOLD, 18));
-        forgotPasswordButton.setBackground(new Color(255, 165, 0)); 
-        forgotPasswordButton.setForeground(Color.WHITE);
-        forgotPasswordButton.setFocusPainted(false);
-        panel.add(forgotPasswordButton);
-
-        forgotPasswordButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Redirect to forgot password page
                 frame.dispose();
             }
         });
