@@ -42,32 +42,32 @@ public class Login {
         titleLabel.setForeground(new Color(25, 25, 112)); // Dark blue text
         panel.add(titleLabel);
 
-        JLabel label1 = new JLabel("Username:");
-        label1.setBounds(50, 100, 300, 30);
-        label1.setFont(new Font("Arial", Font.PLAIN, 14));
-        label1.setForeground(Color.BLACK);
-        panel.add(label1);
+        JLabel usnL = new JLabel("Username:");
+        usnL.setBounds(50, 100, 300, 30);
+        usnL.setFont(new Font("Arial", Font.PLAIN, 14));
+        usnL.setForeground(Color.BLACK);
+        panel.add(usnL);
 
-        JTextField textField1 = new JTextField();
-        textField1.setBounds(50, 130, 300, 30);
-        textField1.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(textField1);
+        JTextField username = new JTextField();
+        username.setBounds(50, 130, 300, 30);
+        username.setFont(new Font("Arial", Font.PLAIN, 14));
+        panel.add(username);
 
-        JLabel label2 = new JLabel("Password:");
-        label2.setBounds(50, 180, 300, 30);
-        label2.setFont(new Font("Arial", Font.PLAIN, 14));
-        label2.setForeground(Color.BLACK);
-        panel.add(label2);
+        JLabel pass = new JLabel("Password:");
+        pass.setBounds(50, 180, 300, 30);
+        pass.setFont(new Font("Arial", Font.PLAIN, 14));
+        pass.setForeground(Color.BLACK);
+        panel.add(pass);
 
-        JPasswordField passwordField1 = new JPasswordField();
-        passwordField1.setBounds(50, 210, 300, 30);
-        passwordField1.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel.add(passwordField1);
+        JPasswordField password = new JPasswordField();
+        password.setBounds(50, 210, 300, 30);
+        password.setFont(new Font("Arial", Font.PLAIN, 14));
+        panel.add(password);
 
         JButton submit = new JButton("Login");
         submit.setBounds(50, 270, 300, 40);
         submit.setFont(new Font("Arial", Font.BOLD, 16));
-        submit.setBackground(new Color(100, 149, 237)); 
+        submit.setBackground(new Color(100, 149, 237));
         submit.setForeground(Color.WHITE);
         submit.setFocusPainted(false);
         panel.add(submit);
@@ -75,24 +75,39 @@ public class Login {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Call database controller function to check if user is buyer or seller
-                // Redirect to the respective page based on user role
+                Controller.Login.loginTokoSidia(username.getText(), new String(password.getPassword()));
                 frame.dispose();
             }
         });
 
-        JButton registerButton = new JButton("Register");
-        registerButton.setBounds(50, 330, 300, 40);
-        registerButton.setFont(new Font("Arial", Font.BOLD, 16));
-        registerButton.setBackground(new Color(60, 179, 113)); // Medium sea green background
-        registerButton.setForeground(Color.WHITE);
-        registerButton.setFocusPainted(false);
-        panel.add(registerButton);
+        JButton forgotPassword = new JButton("Forgot Password");
+        forgotPassword.setBounds(50, 330, 300, 40);
+        forgotPassword.setFont(new Font("Arial", Font.BOLD, 16));
+        forgotPassword.setBackground(new Color(60, 179, 113)); 
+        forgotPassword.setForeground(Color.WHITE);
+        forgotPassword.setFocusPainted(false);
+        panel.add(forgotPassword);
 
-        registerButton.addActionListener(new ActionListener() {
+        forgotPassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Register();
+                new ForgotPassword();
+                frame.dispose();
+            }
+        });
+
+        JButton backButton = new JButton("Back");
+        backButton.setBounds(50, 390, 300, 40);
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setBackground(new Color(220, 20, 60)); 
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        panel.add(backButton);
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuLogin(); 
                 frame.dispose();
             }
         });
