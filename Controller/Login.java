@@ -2,6 +2,9 @@ package Controller;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Random;
+
+import javax.mail.Message;
 import javax.swing.JOptionPane;
 
 public class Login {
@@ -16,7 +19,7 @@ public class Login {
             if (rs.next()) {
                 if (rs.getString("password").equals(password)) {
                     JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.DEFAULT_OPTION);
-                    
+
                     if (rs.getString("type").equalsIgnoreCase("seller")) {
                         // View.HomeSeller();
                     } else {
@@ -35,10 +38,59 @@ public class Login {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        DatabaseHandler.disconnect();
     }
 
-    public static void forgotPassword() {
+    public static void forgotPassword(String username, String email) {
+        String query = "select * from user where username = ?";
+        try {
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            Random rand = new Random();
+
+            if (rs.next()) {
+                if (rs.getString("email").equals(email)) {
+                    String random = String.format("%06d", rand.nextInt(1000000));
+                    GmailSender.sendMail(email, "Tokosidia Forgot Password", "Kode Verifikasi Tokosidia: " + random);
+                    String input = JOptionPane.showInputDialog(null, "Check your mail for verification code",
+                            "Verification", JOptionPane.DEFAULT_OPTION);
+                    if (input.equals(random)) {
+                        new View.ChangePassword(username);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Kode Verifikasi salah", "Gagal",
+                                JOptionPane.DEFAULT_OPTION);
+                        new View.Login();
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "email tidak sesuai dengan username", "Gagal",
+                            JOptionPane.DEFAULT_OPTION);
+                    new View.ForgotPassword();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Username not found", "Gagal",
+                        JOptionPane.DEFAULT_OPTION);
+                new View.ForgotPassword();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        DatabaseHandler.disconnect();
 
     }
 
+    public static void changePassword(String username, String password) {
+        String query = "update user set password = ? where username = ?";
+        try {
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+            st.setString(1, password);
+            st.setString(2, username);
+            st.executeUpdate();
+            new View.Login();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        DatabaseHandler.disconnect();
+    }
 }
