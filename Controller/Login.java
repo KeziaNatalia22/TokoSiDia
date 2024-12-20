@@ -14,13 +14,7 @@ public class Login {
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                query = "select * from user where username = ? and password = ?";
-                st = DatabaseHandler.connect().prepareStatement(query);
-                st.setString(1, username);
-                st.setString(2, password);
-
-                rs = st.executeQuery();
-                if (rs.next()) {
+                if (rs.getString("password").equals(password)) {
                     JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.DEFAULT_OPTION);
                     
                     if (rs.getString("type").equalsIgnoreCase("seller")) {
@@ -31,11 +25,12 @@ public class Login {
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Gagal\nPassword Salah", "Login Gagal",
                             JOptionPane.DEFAULT_OPTION);
+                    new View.Login();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Login Gagal\nUsername not found", "Login Gagal",
                         JOptionPane.DEFAULT_OPTION);
-                // View.Login();
+                new View.Login();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
