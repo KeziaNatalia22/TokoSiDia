@@ -1,10 +1,13 @@
 package Modul;
+import java.io.File;
 
 public abstract class Product {
     private String name, idProduct;
     private double price, discount;
     private int stock;
+    private File photoProduct;
 
+    
     public Product(String name, String idProduct, double price, double discount, int stock) {
         this.name = name;
         this.idProduct = idProduct;
@@ -13,6 +16,13 @@ public abstract class Product {
         this.stock = stock;
     }
     
+    public File getPhotoProduct() {
+        return photoProduct;
+    }
+
+    public void setPhotoProduct(File photoProduct) {
+        this.photoProduct = photoProduct;
+    }
     public String getName() {
         return name;
     }

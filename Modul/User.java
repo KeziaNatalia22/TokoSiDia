@@ -1,17 +1,19 @@
 package Modul;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class User {
-    private String name, phoneNum, email, password, address, photoPath;
+    private String name, phoneNum, email, password, address;
+    private File photoPath;
     private double eMoney;
     private HashMap<String, Transaction> transactions = new HashMap<String, Transaction>();
     private AccountStatus_Enum accStat;
     
-    public String getPhotoPath() {
+    public File getPhotoPath() {
         return photoPath;
     }
-    public void setPhotoPath(String photoPath) {
+    public void setPhotoPath(File photoPath) {
         this.photoPath = photoPath;
     }
     public String getAddress() {
