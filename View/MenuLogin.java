@@ -33,18 +33,18 @@ public class MenuLogin {
         panel = new JPanel();
         panel.setLayout(null);
         panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-        panel.setBackground(new Color(240, 248, 255)); // Light blue background
+        panel.setBackground(new Color(240, 248, 255)); 
 
         JLabel titleLabel = new JLabel("Welcome to Tokosidia", SwingConstants.CENTER);
         titleLabel.setBounds(50, 20, 300, 40);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(new Color(25, 25, 112)); // Dark blue text
+        titleLabel.setForeground(new Color(25, 25, 112)); 
         panel.add(titleLabel);
 
         JButton loginButton = new JButton("Login");
         loginButton.setBounds(50, 100, 300, 50);
         loginButton.setFont(new Font("Arial", Font.BOLD, 18));
-        loginButton.setBackground(new Color(100, 149, 237)); // Cornflower blue
+        loginButton.setBackground(new Color(100, 149, 237)); 
         loginButton.setForeground(Color.WHITE);
         loginButton.setFocusPainted(false);
         panel.add(loginButton);
