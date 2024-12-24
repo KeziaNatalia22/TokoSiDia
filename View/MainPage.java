@@ -2,16 +2,19 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import Modul.User;
 
 public class MainPage {
     JFrame frame;
     JPanel panel;
 
-    public MainPage() {
-        Main();
+    public MainPage(User user) {
+        Main(user);
     }
 
-    public void Main() {
+    public void Main(User user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -52,6 +55,17 @@ public class MainPage {
         exploreButton.setBounds(540, 20, 100, 30);
         panel.add(exploreButton);
 
+        JButton profile = new JButton("Profile");
+        profile.setFont(new Font("Arial", Font.BOLD, 16));
+        profile.setBounds(640, 20, 100, 30);
+        panel.add(profile);
+        profile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                new Profile(user);
+            }
+        });
         frame.add(panel);
         frame.setVisible(true);
     }

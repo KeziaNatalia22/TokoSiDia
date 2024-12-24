@@ -3,11 +3,17 @@ package Modul;
 import java.util.HashMap;
 
 public class User {
-    private String name, phoneNum, email, password;
+    private String name, phoneNum, email, password, address;
     private double eMoney;
     private HashMap<String, Transaction> transactions = new HashMap<String, Transaction>();
     private AccountStatus_Enum accStat;
     
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public String getName() {
         return name;
     }
