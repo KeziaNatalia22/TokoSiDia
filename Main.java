@@ -7,7 +7,7 @@ public class Main {
         // MenuLogin login = new MenuLogin();
         // login.Menu();
 
-        // new MenuLogin();
-        new MainPage(user);
+        new MenuLogin();
+        // new HomeBuyer(user);
     }
 }

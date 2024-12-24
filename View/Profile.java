@@ -1,13 +1,10 @@
 package View;
 
 import javax.swing.*;
-
 import Controller.Register;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import Modul.User;
 
 public class Profile {
@@ -26,83 +23,72 @@ public class Profile {
         int screenHeight = screenSize.height; // Screen height
 
         final int FRAME_WIDTH = 400; // Set frame width
-        final int FRAME_HEIGHT = 500; // Set frame height
+        final int FRAME_HEIGHT = 450; // Set frame height (adjusted to accommodate content)
 
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2); // Center frame horizontally
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2); // Center frame vertically
 
-        frame = new JFrame("Profile"); // Create frame and set title
-
+        frame = new JFrame("Profile"); 
         frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT); // Set frame bounds
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        panel.setLayout(null); 
 
-        JLabel nameLabel = new JLabel("Name : ");
-        nameLabel.setBounds(20, 20, 100, 20);
+        Font font = new Font("Montserrat", Font.PLAIN, 18); 
+
+        JLabel photoLabel = new JLabel();
+        photoLabel.setBounds(150, 30, 100, 100); // Adjust photo position
+        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        photoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
+        Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        photoLabel.setIcon(new ImageIcon(scaledPhoto));
+        panel.add(photoLabel);
+
+        JLabel nameLabel = new JLabel("Name : " + user.getName());
+        nameLabel.setBounds(20, 150, 350, 20);
+        nameLabel.setFont(font); 
         panel.add(nameLabel);
 
-        JTextField nameField = new JTextField(user.getName());
-        nameField.setBounds(150, 20, 200, 20);
-        panel.add(nameField);
-
-        JLabel phoneNum = new JLabel("Phone Number : ");
-        phoneNum.setBounds(20, 50, 100, 20);
+        JLabel phoneNum = new JLabel("Phone : " + user.getPhoneNum());
+        phoneNum.setBounds(20, 180, 350, 20);
+        phoneNum.setFont(font); 
         panel.add(phoneNum);
 
-        JTextField phoneField = new JTextField(user.getPhoneNum());
-        phoneField.setBounds(150, 50, 200, 20);
-        panel.add(phoneField);
-
-        JLabel email = new JLabel("Email : ");
-        email.setBounds(20, 80, 100, 20);
+        JLabel email = new JLabel("Email : " + user.getEmail());
+        email.setBounds(20, 210, 350, 20);
+        email.setFont(font); 
         panel.add(email);
 
-        JTextField emailField = new JTextField(user.getEmail());
-        emailField.setBounds(150, 80, 200, 20);
-        panel.add(emailField);
-
-        JLabel address = new JLabel("Address : ");
-        address.setBounds(20, 110, 100, 20);
+        JLabel address = new JLabel("Address : " + user.getAddress());
+        address.setBounds(20, 240, 350, 20);
+        address.setFont(font); 
         panel.add(address);
 
-        JTextField addressField = new JTextField(user.getAddress());
-        addressField.setBounds(150, 110, 200, 20);
-        panel.add(addressField);
-
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 160, 80, 20);
-        panel.add(backHome);
+        backHome.setBounds(20, 310, 80, 30);
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new MainPage(user);
+                new HomeBuyer(user);
             }
         });
 
         JButton updateData = new JButton("Change Data");
-        updateData.setBounds(120, 160, 120, 20);
-        panel.add(updateData);
+        updateData.setBounds(220, 310, 120, 30);
         updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String phone = phoneField.getText();
-                String emailText = emailField.getText();
-                String addressText = addressField.getText();
-
-                user.setPhoneNum(phone);
-                user.setEmail(emailText);
-                user.setAddress(addressText);
-
-                if (Register.updateData(name, phone, emailText, addressText)) {
-                    JOptionPane.showMessageDialog(frame, "Data updated successfully!");
-                }
+                new UpdateProfile(user);
+                frame.dispose();
             }
         });
+
+        panel.add(backHome);
+        panel.add(updateData);
 
         frame.add(panel);
         frame.setVisible(true);
