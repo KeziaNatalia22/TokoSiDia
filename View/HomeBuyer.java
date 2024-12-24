@@ -4,17 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Modul.User;
+import Modul.Buyer;
 
 public class HomeBuyer {
     JFrame frame;
     JPanel panel;
 
-    public HomeBuyer(User user) {
+    public HomeBuyer(Buyer user) {
         HomeBuyer(user);
     }
 
-    public void HomeBuyer(User user) {
+    public void HomeBuyer(Buyer user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 

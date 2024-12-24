@@ -3,6 +3,7 @@ package Controller;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import java.io.File;
 
 public class Register {
     public static int checkUniqueUsername(String username){
@@ -67,10 +68,10 @@ public class Register {
     //     }
     // }
 
-    public static void inputDatatoDB(String username, String phoneNum, String email, String password, String address, String type, String shopName, String city, String photoPath){
+    public static boolean inputDatatoDB(String username, String phoneNum, String email, String password, String address, String type, String shopName, String city, File photoPath){
         try{
             if (type.equalsIgnoreCase("buyer")) {
-                String query = "INSERT INTO user (username, phone_number, email, passwrd, address, acc_stat, type, photo_path)" + 
+                String query = "INSERT INTO user (username, phone_number, email, password, address, acc_stat, type, photo_path)" + 
                         "VALUES (?, ?, ?, ?, ?, 'ACTIVE', ?, ?)";
                 PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
                 st.setString(1, username);
@@ -79,12 +80,12 @@ public class Register {
                 st.setString(4, password);
                 st.setString(5, address);
                 st.setString(6, type);
-                st.setString(7, photoPath);
+                st.setString(7, photoPath.getAbsolutePath());
     
                 st.execute();
             }
             else{
-                String query1 = "INSERT INTO user (username, phone_number, email, passwrd, address, acc_stat, type, photo_path) " +
+                String query1 = "INSERT INTO user (username, phone_number, email, password, address, acc_stat, type, photo_path) " +
                                 "VALUES (?, ?, ?, ?, ?, 'ACTIVE', ?, ?);";
                 PreparedStatement st1 = DatabaseHandler.connect().prepareStatement(query1);
                 st1.setString(1, username);
@@ -93,7 +94,7 @@ public class Register {
                 st1.setString(4, password);
                 st1.setString(5, address);
                 st1.setString(6, type);
-                st1.setString(7, photoPath);
+                st1.setString(7, photoPath.getAbsolutePath());
 
 
                 st1.executeUpdate();
@@ -111,9 +112,11 @@ public class Register {
             }
 
             JOptionPane.showMessageDialog(null, "Registrasi Berhasil", "Registrasi", JOptionPane.INFORMATION_MESSAGE);
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error in Input Data", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
     }
 
     public static boolean updateData(String username, String phoneNum, String email, String address) {
@@ -140,12 +143,12 @@ public class Register {
         return false; 
     }
 
-    public static boolean updatePhotoPath(String username, String photoPath){
+    public static boolean updatePhotoPath(String username, File photoPath){
         try {
             String query = "UPDATE user SET photo_path = ? WHERE username = ?";
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
     
-            st.setString(1, photoPath);
+            st.setString(1, photoPath.getAbsolutePath());
             st.setString(2, username);
     
             int rowsAffected = st.executeUpdate();

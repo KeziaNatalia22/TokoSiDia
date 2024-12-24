@@ -5,17 +5,17 @@ import Controller.Register;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Modul.User;
+import Modul.Buyer;
 
 public class Profile {
     JFrame frame;
     JPanel panel;
 
-    public Profile(User user) {
-        Profile(user);
+    public Profile(Buyer user) {
+        ProfileBuyer(user);
     }
 
-    public void Profile(User user) {
+    public void ProfileBuyer(Buyer user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -42,7 +42,7 @@ public class Profile {
         photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         photoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
+        ImageIcon photoIcon = new ImageIcon(user.getPhotoPath());
         Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         photoLabel.setIcon(new ImageIcon(scaledPhoto));
         panel.add(photoLabel);
@@ -62,7 +62,7 @@ public class Profile {
         email.setFont(font); 
         panel.add(email);
 
-        JLabel address = new JLabel("Address : " + user.getAddress());
+        JLabel address = new JLabel("Address : " + user.getAlamat());
         address.setBounds(20, 240, 350, 20);
         address.setFont(font); 
         panel.add(address);

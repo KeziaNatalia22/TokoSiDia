@@ -1,13 +1,15 @@
 package Modul;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Buyer extends User implements User_Interface{
     private ArrayList<Product> cart= new ArrayList<Product>();
-    private Alamat alamat;
+    private String alamat;
 
-    public Buyer(ArrayList<Product> cart, Alamat alamat) {
-        this.cart = cart;
+    public Buyer(String name, String phoneNum, String email, String password, String photoPath,
+            double eMoney, AccountStatus_Enum accStat, String alamat) {
+        super(name, phoneNum, email, password, photoPath, eMoney, accStat);
         this.alamat = alamat;
     }
 
@@ -17,10 +19,10 @@ public class Buyer extends User implements User_Interface{
     public void setCart(ArrayList<Product> cart) {
         this.cart = cart;
     }
-    public Alamat getAlamat() {
+    public String getAlamat() {
         return alamat;
     }
-    public void setAlamat(Alamat alamat) {
+    public void setAlamat(String alamat) {
         this.alamat = alamat;
     }
 }

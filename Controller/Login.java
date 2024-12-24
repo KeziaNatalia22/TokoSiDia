@@ -4,8 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Random;
 
-import javax.mail.Message;
+// import javax.mail.Message;
 import javax.swing.JOptionPane;
+import Modul.*;
 
 public class Login {
     public static void loginTokoSidia(String username, String password) {
@@ -23,7 +24,16 @@ public class Login {
                     if (rs.getString("type").equalsIgnoreCase("seller")) {
                         // View.HomeSeller();
                     } else {
-                        // View.HomeBuyer();
+                        Buyer user = new Buyer(
+                        rs.getString("username"),
+                        rs.getString("phone_number"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("photo_path"),
+                        rs.getDouble("emoney"),
+                        AccountStatus_Enum.valueOf(rs.getString("acc_stat")),
+                        rs.getString("address"));
+                        new View.HomeBuyer(user);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Gagal\nPassword Salah", "Login Gagal",
@@ -38,7 +48,7 @@ public class Login {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        DatabaseHandler.disconnect();
+        // DatabaseHandler.disconnect();
     }
 
     public static void forgotPassword(String username, String email) {
