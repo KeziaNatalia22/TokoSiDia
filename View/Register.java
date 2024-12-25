@@ -117,13 +117,12 @@ public class Register {
                         );
                         selectedFilePath = destinationFile;
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(frame, "Gagal mengunggah foto: " + ex.getMessage());
+                        JOptionPane.showMessageDialog(frame, "Failed to upload photo: " + ex.getMessage());
                         ex.printStackTrace();
                     }
                 }
             }
         });
-
 
         JLabel typeL = new JLabel("Type");
         typeL.setBounds(50, 425, 100, 20);
@@ -180,64 +179,65 @@ public class Register {
         backButton.setFocusPainted(false);
         panel.add(backButton);
 
-        buyerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                shopL.setVisible(false);
-                shopName.setVisible(false);
-                cityL.setVisible(false);
-                city.setVisible(false);
-                submit.setBounds(220, 500, 100, 30);
-                backButton.setBounds(70, 500, 100, 30);
-                frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 120);
-            }
+        buyerButton.addActionListener(e -> {
+            shopL.setVisible(false);
+            shopName.setVisible(false);
+            cityL.setVisible(false);
+            city.setVisible(false);
+            submit.setBounds(220, 500, 100, 30);
+            backButton.setBounds(70, 500, 100, 30);
+            frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 120);
         });
 
-        sellerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                shopL.setVisible(true);
-                shopName.setVisible(true);
-                cityL.setVisible(true);
-                city.setVisible(true);
-                frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
-                submit.setBounds(220, 630, 100, 30);
-                backButton.setBounds(70, 630, 100, 30);
-            }
+        sellerButton.addActionListener(e -> {
+            shopL.setVisible(true);
+            shopName.setVisible(true);
+            cityL.setVisible(true);
+            city.setVisible(true);
+            frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
+            submit.setBounds(220, 630, 100, 30);
+            backButton.setBounds(70, 630, 100, 30);
         });
 
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (username.getText().isEmpty() || new String(password.getPassword()).isEmpty() ||
+                        email.getText().isEmpty() || address.getText().isEmpty() ||
+                        phone.getText().isEmpty() || selectedFilePath == null ||
+                        (!buyerButton.isSelected() && !sellerButton.isSelected()) ||
+                        (sellerButton.isSelected() && (shopName.getText().isEmpty() || city.getText().isEmpty()))) {
+                    JOptionPane.showMessageDialog(frame, "Please fill all required fields.");
+                    return;
+                }
+
                 if (Controller.Register.checkUniqueUsername(username.getText()) == 0) {
-                    JOptionPane.showMessageDialog(frame, "Username is used!");
-                } 
-                
-                if(Controller.Register.checkUniqueEmail(email.getText()) == 0){
-                    JOptionPane.showMessageDialog(frame, "Email is used!");
+                    JOptionPane.showMessageDialog(frame, "Username is already taken!");
+                    return;
+                }
+
+                if (Controller.Register.checkUniqueEmail(email.getText()) == 0) {
+                    JOptionPane.showMessageDialog(frame, "Email is already registered!");
+                    return;
                 }
 
                 String type = sellerButton.isSelected() ? "seller" : "buyer";
                 String photoPath = "Photos/" + selectedFilePath.getName();
 
-                if(Controller.Register.inputDatatoDB(username.getText(), phone.getText(), email.getText(), new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText(), new File(photoPath))){
+                if (Controller.Register.inputDatatoDB(username.getText(), phone.getText(), email.getText(),
+                        new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText(), new File(photoPath))) {
                     new Login();
                     frame.dispose();
                 } else {
-                    frame.dispose();
                     new Register();
-                    
+                    frame.dispose();
                 }
-
             }
         });
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new MenuLogin(); 
-                frame.dispose();
-            }
+        backButton.addActionListener(e -> {
+            new MenuLogin();
+            frame.dispose();
         });
 
         frame.add(panel);

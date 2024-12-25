@@ -2,92 +2,99 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import Modul.Buyer;
 
 public class HomeBuyer {
-    JFrame frame;
-    JPanel panel;
+    private JFrame frame;
 
     public HomeBuyer(Buyer user) {
         initialize(user);
     }
 
-    public void initialize(Buyer user) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-
-        int screenWidth = screenSize.width;
-        int screenHeight = screenSize.height;
-
-        final int FRAME_WIDTH = 900;
-        final int FRAME_HEIGHT = 700;
-
-        int startX = screenWidth / 2 - (FRAME_WIDTH / 2);
-        int startY = screenHeight / 2 - (FRAME_HEIGHT / 2);
-
+    private void initialize(Buyer user) {
+        // Setup frame
         frame = new JFrame("Home");
-        frame.setBounds(startX, startY, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(900, 700);
+        frame.setLocationRelativeTo(null);
 
-        panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        frame.add(mainPanel);
+
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 15, 10, 15));
+
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+        leftPanel.setBackground(Color.WHITE);
 
         JLabel mainLabel = new JLabel("TokosiDia");
         mainLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
-        mainLabel.setBounds(20, 20, 100, 40);
         mainLabel.setForeground(Color.GREEN);
-        panel.add(mainLabel);
+        leftPanel.add(mainLabel);
 
-        JTextArea mainContent = new JTextArea();
-        mainContent.setFont(new Font("Arial", Font.PLAIN, 16));
-        mainContent.setBounds(140, 20, 400, 40);
-        mainContent.setBackground(Color.gray);
-        mainContent.setForeground(Color.WHITE);
-        panel.add(mainContent);
+        JTextField searchField = new JTextField(25);
+        searchField.setFont(new Font("Arial", Font.PLAIN, 16));
+        leftPanel.add(searchField);
 
-        JButton exploreButton = new JButton("Search");
-        exploreButton.setFont(new Font("Arial", Font.BOLD, 16));
-        exploreButton.setBackground(new Color(100, 149, 237));
-        exploreButton.setForeground(Color.WHITE);
-        exploreButton.setFocusPainted(false);
-        exploreButton.setBounds(560, 20, 100, 40);
-        panel.add(exploreButton);
+        JButton searchButton = createButton("Search", new Color(100, 149, 237));
+        leftPanel.add(searchButton);
 
-        JButton cartButton = new JButton("Cart");
-        cartButton.setFont(new Font("Arial", Font.BOLD, 16));
-        cartButton.setBackground(new Color(255, 165, 0));
-        cartButton.setForeground(Color.WHITE);
-        cartButton.setFocusPainted(false);
-        cartButton.setBounds(670, 20, 100, 40); 
-        panel.add(cartButton);
+        JButton cartButton = createIconButton("Photos/cart.jpeg", 40, 40, new Color(255, 165, 0));
+        leftPanel.add(cartButton);
 
-        JButton profile = new JButton();
-        profile.setBounds(780, 20, 80, 80);
-        panel.add(profile);
+        headerPanel.add(leftPanel, BorderLayout.WEST);
 
-        String imagePath = user.getPhotoPath();
-        ImageIcon profileIcon = new ImageIcon(imagePath);
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+        rightPanel.setBackground(Color.WHITE);
 
-        Image image = profileIcon.getImage().getScaledInstance(profile.getWidth(), profile.getHeight(),
-                Image.SCALE_SMOOTH);
-        profile.setIcon(new ImageIcon(image));
+        JLabel balanceLabel = new JLabel("Balance: Rp." + user.geteMoney());
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLabel.setForeground(Color.BLACK);
+        rightPanel.add(balanceLabel);
 
-        profile.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                new Profile(user);
-            }
+        JButton profileButton = createIconButton(user.getPhotoPath(), 60, 60, Color.WHITE);
+        rightPanel.add(profileButton);
+
+        headerPanel.add(rightPanel, BorderLayout.EAST);
+
+        mainPanel.add(headerPanel, BorderLayout.NORTH);
+
+        profileButton.addActionListener(e -> {
+            frame.dispose();
+            new Profile(user); 
         });
 
         cartButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(frame, "Menu Keranjang belum diimplementasikan!");
         });
 
-        frame.add(panel);
+        searchButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(frame, "Search functionality belum diimplementasikan!");
+        });
+
         frame.setVisible(true);
+    }
+
+    private JButton createButton(String text, Color backgroundColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBackground(backgroundColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        return button;
+    }
+
+    private JButton createIconButton(String imagePath, int width, int height, Color backgroundColor) {
+        JButton button = new JButton();
+        button.setBackground(backgroundColor);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        button.setIcon(new ImageIcon(img));
+        button.setPreferredSize(new Dimension(width, height));
+        return button;
     }
 }
