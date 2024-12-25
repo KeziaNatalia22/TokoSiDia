@@ -11,25 +11,24 @@ public class HomeBuyer {
     JPanel panel;
 
     public HomeBuyer(Buyer user) {
-        HomeBuyer(user);
+        initialize(user);
     }
 
-    public void HomeBuyer(Buyer user) {
+    public void initialize(Buyer user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize(); // Get screen size
+        Dimension screenSize = toolkit.getScreenSize();
 
-        int screenWidth = screenSize.width; // Screen width
-        int screenHeight = screenSize.height; // Screen height
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
 
-        final int FRAME_WIDTH = 800; // Set frame width
-        final int FRAME_HEIGHT = 700; // Set frame height
+        final int FRAME_WIDTH = 900;
+        final int FRAME_HEIGHT = 700;
 
-        int start_x = screenWidth / 2 - (FRAME_WIDTH / 2); // Center frame horizontally
-        int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2); // Center frame vertically
+        int startX = screenWidth / 2 - (FRAME_WIDTH / 2);
+        int startY = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
-        frame = new JFrame("Home"); // Create frame and set title
-
-        frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT); // Set frame bounds
+        frame = new JFrame("Home");
+        frame.setBounds(startX, startY, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel = new JPanel();
@@ -38,13 +37,15 @@ public class HomeBuyer {
 
         JLabel mainLabel = new JLabel("TokosiDia");
         mainLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
-        mainLabel.setBounds(20, 20, 100, 30);
-        mainLabel.setForeground(Color.green);
+        mainLabel.setBounds(20, 20, 100, 40);
+        mainLabel.setForeground(Color.GREEN);
         panel.add(mainLabel);
 
         JTextArea mainContent = new JTextArea();
         mainContent.setFont(new Font("Arial", Font.PLAIN, 16));
-        mainContent.setBounds(140, 20, 400, 30);
+        mainContent.setBounds(140, 20, 400, 40);
+        mainContent.setBackground(Color.gray);
+        mainContent.setForeground(Color.WHITE);
         panel.add(mainContent);
 
         JButton exploreButton = new JButton("Search");
@@ -52,13 +53,28 @@ public class HomeBuyer {
         exploreButton.setBackground(new Color(100, 149, 237));
         exploreButton.setForeground(Color.WHITE);
         exploreButton.setFocusPainted(false);
-        exploreButton.setBounds(540, 20, 100, 30);
+        exploreButton.setBounds(560, 20, 100, 40);
         panel.add(exploreButton);
 
-        JButton profile = new JButton("Profile");
-        profile.setFont(new Font("Arial", Font.BOLD, 16));
-        profile.setBounds(640, 20, 100, 30);
+        JButton cartButton = new JButton("Cart");
+        cartButton.setFont(new Font("Arial", Font.BOLD, 16));
+        cartButton.setBackground(new Color(255, 165, 0));
+        cartButton.setForeground(Color.WHITE);
+        cartButton.setFocusPainted(false);
+        cartButton.setBounds(670, 20, 100, 40); 
+        panel.add(cartButton);
+
+        JButton profile = new JButton();
+        profile.setBounds(780, 20, 80, 80);
         panel.add(profile);
+
+        String imagePath = user.getPhotoPath();
+        ImageIcon profileIcon = new ImageIcon(imagePath);
+
+        Image image = profileIcon.getImage().getScaledInstance(profile.getWidth(), profile.getHeight(),
+                Image.SCALE_SMOOTH);
+        profile.setIcon(new ImageIcon(image));
+
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,9 +82,12 @@ public class HomeBuyer {
                 new Profile(user);
             }
         });
+
+        cartButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(frame, "Menu Keranjang belum diimplementasikan!");
+        });
+
         frame.add(panel);
         frame.setVisible(true);
     }
-
-
 }

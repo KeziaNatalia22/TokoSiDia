@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Random;
 
-// import javax.mail.Message;
+import javax.mail.Message;
 import javax.swing.JOptionPane;
 import Modul.*;
 
@@ -48,7 +48,7 @@ public class Login {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        // DatabaseHandler.disconnect();
+        DatabaseHandler.disconnect();
     }
 
     public static void forgotPassword(String username, String email) {

@@ -101,9 +101,29 @@ public class Register {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFilePath = fileChooser.getSelectedFile();
+
+                    File photoFolder = new File("Photos");
+                    if (!photoFolder.exists()) {
+                        photoFolder.mkdir(); 
+                    }
+
+                    File destinationFile = new File(photoFolder, selectedFilePath.getName());
+
+                    try {
+                        java.nio.file.Files.copy(
+                                selectedFilePath.toPath(),
+                                destinationFile.toPath(),
+                                java.nio.file.StandardCopyOption.REPLACE_EXISTING
+                        );
+                        selectedFilePath = destinationFile;
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(frame, "Gagal mengunggah foto: " + ex.getMessage());
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
+
 
         JLabel typeL = new JLabel("Type");
         typeL.setBounds(50, 425, 100, 20);
@@ -198,8 +218,9 @@ public class Register {
                 }
 
                 String type = sellerButton.isSelected() ? "seller" : "buyer";
+                String photoPath = "Photos/" + selectedFilePath.getName();
 
-                if(Controller.Register.inputDatatoDB(username.getText(), phone.getText(), email.getText(), new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText(), selectedFilePath)){
+                if(Controller.Register.inputDatatoDB(username.getText(), phone.getText(), email.getText(), new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText(), new File(photoPath))){
                     new Login();
                     frame.dispose();
                 } else {

@@ -5,7 +5,7 @@ import Controller.Register;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Modul.User;
+import Modul.Buyer;
 import java.io.File;
 
 public class UpdateProfile {
@@ -13,11 +13,11 @@ public class UpdateProfile {
     JPanel panel;
     File selectedPhotoPath; 
 
-    public UpdateProfile(User user) {
+    public UpdateProfile(Buyer user) {
         UpdateProfile(user);
     }
 
-    public void UpdateProfile(User user) {
+    public void UpdateProfile(Buyer user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -42,7 +42,6 @@ public class UpdateProfile {
         JButton photoButton = new JButton("Upload Photo");
         photoButton.setBounds(150, 30, 100, 100);
         photoButton.setHorizontalAlignment(SwingConstants.CENTER);
-        photoButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
         // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -64,7 +63,7 @@ public class UpdateProfile {
         nameLabel.setBounds(20, 170, 100, 20);
         panel.add(nameLabel);
 
-        JTextField nameField = new JTextField();
+        JTextField nameField = new JTextField(user.getName());
         nameField.setBounds(150, 170, 200, 20);
         panel.add(nameField);
 
@@ -72,7 +71,7 @@ public class UpdateProfile {
         phoneNum.setBounds(20, 200, 100, 20);
         panel.add(phoneNum);
 
-        JTextField phoneField = new JTextField();
+        JTextField phoneField = new JTextField(user.getPhoneNum());
         phoneField.setBounds(150, 200, 200, 20);
         panel.add(phoneField);
 
@@ -80,7 +79,7 @@ public class UpdateProfile {
         email.setBounds(20, 230, 100, 20);
         panel.add(email);
 
-        JTextField emailField = new JTextField();
+        JTextField emailField = new JTextField(user.getEmail());
         emailField.setBounds(150, 230, 200, 20);
         panel.add(emailField);
 
@@ -88,7 +87,7 @@ public class UpdateProfile {
         address.setBounds(20, 260, 100, 20);
         panel.add(address);
 
-        JTextField addressField = new JTextField();
+        JTextField addressField = new JTextField(user.getAlamat());
         addressField.setBounds(150, 260, 200, 20);
         panel.add(addressField);
 
@@ -116,7 +115,7 @@ public class UpdateProfile {
 
                 user.setPhoneNum(phone);
                 user.setEmail(emailText);
-                user.setAddress(addressText);
+                user.setAlamat(addressText);
 
                 if (selectedPhotoPath != null) {
                     user.setPhotoPath(selectedPhotoPath.getAbsolutePath());
