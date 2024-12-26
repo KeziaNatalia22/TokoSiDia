@@ -22,7 +22,25 @@ public class Login {
                     JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.DEFAULT_OPTION);
 
                     if (rs.getString("type").equalsIgnoreCase("seller")) {
-                        // View.HomeSeller();
+                        String query2 = "select u.username, u.phone_number, u.email, u.password, u.photo_path, u.emoney, u.acc_stat, t.shop_name, t.city_located, t.photo_shop_path from user u inner join toko t on u.username = t.username where username = ?";
+                        PreparedStatement st2 = DatabaseHandler.connect().prepareStatement(query2);
+                        st2.setString(1, username);
+
+                        ResultSet rsSeller = st2.executeQuery();
+
+                        if (rsSeller.next()) {
+                        Seller user1 = new Seller(
+                        rsSeller.getString("username"),
+                        rsSeller.getString("phone_number"),
+                        rsSeller.getString("email"),
+                        rsSeller.getString("password"),
+                        rsSeller.getString("photo_path"),
+                        rsSeller.getDouble("emoney"),
+                        AccountStatus_Enum.valueOf(rsSeller.getString("acc_stat")),
+                        rsSeller.getString("shop_name"),
+                        rsSeller.getString("city_located"))
+                        ;
+                        new View.HomeSeller(user1);}
                     } else {
                         Buyer user = new Buyer(
                         rs.getString("username"),

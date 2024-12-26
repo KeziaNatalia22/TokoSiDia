@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import javax.swing.*;
 
 public class BalanceSection {
-    public double viewBalance(String username) {
+    public static double viewBalance(String username) {
         double balance = 0.0;
 
         try {
@@ -31,8 +31,10 @@ public class BalanceSection {
         return balance;
     }
 
-    public boolean addBalance(String username, double balance) {
+    public static boolean addBalance(String username, double balance) {
         try {
+            double balances = viewBalance(username);
+            balance += balances;
             String query = "UPDATE user SET emoney = ? WHERE username = ?";
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
             st.setDouble(1, balance);

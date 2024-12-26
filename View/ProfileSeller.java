@@ -5,17 +5,17 @@ import Controller.Register;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Modul.Buyer;
+import Modul.Seller;
 
-public class Profile {
+public class ProfileSeller {
     JFrame frame;
     JPanel panel;
 
-    public Profile(Buyer user) {
-        ProfileBuyer(user);
+    public ProfileSeller(Seller user) {
+        ProfileSeller(user);
     }
 
-    public void ProfileBuyer(Buyer user) {
+    public void ProfileSeller(Seller user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -62,7 +62,7 @@ public class Profile {
         email.setFont(font); 
         panel.add(email);
 
-        JLabel address = new JLabel("Address : " + user.getAlamat());
+        JLabel address = new JLabel("Address : " + user.getCityLocated());
         address.setBounds(20, 240, 350, 20);
         address.setFont(font); 
         panel.add(address);
@@ -73,22 +73,22 @@ public class Profile {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeBuyer(user);
+                new HomeSeller(user);
             }
         });
 
-        JButton updateData = new JButton("Change Data");
-        updateData.setBounds(220, 310, 120, 30);
-        updateData.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new UpdateProfile(user);
-                frame.dispose();
-            }
-        });
+        // JButton updateData = new JButton("Change Data");
+        // updateData.setBounds(220, 310, 120, 30);
+        // updateData.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         new UpdateProfile(user);
+        //         frame.dispose();
+        //     }
+        // });
 
         panel.add(backHome);
-        panel.add(updateData);
+        // panel.add(updateData);
 
         frame.add(panel);
         frame.setVisible(true);

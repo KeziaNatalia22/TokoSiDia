@@ -6,10 +6,10 @@ public class Seller extends User implements User_Interface{
     private HashMap<String, Product> product= new HashMap<String, Product>();
     private String shopName, cityLocated;
     
+    
     public Seller(String name, String phoneNum, String email, String password, String photoPath, double eMoney,
-            AccountStatus_Enum accStat, HashMap<String, Product> product, String shopName, String cityLocated) {
+            AccountStatus_Enum accStat, String shopName, String cityLocated) {
         super(name, phoneNum, email, password, photoPath, eMoney, accStat);
-        this.product = product;
         this.shopName = shopName;
         this.cityLocated = cityLocated;
     }

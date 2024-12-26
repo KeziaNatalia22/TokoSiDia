@@ -1,9 +1,9 @@
-import Modul.User;
+import Modul.Buyer;
 import View.*;
 
 public class Main {
     public static void main(String[] args) {
-        // User user = new Buyer();
+        Buyer user = null;
         // MenuLogin login = new MenuLogin();
         // login.Menu();
 
