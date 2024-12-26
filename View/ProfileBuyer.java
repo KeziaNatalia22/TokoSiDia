@@ -4,8 +4,6 @@ import Controller.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
 import Modul.Buyer;
 
 public class ProfileBuyer {
@@ -89,69 +87,32 @@ public class ProfileBuyer {
         });
 
         JButton addBalance = new JButton("Add Balance");
-        addBalance.setBounds(20, 310, 120, 30);
+        addBalance.setBounds(120, 350, 120, 30);
         addBalance.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame addBalanceFrame = new JFrame("Add Balance");
-                addBalanceFrame.setSize(400, 200);
-                addBalanceFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                addBalanceFrame.setLocationRelativeTo(frame);
-                addBalanceFrame.setLayout(new GridBagLayout());
-        
-                JPanel panel = new JPanel(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.insets = new Insets(10, 10, 10, 10);
-        
-                JLabel label = new JLabel("Enter Balance:");
-                gbc.gridx = 0;
-                gbc.gridy = 0;
-                panel.add(label, gbc);
-        
-                JTextField balanceField = new JTextField(15);
-                gbc.gridx = 1;
-                gbc.gridy = 0;
-                panel.add(balanceField, gbc);
-        
-                JButton confirmButton = new JButton("Confirm");
-                gbc.gridx = 0;
-                gbc.gridy = 1;
-                gbc.gridwidth = 2;
-                gbc.anchor = GridBagConstraints.CENTER;
-                panel.add(confirmButton, gbc);
-        
-                confirmButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        try {
-                            double balanceToAdd = Double.parseDouble(balanceField.getText());
-                            if (balanceToAdd <= 0) {
-                                JOptionPane.showMessageDialog(addBalanceFrame, "Balance must be greater than 0!", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                if(BalanceSection.addBalance(user.getName(), balanceToAdd)){
-                                    user.seteMoney(user.geteMoney() + balanceToAdd);
-                                }
-                                JOptionPane.showMessageDialog(addBalanceFrame, "Balance successfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                                addBalanceFrame.dispose(); 
-                                frame.dispose();
-                                new ProfileBuyer(user); 
+                String input = JOptionPane.showInputDialog(frame, "Enter the amount to add to your balance:", "Add Balance", JOptionPane.PLAIN_MESSAGE);
+                if (input != null && !input.isEmpty()) {
+                    try {
+                        double amount = Double.parseDouble(input);
+                        if (amount > 0) {
+                            user.seteMoney(user.geteMoney() + amount);
+                            if (BalanceSection.addBalance(user.getName(), user.geteMoney())) {
+                                JOptionPane.showMessageDialog(frame, "Balance added successfully! New Balance: " + user.geteMoney(), "Success", JOptionPane.INFORMATION_MESSAGE);
                             }
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(addBalanceFrame, "Please enter a valid number!", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "Please enter a positive amount.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                         }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(frame, "Invalid amount entered. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                });
-        
-                addBalanceFrame.add(panel);
-                addBalanceFrame.setVisible(true);
+                }
             }
         });
-        
-
-
 
         panel.add(backHome);
         panel.add(updateData);
+        panel.add(addBalance);
 
         frame.add(panel);
         frame.setVisible(true);

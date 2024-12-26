@@ -15,7 +15,7 @@ public class HomeBuyer {
     private void initialize(Buyer user) {
         frame = new JFrame("Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 700);
+        frame.setSize(900, 550);
         frame.setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -45,13 +45,19 @@ public class HomeBuyer {
 
         headerPanel.add(leftPanel, BorderLayout.WEST);
 
-        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 30, 0));
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 0));
         rightPanel.setBackground(Color.WHITE);
+
+        JPanel balancePanel = new JPanel(new BorderLayout());
+        balancePanel.setBackground(Color.WHITE);
+        balancePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
         JLabel balanceLabel = new JLabel("Balance: Rp." + user.geteMoney());
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         balanceLabel.setForeground(Color.BLACK);
-        rightPanel.add(balanceLabel);
+        balancePanel.add(balanceLabel, BorderLayout.CENTER);
+
+        rightPanel.add(balancePanel);
 
         JButton profileButton = createIconButton(user.getPhotoPath(), 60, 60, Color.WHITE);
         rightPanel.add(profileButton);

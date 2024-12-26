@@ -33,8 +33,7 @@ public class BalanceSection {
 
     public static boolean addBalance(String username, double balance) {
         try {
-            double balances = viewBalance(username);
-            balance += balances;
+            // emoney user sudah ditambah dengan yang sebelumnya, jadi yang diupdate amount terbaru
             String query = "UPDATE user SET emoney = ? WHERE username = ?";
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
             st.setDouble(1, balance);
