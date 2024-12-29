@@ -184,8 +184,8 @@ public class Register {
             shopName.setVisible(false);
             cityL.setVisible(false);
             city.setVisible(false);
-            submit.setBounds(220, 500, 100, 30);
-            backButton.setBounds(70, 500, 100, 30);
+            submit.setBounds(220, 490, 100, 30);
+            backButton.setBounds(70, 490, 100, 30);
             frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 150);
         });
 

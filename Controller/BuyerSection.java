@@ -22,7 +22,7 @@ public class BuyerSection {
                         + "LEFT JOIN book AS b ON b.id_product = p.id_product "
                         + "LEFT JOIN electronic AS e ON e.id_product = p.id_product "
                         + "WHERE p.name LIKE ?"
-                        + "LIMIT 12 OFFSET ?";
+                        + "LIMIT 9 OFFSET ?";
 
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
@@ -90,8 +90,12 @@ public class BuyerSection {
                 }
             }
 
-            if (!hasResults) {
+            if (!hasResults && offset == 0) {
                 JOptionPane.showMessageDialog(null, "Maaf sekali barang yang anda cari saat ini tidak tersedia", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if (!hasResults) {
+                JOptionPane.showMessageDialog(null, "Sudah tidak ada barang", 
                     "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
             }
             return searchedProduct;
