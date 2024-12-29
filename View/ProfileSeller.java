@@ -66,13 +66,13 @@ public class ProfileSeller {
         address.setFont(font); 
         panel.add(address);
 
-        JLabel shopName = new JLabel("City : " + user.getShopName());
-        shopName.setBounds(20, 260, 350, 20);
+        JLabel shopName = new JLabel("Shop Name : " + user.getShopName());
+        shopName.setBounds(20, 270, 350, 20);
         shopName.setFont(font); 
         panel.add(shopName);
 
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 330, 80, 30);
+        backHome.setBounds(20, 340, 80, 30);
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

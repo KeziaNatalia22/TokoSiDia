@@ -22,7 +22,7 @@ public class Login {
                     JOptionPane.showMessageDialog(null, "Login Berhasil", "Login", JOptionPane.DEFAULT_OPTION);
 
                     if (rs.getString("type").equalsIgnoreCase("seller")) {
-                        String query2 = "select u.username, u.phone_number, u.email, u.password, u.photo_path, u.emoney, u.acc_stat, t.shop_name, t.city_located, t.photo_shop_path from user u inner join toko t on u.username = t.username where username = ?";
+                        String query2 = "select u.username, u.phone_number, u.email, u.password, u.photo_path, u.emoney, u.acc_stat, t.shop_name, t.city_located, t.photo_shop_path from user u inner join toko t on u.username = t.username where u.username = ?";
                         PreparedStatement st2 = DatabaseHandler.connect().prepareStatement(query2);
                         st2.setString(1, username);
 
