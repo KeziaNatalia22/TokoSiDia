@@ -13,9 +13,9 @@ public class HomeSeller {
 
     private void initialize(Seller user) {
         // Setup frame
-        frame = new JFrame("Home Seller - Tokopedia");
+        frame = new JFrame("Home Seller - Tokosidia");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200, 800);
+        frame.setSize(900, 400);
         frame.setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -26,11 +26,10 @@ public class HomeSeller {
         headerPanel.setBackground(Color.WHITE);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 15, 10, 15));
 
-        // Left header (Logo + Search)
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
         leftPanel.setBackground(Color.WHITE);
 
-        JLabel mainLabel = new JLabel("Tokopedia");
+        JLabel mainLabel = new JLabel("Tokosidia");
         mainLabel.setFont(new Font("Montserrat", Font.BOLD, 24));
         mainLabel.setForeground(new Color(0, 155, 119));
         leftPanel.add(mainLabel);
@@ -44,12 +43,11 @@ public class HomeSeller {
 
         headerPanel.add(leftPanel, BorderLayout.WEST);
 
-        // Right header (Balance + Profile)
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         rightPanel.setBackground(Color.WHITE);
 
         JLabel balanceLabel = new JLabel("Balance: Rp." + user.geteMoney());
-        balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         balanceLabel.setForeground(Color.BLACK);
         rightPanel.add(balanceLabel);
 
@@ -59,29 +57,10 @@ public class HomeSeller {
         headerPanel.add(rightPanel, BorderLayout.EAST);
         mainPanel.add(headerPanel, BorderLayout.NORTH);
 
-        // Navigation bar
-        JPanel navBar = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        navBar.setBackground(new Color(0, 155, 119));
-
-        String[] navItems = {"Produk Saya", "Penjualan", "Statistik", "Promosi"};
-        for (String item : navItems) {
-            JButton navButton = createButton(item, Color.WHITE);
-            navButton.setForeground(new Color(0, 155, 119));
-            navBar.add(navButton);
-
-            navButton.addActionListener(e -> 
-                JOptionPane.showMessageDialog(frame, item + " belum diimplementasikan!")
-            );
-        }
-
-        mainPanel.add(navBar, BorderLayout.CENTER);
-
-        // Dashboard content
-        JPanel contentPanel = new JPanel(new GridLayout(2, 2, 15, 15));
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel contentPanel = new JPanel(new GridLayout(1, 2, 15, 15));
         contentPanel.setBackground(Color.LIGHT_GRAY);
 
-        String[] dashboardItems = {"Total Penjualan", "Produk Terjual", "Statistik Harian", "Tambah Produk"};
+        String[] dashboardItems = {"Total Penjualan", "Tambah Produk"};
         for (String item : dashboardItems) {
             JButton dashboardButton = createButton(item, new Color(0, 155, 119));
             contentPanel.add(dashboardButton);
@@ -93,11 +72,10 @@ public class HomeSeller {
 
         mainPanel.add(contentPanel, BorderLayout.SOUTH);
 
-        // // Profile button action
-        // profileButton.addActionListener(e -> {
-        //     frame.dispose();
-        //     new ProfileBuyer(user);
-        // });
+        profileButton.addActionListener(e -> {
+            frame.dispose();
+            new ProfileSeller(user);
+        });
 
         frame.setVisible(true);
     }
