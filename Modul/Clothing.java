@@ -4,12 +4,11 @@ public class Clothing extends Product implements Product_Interface{
     private ClothingSize_Enum size;
     private String color;
 
-    public Clothing(String name, String idProduct, double price, double discount, int stock, ClothingSize_Enum size,
-            String color) {
-        super(name, idProduct, price, discount, stock);
-        this.size = size;
+    public Clothing(String color, ClothingSize_Enum size, String idProduct, String sellerName, String name, int stock, double discount, double price, String photoProduct) {
+        super(idProduct, sellerName, name, stock, discount, price, photoProduct);
         this.color = color;
-    }
+        this.size = size;
+    }    
 
     public ClothingSize_Enum getSize() {
         return size;

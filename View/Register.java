@@ -3,8 +3,8 @@ package View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 import java.io.File;
+import javax.swing.*;
 
 public class Register {
     JFrame frame;
@@ -186,7 +186,7 @@ public class Register {
             city.setVisible(false);
             submit.setBounds(220, 500, 100, 30);
             backButton.setBounds(70, 500, 100, 30);
-            frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 120);
+            frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 150);
         });
 
         sellerButton.addActionListener(e -> {

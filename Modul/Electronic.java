@@ -5,15 +5,14 @@ import java.util.*;
 public class Electronic extends Product implements Product_Interface{
     private Date warranty;
     private String manualBook, color;
-    
-    public Electronic(String name, String idProduct, double price, double discount, int stock, Date warranty,
-            String manualBook, String color) {
-        super(name, idProduct, price, discount, stock);
-        this.warranty = warranty;
-        this.manualBook = manualBook;
-        this.color = color;
-    }
 
+    public Electronic(String color, String manualBook, Date warranty, String idProduct, String sellerName, String name, int stock, double discount, double price, String photoProduct) {
+        super(idProduct, sellerName, name, stock, discount, price, photoProduct);
+        this.color = color;
+        this.manualBook = manualBook;
+        this.warranty = warranty;
+    }
+    
     public Date getWarranty() {
         return warranty;
     }

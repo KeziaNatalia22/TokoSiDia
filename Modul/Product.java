@@ -1,27 +1,33 @@
 package Modul;
-import java.io.File;
 
 public abstract class Product {
-    private String name, idProduct;
-    private double price, discount;
+    private String idProduct, sellerName, name;
     private int stock;
-    private File photoProduct;
-
+    private double discount, price;
+    private String photoProduct;
     
-    public Product(String name, String idProduct, double price, double discount, int stock) {
-        this.name = name;
+    public Product(String idProduct, String sellerName, String name, int stock, double discount, double price,
+            String photoProduct) {
         this.idProduct = idProduct;
-        this.price = price;
-        this.discount = discount;
+        this.sellerName = sellerName;
+        this.name = name;
         this.stock = stock;
-    }
-    
-    public File getPhotoProduct() {
-        return photoProduct;
+        this.discount = discount;
+        this.price = price;
+        this.photoProduct = photoProduct;
     }
 
-    public void setPhotoProduct(File photoProduct) {
-        this.photoProduct = photoProduct;
+    public String getIdProduct() {
+        return idProduct;
+    }
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
+    }
+    public String getSellerName() {
+        return sellerName;
+    }
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
     public String getName() {
         return name;
@@ -29,17 +35,11 @@ public abstract class Product {
     public void setName(String name) {
         this.name = name;
     }
-    public String getIdProduct() {
-        return idProduct;
+    public int getStock() {
+        return stock;
     }
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
-    }
-    public double getPrice() {
-        return price;
-    }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
     public double getDiscount() {
         return discount;
@@ -47,13 +47,17 @@ public abstract class Product {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
-    public int getStock() {
-        return stock;
+    public double getPrice() {
+        return price;
     }
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setPrice(double price) {
+        this.price = price;
     }
-
-
+    public String getPhotoProduct() {
+        return photoProduct;
+    }
+    public void setPhotoProduct(String photoProduct) {
+        this.photoProduct = photoProduct;
+    }
 }   
 

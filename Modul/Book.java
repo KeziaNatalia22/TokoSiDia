@@ -6,17 +6,16 @@ public class Book extends Product implements Product_Interface{
     private String author, synopsis, title;
     private Date releaseDate;
     private int pageNum;
-    
-    public Book(String name, String idProduct, double price, double discount, int stock, String title, String author,
-            String synopsis, Date releaseDate, int pageNum) {
-        super(name, idProduct, price, discount, stock);
-        this.title = title;
-        this.author = author;
-        this.synopsis = synopsis;
-        this.releaseDate = releaseDate;
-        this.pageNum = pageNum;
-    }
 
+    public Book(String author, int pageNum, Date releaseDate, String synopsis, String title, String idProduct, String sellerName, String name, int stock, double discount, double price, String photoProduct) {
+        super(idProduct, sellerName, name, stock, discount, price, photoProduct);
+        this.author = author;
+        this.pageNum = pageNum;
+        this.releaseDate = releaseDate;
+        this.synopsis = synopsis;
+        this.title = title;
+    }
+    
     public String getAuthor() {
         return author;
     }

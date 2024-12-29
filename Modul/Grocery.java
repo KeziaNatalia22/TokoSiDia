@@ -1,13 +1,13 @@
 package Modul;
 
+
 import java.util.Date;
 
 public class Grocery extends Product implements Product_Interface{
     private Date expDate, productionDate;
 
-    public Grocery(String name, String idProduct, double price, double discount, int stock, Date expDate,
-            Date productionDate) {
-        super(name, idProduct, price, discount, stock);
+    public Grocery(Date expDate, Date productionDate, String idProduct, String sellerName, String name, int stock, double discount, double price, String photoProduct) {
+        super(idProduct, sellerName, name, stock, discount, price, photoProduct);
         this.expDate = expDate;
         this.productionDate = productionDate;
     }

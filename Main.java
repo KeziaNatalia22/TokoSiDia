@@ -1,4 +1,3 @@
-import Modul.User;
 import View.*;
 
 public class Main {
@@ -7,7 +6,10 @@ public class Main {
         // MenuLogin login = new MenuLogin();
         // login.Menu();
 
-        new MenuLogin();
+        // new MenuLogin();
+
+        new SearchedProduct("a");
+        
         // new HomeBuyer(user);
     }
 }

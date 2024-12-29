@@ -1,9 +1,9 @@
 package Controller;
 
+import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
-import java.io.File;
 
 public class Register {
     public static int checkUniqueUsername(String username){
