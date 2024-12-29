@@ -103,7 +103,7 @@ public class HomeBuyer {
         });
 
         searchButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Search functionality belum diimplementasikan!");
+            new SearchedProduct(searchField.getText());
         });
 
         bookButton.addActionListener(e -> {

@@ -3,13 +3,11 @@ import View.*;
 
 public class Main {
     public static void main(String[] args) {
-        Buyer user = null;
+        // Buyer user = null;
         // MenuLogin login = new MenuLogin();
         // login.Menu();
 
-        // new MenuLogin();
-
-        new SearchedProduct("a");
+        new MenuLogin();
         
         // new HomeBuyer(user);
     }

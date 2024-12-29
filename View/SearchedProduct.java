@@ -26,6 +26,8 @@ public class SearchedProduct {
     JPanel panelCol2;
     JPanel panelCol3;
     JScrollPane scrollPane;
+    int offset = 0;
+    int i = 0;
 
     public SearchedProduct(String search) {
         searchedProduct(search);
@@ -36,7 +38,7 @@ public class SearchedProduct {
         Dimension screenSize = toolkit.getScreenSize();
 
         final int FRAME_WIDTH = screenSize.width; // Screen width
-        final int FRAME_HEIGHT = screenSize.height; // Screen height
+        final int FRAME_HEIGHT = screenSize.height - 20; // Screen height
 
         final int PRODUCT_PANEL_WIDTH = screenSize.width/3;
         final int PRODUCT_PANEL_HEIGHT = screenSize.height/2;
@@ -64,10 +66,9 @@ public class SearchedProduct {
         panelCol3.setLayout(new BoxLayout(panelCol3, BoxLayout.Y_AXIS));
         panelGrid.add(panelCol3);
         
-        int offset = 0;
-        // final int SHOW_MORE = 12;
+        final int SHOW_MORE = 9;
+
         ArrayList<Product> searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
-        int i = 0;
         for (Product product : searchedProduct) {
             JPanel panelProduct = new JPanel();
             panelProduct.setLayout(null);
@@ -121,10 +122,72 @@ public class SearchedProduct {
         showMore.setPreferredSize(new Dimension(panelCol2.getWidth(), 30));
         panelCol2.add(showMore);
 
-        panelCol2.revalidate(); 
-        panelCol2.repaint();
+        showMore.addActionListener(e -> {
+            offset += SHOW_MORE;
+        
+            ArrayList<Product> moreProducts = Controller.BuyerSection.searchProduct(search, offset);
+            
+            for (Product product : moreProducts) {
+                JPanel panelProduct = new JPanel();
+                panelProduct.setLayout(null);
+                panelProduct.setPreferredSize(new Dimension(PRODUCT_PANEL_WIDTH, PRODUCT_PANEL_HEIGHT));
+                panelProduct.setBackground(new Color(230, 238, 255));
+                
+                JLabel photoProduct = new JLabel();
+                photoProduct.setBounds(0, PRODUCT_PANEL_HEIGHT/10, PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT - PRODUCT_PANEL_HEIGHT/10);
+                ImageIcon icon = new ImageIcon("Photos/Seller/" + product.getPhotoProduct());
+                Image img = icon.getImage().getScaledInstance(photoProduct.getWidth(), photoProduct.getHeight(), Image.SCALE_SMOOTH);
+                photoProduct.setIcon(new ImageIcon(img));
+                panelProduct.add(photoProduct);
+                
+                JLabel name = new JLabel("Nama: " + product.getName());
+                name.setBounds(PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT/10 * 3, PRODUCT_PANEL_WIDTH/2, 30);
+                panelProduct.add(name);
+                JLabel stock = new JLabel("Stock: " + Integer.toString(product.getStock()));
+                stock.setBounds(PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT/10 * 4, PRODUCT_PANEL_WIDTH/2, 30);
+                panelProduct.add(stock);
+                JLabel price = new JLabel("Harga: " + Double.toString(product.getPrice()));
+                price.setBounds(PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT/10 * 5, PRODUCT_PANEL_WIDTH/2, 30);
+                panelProduct.add(price);
+                JLabel discount = new JLabel("Diskon: " + Double.toString(product.getDiscount()));
+                discount.setBounds(PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT/10 * 6, PRODUCT_PANEL_WIDTH/2, 30);
+                panelProduct.add(discount);
+                JLabel seller = new JLabel("Seller: " + product.getSellerName());
+                seller.setBounds(PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT/10 * 7, PRODUCT_PANEL_WIDTH/2, 30);
+                panelProduct.add(seller);
+
+                if (i % 3 == 0) {
+                    panelCol1.add(panelProduct);
+                    i++;
+                }
+                else if (i % 3 == 1) {
+                    panelCol2.add(panelProduct);
+                    i++;
+                }
+                else{
+                    panelCol3.add(panelProduct);
+                    i++;
+                }
+                panelProduct.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        DetailedProduct.detailProduct(product);
+                    }
+                });
+                panelCol2.remove(showMore);
+                panelCol2.add(showMore);
+            }
+            
+            panelCol1.revalidate();
+            panelCol1.repaint();
+            panelCol2.revalidate();
+            panelCol2.repaint();
+            panelCol3.revalidate();
+            panelCol3.repaint();
+        });
 
         scrollPane = new JScrollPane(panelGrid);
+        scrollPane.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
         frame.add(scrollPane);
         frame.setVisible(true);
