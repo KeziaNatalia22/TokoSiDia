@@ -76,7 +76,7 @@ public class SearchedProduct {
             panelProduct.setBackground(new Color(230, 238, 255));
             
             JLabel photoProduct = new JLabel();
-            photoProduct.setBounds(0, PRODUCT_PANEL_HEIGHT/10, PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT - PRODUCT_PANEL_HEIGHT/10);
+            photoProduct.setBounds(0, 0, PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT - PRODUCT_PANEL_HEIGHT/10);
             ImageIcon icon = new ImageIcon("Photos/Seller/" + product.getPhotoProduct());
             Image img = icon.getImage().getScaledInstance(photoProduct.getWidth(), photoProduct.getHeight(), Image.SCALE_SMOOTH);
             photoProduct.setIcon(new ImageIcon(img));
@@ -134,7 +134,7 @@ public class SearchedProduct {
                 panelProduct.setBackground(new Color(230, 238, 255));
                 
                 JLabel photoProduct = new JLabel();
-                photoProduct.setBounds(0, PRODUCT_PANEL_HEIGHT/10, PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT - PRODUCT_PANEL_HEIGHT/10);
+                photoProduct.setBounds(0, 0, PRODUCT_PANEL_WIDTH/2, PRODUCT_PANEL_HEIGHT - PRODUCT_PANEL_HEIGHT/10);
                 ImageIcon icon = new ImageIcon("Photos/Seller/" + product.getPhotoProduct());
                 Image img = icon.getImage().getScaledInstance(photoProduct.getWidth(), photoProduct.getHeight(), Image.SCALE_SMOOTH);
                 photoProduct.setIcon(new ImageIcon(img));
