@@ -4,17 +4,17 @@ import Controller.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Modul.Seller;
+import Modul.Buyer;
 
-public class ProfileSeller {
+public class DetailProduct {
     JFrame frame;
     JPanel panel;
 
-    public ProfileSeller(Seller user) {
-        ProfileSeller(user);
+    public DetailProduct(Buyer user) {
+        Detail(user);
     }
 
-    public void ProfileSeller(Seller user) {
+    public void Detail(Buyer user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -61,35 +61,30 @@ public class ProfileSeller {
         email.setFont(font); 
         panel.add(email);
 
-        JLabel address = new JLabel("City : " + user.getCityLocated());
+        JLabel address = new JLabel("Address : " + user.getAlamat());
         address.setBounds(20, 240, 350, 20);
         address.setFont(font); 
         panel.add(address);
 
-        JLabel shopName = new JLabel("Shop Name : " + user.getShopName());
-        shopName.setBounds(20, 270, 350, 20);
-        shopName.setFont(font); 
-        panel.add(shopName);
-
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 340, 80, 30);
+        backHome.setBounds(20, 310, 80, 30);
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeSeller(user);
+                new HomeBuyer(user);
             }
         });
 
-        // JButton updateData = new JButton("Change Data");
-        // updateData.setBounds(220, 310, 120, 30);
-        // updateData.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         new UpdateProfile(user);
-        //         frame.dispose();
-        //     }
-        // });
+        JButton updateData = new JButton("Change Data");
+        updateData.setBounds(220, 310, 120, 30);
+        updateData.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UpdateProfile(user);
+                frame.dispose();
+            }
+        });
 
         JButton addBalance = new JButton("Add Balance");
         addBalance.setBounds(120, 350, 120, 30);
@@ -116,7 +111,7 @@ public class ProfileSeller {
         });
 
         panel.add(backHome);
-        // panel.add(updateData);
+        panel.add(updateData);
         panel.add(addBalance);
 
         frame.add(panel);
