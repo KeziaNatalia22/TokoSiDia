@@ -25,7 +25,7 @@ public class HomeBuyer {
         headerPanel.setBorder(BorderFactory.createEmptyBorder(30, 15, 10, 15));
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
-        leftPanel.setBackground(Color.WHITE);
+        leftPanel.setBackground(new Color(240, 248, 255)); 
 
         JLabel mainLabel = new JLabel("TokosiDia");
         mainLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
@@ -40,12 +40,13 @@ public class HomeBuyer {
         leftPanel.add(searchButton);
 
         JButton cartButton = createIconButton("Photos/cart.jpeg", 40, 40, new Color(255, 165, 0));
+        cartButton.setBackground(new Color(240, 248, 255)); 
         leftPanel.add(cartButton);
 
         headerPanel.add(leftPanel, BorderLayout.WEST);
 
         JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 0));
-        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setBackground(new Color(240, 248, 255)); 
 
         JPanel balancePanel = new JPanel(new BorderLayout());
         balancePanel.setBackground(Color.WHITE);
