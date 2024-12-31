@@ -12,65 +12,76 @@ public class HomeSeller {
     }
 
     private void initialize(Seller user) {
-        // Setup frame
         frame = new JFrame("Home Seller - Tokosidia");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 400);
+        frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         frame.add(mainPanel);
 
-        // Header panel
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(Color.WHITE);
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 15, 10, 15));
+        headerPanel.setBackground(new Color(240, 248, 255)); 
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
-        leftPanel.setBackground(Color.WHITE);
+        leftPanel.setBackground(new Color(240, 248, 255));
 
-        JLabel mainLabel = new JLabel("Tokosidia");
-        mainLabel.setFont(new Font("Montserrat", Font.BOLD, 24));
-        mainLabel.setForeground(new Color(0, 155, 119));
+        JLabel mainLabel = new JLabel("TokosiDia");
+        mainLabel.setFont(new Font("Montserrat", Font.BOLD, 25));
+        mainLabel.setForeground(Color.GREEN);
         leftPanel.add(mainLabel);
-
-        JTextField searchField = new JTextField(25);
-        searchField.setFont(new Font("Arial", Font.PLAIN, 16));
-        leftPanel.add(searchField);
-
-        JButton searchButton = createButton("Search", new Color(0, 155, 119));
-        leftPanel.add(searchButton);
 
         headerPanel.add(leftPanel, BorderLayout.WEST);
 
-        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        rightPanel.setBackground(Color.WHITE);
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
+        rightPanel.setBackground(new Color(240, 248, 255));
+
+        JPanel balancePanel = new JPanel(new BorderLayout());
+        balancePanel.setBackground(Color.WHITE);
+        balancePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
         JLabel balanceLabel = new JLabel("Balance: Rp." + user.geteMoney());
-        balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
         balanceLabel.setForeground(Color.BLACK);
-        rightPanel.add(balanceLabel);
+        balancePanel.add(balanceLabel, BorderLayout.CENTER);
 
-        JButton profileButton = createIconButton(user.getPhotoPath(), 60, 60, Color.WHITE);
+        rightPanel.add(balancePanel);
+
+        JButton profileButton = createIconButton(user.getPhotoPath(), 50, 50, new Color(240, 248, 255));
         rightPanel.add(profileButton);
 
         headerPanel.add(rightPanel, BorderLayout.EAST);
         mainPanel.add(headerPanel, BorderLayout.NORTH);
 
-        JPanel contentPanel = new JPanel(new GridLayout(1, 2, 15, 15));
-        contentPanel.setBackground(Color.LIGHT_GRAY);
+        JPanel panelMain = new JPanel();
+        panelMain.setBackground(Color.WHITE);
+        panelMain.setLayout(new BoxLayout(panelMain, BoxLayout.Y_AXIS)); 
+        panelMain.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        mainPanel.add(panelMain, BorderLayout.CENTER);
 
-        String[] dashboardItems = {"Total Penjualan", "Tambah Produk"};
-        for (String item : dashboardItems) {
-            JButton dashboardButton = createButton(item, new Color(0, 155, 119));
-            contentPanel.add(dashboardButton);
+        JLabel welcomeLabel = new JLabel("Welcome, seller " + user.getName() + "!");
+        welcomeLabel.setFont(new Font("Montserrat", Font.BOLD, 17));
+        welcomeLabel.setForeground(Color.BLACK);
+        welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelMain.add(welcomeLabel);
 
-            dashboardButton.addActionListener(e -> 
-                JOptionPane.showMessageDialog(frame, item + " belum diimplementasikan!")
-            );
-        }
+        JPanel contentPanel = new JPanel();
+        contentPanel.setBackground(new Color(250, 250, 250));
+        contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 30)); 
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        mainPanel.add(contentPanel, BorderLayout.SOUTH);
+        JButton historyPenjualan = createButton("History Penjualan", new Color(72, 209, 204));
+        JButton addProduct = createButton("Add Product", new Color(244, 164, 96));
+        JButton deleteProduct = createButton("Delete Product", new Color(255, 99, 71));
+        JButton updateProduct = createButton("Update Product", new Color(72, 209, 204));
+
+        contentPanel.add(historyPenjualan);
+        contentPanel.add(addProduct);
+        contentPanel.add(deleteProduct);
+        contentPanel.add(updateProduct);
+
+        panelMain.add(contentPanel);
 
         profileButton.addActionListener(e -> {
             frame.dispose();
@@ -86,6 +97,10 @@ public class HomeSeller {
         button.setBackground(backgroundColor);
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(backgroundColor.darker(), 2),
+            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+        ));
         return button;
     }
 
@@ -93,7 +108,7 @@ public class HomeSeller {
         JButton button = new JButton();
         button.setBackground(backgroundColor);
         button.setFocusPainted(false);
-        button.setBorderPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder());
 
         ImageIcon icon = new ImageIcon(imagePath);
         Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);

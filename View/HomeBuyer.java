@@ -3,7 +3,6 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import Modul.Buyer;
-import Controller.BalanceSection;
 
 public class HomeBuyer {
     private JFrame frame;
@@ -22,7 +21,7 @@ public class HomeBuyer {
         frame.add(mainPanel);
 
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBackground(new Color(240, 248, 255)); 
         headerPanel.setBorder(BorderFactory.createEmptyBorder(30, 15, 10, 15));
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
