@@ -33,7 +33,7 @@ public class BuyerSection {
             while (rs.next()) {
                 hasResults = true;
                 if (rs.getString("title") != null && !rs.getString("title").isEmpty()) {
-                    Book book = new Book( 
+                    Book book = new Book(
                         rs.getString("author"),
                         rs.getInt("page_num"),
                         rs.getDate("release_date"), 

@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.*;
 
+import Modul.TokosiDiaFrame;
+
 public class Register {
-    JFrame frame;
+    TokosiDiaFrame frame;
     JPanel panel;
     File selectedFilePath;
 
@@ -28,7 +30,7 @@ public class Register {
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2);
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
-        frame = new JFrame("Register Form");
+        frame = new TokosiDiaFrame("Register Form");
         frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT - 150);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

@@ -6,6 +6,10 @@ public class Transaction {
     private ArrayList<Product> listProduct = new ArrayList<Product>();
     private String shopName, buyerName;
     private ShipmentStatus_Enum shipmentStatus;
+
+    public Transaction(){
+        
+    }
     
     public Transaction(ArrayList<Product> listProduct, String shopName, String buyerName,
             ShipmentStatus_Enum shipmentStatus) {

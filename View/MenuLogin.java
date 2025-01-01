@@ -1,12 +1,15 @@
 package View;
 
 import javax.swing.*;
+
+import Modul.TokosiDiaFrame;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuLogin {
-    JFrame frame;
+    private TokosiDiaFrame frame;
     JPanel panel;
 
     public MenuLogin() {
@@ -26,7 +29,7 @@ public class MenuLogin {
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2);
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
-        frame = new JFrame("Main Menu");
+        frame = new TokosiDiaFrame("Main Menu");
         frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

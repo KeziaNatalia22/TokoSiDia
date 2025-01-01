@@ -2,8 +2,6 @@ package View;
 
 import javax.swing.*;
 
-import SearchedProduct;
-
 import java.awt.*;
 import Modul.Buyer;
 
@@ -110,7 +108,7 @@ public class HomeBuyer {
         });
 
         bookButton.addActionListener(e -> {
-
+            new TransactionViewer(user);
         });
 
         clothingButton.addActionListener(e -> {

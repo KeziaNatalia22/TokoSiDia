@@ -3,16 +3,16 @@ package View;
 import javax.swing.*;
 import java.awt.*;
 import Modul.Seller;
+import Modul.TokosiDiaFrame;
 
 public class HomeSeller {
-    private JFrame frame;
-
+    private TokosiDiaFrame frame;
     public HomeSeller(Seller user) {
         initialize(user);
     }
 
     private void initialize(Seller user) {
-        frame = new JFrame("Home Seller - Tokosidia");
+        frame = new TokosiDiaFrame("Home Seller - Tokosidia");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
