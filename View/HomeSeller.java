@@ -49,6 +49,7 @@ public class HomeSeller {
         rightPanel.add(balancePanel);
 
         JButton profileButton = createIconButton(user.getPhotoPath(), 50, 50, new Color(240, 248, 255));
+
         rightPanel.add(profileButton);
 
         headerPanel.add(rightPanel, BorderLayout.EAST);

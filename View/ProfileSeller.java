@@ -49,30 +49,36 @@ public class ProfileSeller {
         JLabel nameLabel = new JLabel("Name : " + user.getName());
         nameLabel.setBounds(20, 150, 350, 20);
         nameLabel.setFont(font); 
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(nameLabel);
 
         JLabel phoneNum = new JLabel("Phone : " + user.getPhoneNum());
         phoneNum.setBounds(20, 180, 350, 20);
         phoneNum.setFont(font); 
+        phoneNum.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(phoneNum);
 
         JLabel email = new JLabel("Email : " + user.getEmail());
         email.setBounds(20, 210, 350, 20);
         email.setFont(font); 
+        email.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(email);
 
         JLabel address = new JLabel("City : " + user.getCityLocated());
         address.setBounds(20, 240, 350, 20);
         address.setFont(font); 
+        address.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(address);
 
         JLabel shopName = new JLabel("Shop Name : " + user.getShopName());
         shopName.setBounds(20, 270, 350, 20);
         shopName.setFont(font); 
+        shopName.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(shopName);
 
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 340, 80, 30);
+        backHome.setBounds(60, 310, 100, 30);
+        backHome.setBackground(Color.LIGHT_GRAY);
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,43 +87,37 @@ public class ProfileSeller {
             }
         });
 
-        // JButton updateData = new JButton("Change Data");
-        // updateData.setBounds(220, 310, 120, 30);
-        // updateData.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         new UpdateProfile(user);
-        //         frame.dispose();
-        //     }
-        // });
-
-        JButton addBalance = new JButton("Add Balance");
-        addBalance.setBounds(120, 350, 120, 30);
-        addBalance.addActionListener(new ActionListener() {
+        JButton updateData = new JButton("Change Data");
+        updateData.setBounds(220, 310, 120, 30);
+        updateData.setBackground(Color.CYAN);
+        updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String input = JOptionPane.showInputDialog(frame, "Enter the amount to add to your balance:", "Add Balance", JOptionPane.PLAIN_MESSAGE);
-                if (input != null && !input.isEmpty()) {
-                    try {
-                        double amount = Double.parseDouble(input);
-                        if (amount > 0) {
-                            user.seteMoney(user.geteMoney() + amount);
-                            if (BalanceSection.addBalance(user.getName(), user.geteMoney())) {
-                                JOptionPane.showMessageDialog(frame, "Balance added successfully! New Balance: " + user.geteMoney(), "Success", JOptionPane.INFORMATION_MESSAGE);
-                            }
-                        } else {
-                            JOptionPane.showMessageDialog(frame, "Please enter a positive amount.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(frame, "Invalid amount entered. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+                new UpdateProfileSeller(user);
+                frame.dispose();
+            }
+        });
+
+        JButton logout = new JButton("Log Out");
+        logout.setBounds(120, 350, 120, 30);
+        logout.setBackground(Color.RED);
+        logout.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(null, 
+                        "Are you sure you want to log out?", 
+                        "Log Out", 
+                        JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    frame.dispose();
+                    new MenuLogin();
                 }
             }
         });
 
         panel.add(backHome);
-        // panel.add(updateData);
-        panel.add(addBalance);
+        panel.add(updateData);
+        panel.add(logout);
 
         frame.add(panel);
         frame.setVisible(true);

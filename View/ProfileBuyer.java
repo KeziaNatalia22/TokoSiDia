@@ -49,25 +49,30 @@ public class ProfileBuyer {
         JLabel nameLabel = new JLabel("Name : " + user.getName());
         nameLabel.setBounds(20, 150, 350, 20);
         nameLabel.setFont(font); 
+        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(nameLabel);
 
         JLabel phoneNum = new JLabel("Phone : " + user.getPhoneNum());
         phoneNum.setBounds(20, 180, 350, 20);
         phoneNum.setFont(font); 
+        phoneNum.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(phoneNum);
 
         JLabel email = new JLabel("Email : " + user.getEmail());
         email.setBounds(20, 210, 350, 20);
         email.setFont(font); 
+        email.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(email);
 
         JLabel address = new JLabel("Address : " + user.getAlamat());
         address.setBounds(20, 240, 350, 20);
         address.setFont(font); 
+        address.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(address);
 
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 310, 80, 30);
+        backHome.setBounds(60, 310, 120, 30);
+        backHome.setBackground(Color.gray);
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -78,6 +83,7 @@ public class ProfileBuyer {
 
         JButton updateData = new JButton("Change Data");
         updateData.setBounds(220, 310, 120, 30);
+        updateData.setBackground(Color.CYAN);
         updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +93,8 @@ public class ProfileBuyer {
         });
 
         JButton addBalance = new JButton("Add Balance");
-        addBalance.setBounds(120, 350, 120, 30);
+        addBalance.setBounds(60, 350, 120, 30);
+        addBalance.setBackground(Color.pink);
         addBalance.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,6 +116,24 @@ public class ProfileBuyer {
                 }
             }
         });
+
+        JButton logout = new JButton("Log Out");
+        logout.setBounds(220, 350, 120, 30);
+        logout.setBackground(Color.RED);
+        logout.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(null, 
+                        "Are you sure you want to log out?", 
+                        "Log Out", 
+                        JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    frame.dispose();
+                    new MenuLogin();
+                }
+            }
+        });
+        panel.add(logout);
 
         panel.add(backHome);
         panel.add(updateData);

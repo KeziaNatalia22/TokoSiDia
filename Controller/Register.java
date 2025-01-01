@@ -142,6 +142,30 @@ public class Register {
         }
         return false; 
     }
+    public static boolean updateData(String username, String phoneNum, String email, String cityLocated, String shopName) {
+        try {
+            String query = "UPDATE user u INNER JOIN toko t on u.username = t.username SET phone_number = ?, email = ?, city_located = ? shop_name = ? WHERE username = ?";
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+    
+            st.setString(1, phoneNum);
+            st.setString(2, email);
+            st.setString(3, cityLocated);
+            st.setString(4, shopName);
+            st.setString(5, username);
+    
+            int rowsAffected = st.executeUpdate();
+    
+            st.close();
+    
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error updating user data: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return false; 
+    }
 
     public static boolean updatePhotoPath(String username, File photoPath){
         try {
@@ -149,6 +173,27 @@ public class Register {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
     
             st.setString(1, photoPath.getAbsolutePath());
+            st.setString(2, username);
+    
+            int rowsAffected = st.executeUpdate();
+    
+            st.close();
+    
+            if (rowsAffected > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error updating photo : " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        return false;
+    }
+    public static boolean updatePhotoShop(String username, File photoPath){
+        try {
+            String query = "UPDATE toko SET photo_shop_path = ? WHERE username = ?";
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+    
+            st.setString(1, photoPath.getPath());
             st.setString(2, username);
     
             int rowsAffected = st.executeUpdate();

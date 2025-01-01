@@ -5,19 +5,20 @@ import Controller.Register;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Modul.Buyer;
+import Modul.Seller;
 import java.io.File;
 
-public class UpdateProfile {
+public class UpdateProfileSeller {
     JFrame frame;
     JPanel panel;
-    File selectedPhotoPath; 
+    File selectedPhotoProfile; 
+    File selectedPhotoShop; 
 
-    public UpdateProfile(Buyer user) {
-        UpdateProfile(user);
+    public UpdateProfileSeller(Seller user) {
+        Seller(user);
     }
 
-    public void UpdateProfile(Buyer user) {
+    public void Seller(Seller user) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -39,8 +40,8 @@ public class UpdateProfile {
         panel.setLayout(null);
         panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
-        JButton photoButton = new JButton("Upload Photo");
-        photoButton.setBounds(150, 30, 100, 100);
+        JButton photoButton = new JButton("Update Photo Profile");
+        photoButton.setBounds(40, 30, 100, 100);
         photoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
         // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
@@ -53,11 +54,31 @@ public class UpdateProfile {
                 JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    selectedPhotoPath = fileChooser.getSelectedFile();
+                    selectedPhotoProfile = fileChooser.getSelectedFile();
                 }
             }
         });
         panel.add(photoButton);
+
+        JButton shopPhotoButton = new JButton("Update Shop Profile");
+        shopPhotoButton.setBounds(210, 30, 100, 100);
+        shopPhotoButton.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
+        // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        // shopPhotoButton.setIcon(new ImageIcon(scaledPhoto));
+        // panel.add(shopPhotoButton);
+
+        shopPhotoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    selectedPhotoShop = fileChooser.getSelectedFile();
+                }
+            }
+        });
+        panel.add(shopPhotoButton);
 
         JLabel nameLabel = new JLabel("Name  ");
         nameLabel.setBounds(20, 170, 100, 20);
@@ -83,27 +104,35 @@ public class UpdateProfile {
         emailField.setBounds(150, 230, 200, 20);
         panel.add(emailField);
 
-        JLabel address = new JLabel("Address  ");
-        address.setBounds(20, 260, 100, 20);
-        panel.add(address);
+        JLabel city = new JLabel("City Located  ");
+        city.setBounds(20, 260, 100, 20);
+        panel.add(city);
 
-        JTextField addressField = new JTextField(user.getAlamat());
-        addressField.setBounds(150, 260, 200, 20);
-        panel.add(addressField);
+        JTextField cityLocated = new JTextField(user.getCityLocated());
+        cityLocated.setBounds(150, 260, 200, 20);
+        panel.add(cityLocated);
+
+        JLabel shop = new JLabel("Shop Name  ");
+        shop.setBounds(20, 290, 100, 20);
+        panel.add(shop);
+
+        JTextField shopName = new JTextField(user.getShopName());
+        shopName.setBounds(150, 290, 200, 20);
+        panel.add(shopName);
 
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 310, 80, 20);
+        backHome.setBounds(20, 320, 80, 20);
         panel.add(backHome);
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new ProfileBuyer(user);
+                new HomeSeller(user);
             }
         });
 
         JButton updateData = new JButton("Change Data");
-        updateData.setBounds(220, 310, 120, 20);
+        updateData.setBounds(220, 320, 120, 20);
         panel.add(updateData);
         updateData.addActionListener(new ActionListener() {
             @Override
@@ -111,18 +140,24 @@ public class UpdateProfile {
                 String name = nameField.getText();
                 String phone = phoneField.getText();
                 String emailText = emailField.getText();
-                String addressText = addressField.getText();
+                String city = cityLocated.getText();
+                String shop = shopName.getText();
 
                 user.setPhoneNum(phone);
                 user.setEmail(emailText);
-                user.setAlamat(addressText);
+                user.setCityLocated(city);
 
-                if (selectedPhotoPath != null) {
-                    user.setPhotoPath(selectedPhotoPath.getAbsolutePath());
-                    Register.updatePhotoPath(name, selectedPhotoPath); 
+                if (selectedPhotoProfile != null) {
+                    user.setPhotoPath(selectedPhotoProfile.getAbsolutePath());
+                    Register.updatePhotoPath(name, selectedPhotoProfile); 
+                }
+                
+                if (selectedPhotoShop != null) {
+                    user.setPhotoPath(selectedPhotoShop.getAbsolutePath());
+                    Register.updatePhotoShop(name, selectedPhotoShop); 
                 }
 
-                if (Register.updateData(name, phone, emailText, addressText)) {
+                if (Register.updateData(name, phone, emailText, city, shop)) {
                     JOptionPane.showMessageDialog(frame, "Data updated successfully!");
                 }
             }
