@@ -1,6 +1,9 @@
 package View;
 
 import javax.swing.*;
+
+import SearchedProduct;
+
 import java.awt.*;
 import Modul.Buyer;
 

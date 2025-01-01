@@ -22,7 +22,7 @@ public class BuyerSection {
                         + "LEFT JOIN book AS b ON b.id_product = p.id_product "
                         + "LEFT JOIN electronic AS e ON e.id_product = p.id_product "
                         + "WHERE p.name LIKE ?"
-                        + "LIMIT 9 OFFSET ?";
+                        + "LIMIT 8 OFFSET ?";
 
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);

@@ -3,7 +3,6 @@ package View;
 import javax.swing.*;
 
 import Modul.Product;
-import Modul.TokosiDiaFrame;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,14 +11,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class SearchedProduct {
+public class SearchedP {
     static JPanel mainPanel;
     static JScrollPane scrollPane;
     static int offset = 0;
     static int i = 0;
     final static int SHOW_MORE = 8;
 
-    public SearchedProduct(String search){
+    public ProductSection(String search){
         searchedProduct(search);
     }
 
@@ -27,19 +26,23 @@ public class SearchedProduct {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
-        TokosiDiaFrame frame = new TokosiDiaFrame("Searched Product");
+        JFrame frame = new JFrame("Searched Product");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setBounds(screenSize.width/2 - 900/2, screenSize.height/2 - 600/2, 900, 600); 
+        frame.setBounds(screenSize.width/2 - 800/2, screenSize.height/2 - 600/2, 800, 600); 
         frame.setResizable(false);
 
+        // Main panel for product cards
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(0, 4, 10, 10)); // Flexible rows, 4 columns
-        mainPanel.setBackground(Color.decode("#D9DFC6"));
+        mainPanel.setBackground(Color.WHITE);
 
+        // Adding initial product cards
         addFirst8Searched(search);
 
+        // Scroll pane for vertical scrolling
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
+        // Create a "Show More" button
         JButton showMoreButton = new JButton("Show More");
         showMoreButton.setFont(new Font("Arial", Font.PLAIN, 14));
         showMoreButton.setBackground(new Color(220, 220, 220));
@@ -47,10 +50,11 @@ public class SearchedProduct {
         showMoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addMoreProducts(search);
+                addMoreProducts(search); // Add more products when the button is clicked
             }
         });
 
+        // Wrapper panel to include both scrollPane and "Show More" button
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.add(scrollPane, BorderLayout.CENTER);
         wrapperPanel.add(showMoreButton, BorderLayout.SOUTH);
@@ -59,6 +63,7 @@ public class SearchedProduct {
         frame.setVisible(true);
     }
 
+    // Method to add the initial set of product cards
     private static void addFirst8Searched(String search) {
         ArrayList<Product> searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
         for (Product product : searchedProduct) {
@@ -66,6 +71,7 @@ public class SearchedProduct {
         }
     }
 
+    // Method to add more products dynamically
     private static void addMoreProducts(String search) {
         offset += SHOW_MORE;
 
@@ -74,10 +80,11 @@ public class SearchedProduct {
             mainPanel.add(createProductCard(product));
         }
 
-        mainPanel.revalidate(); 
-        mainPanel.repaint(); 
+        mainPanel.revalidate(); // Revalidate to refresh the panel
+        mainPanel.repaint(); // Repaint for proper rendering
     }
 
+    // Method to create a product cards
     private static JPanel createProductCard(Product product) {
         String productName = product.getName();
         String originalPrice = Controller.RupiahFormatter.formatRupiah((int)product.getPrice());
@@ -85,13 +92,16 @@ public class SearchedProduct {
         int discount = (int)(product.getDiscount());
         String sellerName = product.getSellerName();
         String photo = product.getPhotoProduct();
-    
+
         JPanel card = new JPanel();
         card.setLayout(new BorderLayout());
         card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
         card.setBackground(Color.WHITE);
-        card.setPreferredSize(new Dimension(180, 250));
-    
+        
+        // Set a fixed size for the card
+        card.setPreferredSize(new Dimension(180, 250)); // Width: 180px, Height: 250px
+
+        // Discount badge
         if (discount > 0) {
             JLabel discountLabel = new JLabel(discount + "% OFF");
             discountLabel.setForeground(Color.WHITE);
@@ -100,64 +110,53 @@ public class SearchedProduct {
             discountLabel.setHorizontalAlignment(SwingConstants.CENTER);
             card.add(discountLabel, BorderLayout.NORTH);
         }
-    
+
+        // Product image (placeholder for now)
         JLabel imageLabel = new JLabel();
         ImageIcon icon = new ImageIcon("Photos/Seller/" + photo);
         Dimension dimImg = new Dimension(icon.getIconWidth(), icon.getIconHeight());
-        Dimension dimBound = new Dimension(200, 180);
+        Dimension dimBound = new Dimension(200, 200);
         Dimension scalledImg = Controller.Image.getScaledDimension(dimImg, dimBound);
         Image img = icon.getImage().getScaledInstance(scalledImg.width, scalledImg.height, Image.SCALE_REPLICATE);
         imageLabel.setIcon(new ImageIcon(img));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         card.add(imageLabel, BorderLayout.CENTER);
-    
+
+        // Product details
         JPanel detailsPanel = new JPanel();
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
         detailsPanel.setBackground(Color.WHITE);
-    
+
         JLabel nameLabel = new JLabel(productName);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsPanel.add(nameLabel);
-    
+
         JLabel priceLabel = new JLabel("Price: " + price);
         priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsPanel.add(priceLabel);
-    
+
         if (!originalPrice.equals("Rp0")) {
             JLabel originalPriceLabel = new JLabel("Original: " + originalPrice);
             originalPriceLabel.setFont(new Font("Arial", Font.ITALIC, 12));
             originalPriceLabel.setForeground(Color.GRAY);
-            originalPriceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             detailsPanel.add(originalPriceLabel);
         }
-    
+
         JLabel storeLabel = new JLabel("Store: " + sellerName);
         storeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         storeLabel.setForeground(Color.BLUE);
-        storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsPanel.add(storeLabel);
-    
+
         card.add(detailsPanel, BorderLayout.SOUTH);
-    
+
         card.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                card.setBackground(Color.decode("#D9EAFD"));
-                detailsPanel.setBackground(Color.decode("#D9EAFD"));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                card.setBackground(Color.WHITE);
-                detailsPanel.setBackground(Color.WHITE);
-            }
-            @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e){
                 DetailedProduct.detailProduct(product);
             }
         });
-    
+
         return card;
-    }    
+    }
+
 }
