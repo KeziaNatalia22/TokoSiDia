@@ -42,7 +42,7 @@ public class ProfileSeller {
         photoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         ImageIcon photoIcon = new ImageIcon(user.getPhotoPath());
-        Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        ImageScaling scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, ImageScaling.SCALE_SMOOTH);
         photoLabel.setIcon(new ImageIcon(scaledPhoto));
         panel.add(photoLabel);
 

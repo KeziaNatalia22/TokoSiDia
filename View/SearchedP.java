@@ -116,7 +116,7 @@ public class SearchedP {
         ImageIcon icon = new ImageIcon("Photos/Seller/" + photo);
         Dimension dimImg = new Dimension(icon.getIconWidth(), icon.getIconHeight());
         Dimension dimBound = new Dimension(200, 200);
-        Dimension scalledImg = Controller.Image.getScaledDimension(dimImg, dimBound);
+        Dimension scalledImg = Controller.ImageScaling.getScaledDimension(dimImg, dimBound);
         Image img = icon.getImage().getScaledInstance(scalledImg.width, scalledImg.height, Image.SCALE_REPLICATE);
         imageLabel.setIcon(new ImageIcon(img));
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);

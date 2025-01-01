@@ -2,7 +2,7 @@ package Controller;
 
 import java.awt.Dimension;
 
-public class Image {
+public class ImageScaling {
     public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 
         int original_width = imgSize.width;
