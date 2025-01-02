@@ -4,16 +4,17 @@ import javax.swing.*;
 
 import java.awt.*;
 import Modul.Buyer;
+import Modul.TokosiDiaFrame;
 
 public class HomeBuyer {
-    private JFrame frame;
+    private TokosiDiaFrame frame;
 
     public HomeBuyer(Buyer user) {
         initialize(user);
     }
 
     private void initialize(Buyer user) {
-        frame = new JFrame("Home");
+        frame = new TokosiDiaFrame("Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 550);
         frame.setLocationRelativeTo(null);
@@ -108,6 +109,7 @@ public class HomeBuyer {
         });
 
         bookButton.addActionListener(e -> {
+            frame.dispose();
             new TransactionViewer(user);
         });
 

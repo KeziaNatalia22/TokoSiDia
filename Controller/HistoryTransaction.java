@@ -10,8 +10,8 @@ import javax.swing.*;
 
 public class HistoryTransaction {
 
-    public static Transaction transactionBuyer(String username) {
-        Transaction transaksi = new Transaction();
+    public static ArrayList<Transaction> transactionHistory(String username) {
+        ArrayList<Transaction> transactionList = new ArrayList<>();
         String query = 
             "SELECT t.*, dt.quantity, p.*, tok.*, b.author, b.synopsis, b.title, b.release_date, b.page_num, g.exp_date, g.production_date, c.color AS clothing_color, c.size, e.color AS electronic_color, e.manual_book, e.warranty " +
             "FROM transaction t " +
@@ -22,25 +22,38 @@ public class HistoryTransaction {
             "LEFT JOIN clothing c ON p.id_product = c.id_product " +
             "LEFT JOIN electronic e ON p.id_product = e.id_product " +
             "LEFT JOIN toko tok ON t.id_shop = tok.id_shop " +
-            "WHERE t.username = ?";
-
+            "WHERE t.username = ? " +
+            "ORDER BY t.id_transaksi";
+    
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
-
-            ArrayList<Product> productList = new ArrayList<>();
-            String shopName = null;
-            String buyerName = null;
-
+    
+            Transaction currentTransaction = null;
+            ArrayList<Product> productList = null;
+            String currentTransactionId = null;
+    
             while (rs.next()) {
-                if (shopName == null) {
-                    shopName = rs.getString("shop_name");
+                String transactionId = rs.getString("id_transaksi");
+    
+                if (!transactionId.equals(currentTransactionId)) {
+                    if (currentTransaction != null) {
+                        transactionList.add(currentTransaction);
+                    }
+    
+                    productList = new ArrayList<>();
+                    currentTransaction = new Transaction(
+                        productList,
+                        rs.getString("shop_name"),
+                        rs.getString("username"),
+                        ShipmentStatus_Enum.COMPLETED,
+                        rs.getDate("date")
+                    );
+    
+                    currentTransactionId = transactionId;
                 }
-                if (buyerName == null) {
-                    buyerName = rs.getString("username");
-                }
-
+    
                 Product product = null;
                 if (rs.getString("title") != null && !rs.getString("title").isEmpty()) {
                     product = new Book(
@@ -95,25 +108,26 @@ public class HistoryTransaction {
                         rs.getString("photo_product_path")
                     );
                 }
-
+    
                 if (product != null) {
                     productList.add(product);
                 }
             }
-
-            if (!productList.isEmpty()) {
-                transaksi = new Transaction(productList, shopName, buyerName, ShipmentStatus_Enum.COMPLETED);
+    
+            if (currentTransaction != null) {
+                transactionList.add(currentTransaction);
             }
-
+    
             rs.close();
             st.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage(), 
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        return transaksi;
+    
+        return transactionList;
     }
+    
 
     public static void transactionSeller(String username) {
 

@@ -3,11 +3,13 @@ package View;
 import javax.swing.*;
 import Controller.HistoryTransaction;
 import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import Modul.*; 
+import Modul.*;
 
 public class TransactionViewer {
-    JFrame frame;
+    TokosiDiaFrame frame;
     JPanel panel;
 
     public TransactionViewer(Buyer user) {
@@ -15,92 +17,159 @@ public class TransactionViewer {
     }
 
     public void displayTransaction(Buyer user) {
-        Transaction transaction = HistoryTransaction.transactionBuyer(user.getName());
+        List<Transaction> transactions = HistoryTransaction.transactionHistory(user.getName());
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
 
-        final int FRAME_WIDTH = 600;
-        final int FRAME_HEIGHT = 800;
+        final int FRAME_WIDTH = 900;
+        final int FRAME_HEIGHT = 700;
 
         int startX = screenWidth / 2 - (FRAME_WIDTH / 2);
         int startY = screenHeight / 2 - (FRAME_HEIGHT / 2);
 
-        frame = new JFrame("Transaction Viewer");
+        frame = new TokosiDiaFrame("Transaction Viewer");
         frame.setBounds(startX, startY, FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(Color.decode("#f4f4f9")); // Soft background color
 
-        Font titleFont = new Font("Montserrat", Font.BOLD, 18);
-        Font contentFont = new Font("Montserrat", Font.PLAIN, 14);
+        Font titleFont = new Font("Segoe UI", Font.BOLD, 20);
+        Font contentFont = new Font("Segoe UI", Font.PLAIN, 14);
 
-        JLabel titleLabel = new JLabel("Transaction Details");
+        JLabel titleLabel = new JLabel("Transaction History");
         titleLabel.setFont(titleFont);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         panel.add(titleLabel);
 
-        JLabel shopLabel = new JLabel("Shop Name: " + transaction.getShopName());
-        shopLabel.setFont(contentFont);
-        shopLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(shopLabel);
+        JPanel transactionGrid = new JPanel();
+        transactionGrid.setLayout(new GridLayout(0, 3, 10, 10)); 
+        transactionGrid.setBackground(Color.decode("#f4f4f9"));
 
-        panel.add(Box.createRigidArea(new Dimension(0, 20))); 
+        for (Transaction transaction : transactions) {
+            JPanel transactionPanel = new JPanel();
+            transactionPanel.setLayout(new BoxLayout(transactionPanel, BoxLayout.Y_AXIS));
+            transactionPanel.setBackground(Color.WHITE);
+            // transactionPanel.setPreferredSize(new Dimension(280, 150)); 
+            transactionPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.decode("#dddddd"), 1),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
-        List<Product> productList = transaction.getListProduct();
-        for (Product product : productList) {
-            JPanel productPanel = new JPanel();
-            productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS));
-            productPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            productPanel.setBackground(Color.LIGHT_GRAY);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+            String formattedDate = dateFormat.format(transaction.getTransactionDate());
 
-            JLabel nameLabel = new JLabel("Name: " + product.getName());
-            nameLabel.setFont(contentFont);
+            JLabel date = new JLabel("Transaction Date: " + formattedDate);
+            date.setFont(new Font ("Segoe UI", Font.BOLD, 14));
+            date.setAlignmentX(Component.CENTER_ALIGNMENT);
+            transactionPanel.add(date);
+            transactionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-            JLabel priceLabel = new JLabel("Price: Rp." + product.getPrice());
-            priceLabel.setFont(contentFont);
+            List<Product> productList = transaction.getListProduct();
+            for (Product product : productList) {
+                JPanel productPanel = new JPanel();
+                productPanel.setLayout(new BoxLayout(productPanel, BoxLayout.Y_AXIS));
+                productPanel.setBackground(Color.decode("#f9f9f9"));
+                productPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-            JLabel quantityLabel = new JLabel("Quantity: " + product.getStock());
-            quantityLabel.setFont(contentFont);
+                JLabel photoLabel = new JLabel();
+                photoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            productPanel.add(nameLabel);
-            productPanel.add(priceLabel);
-            productPanel.add(quantityLabel);
+                ImageIcon photoIcon = new ImageIcon("Photos/Seller/" + product.getPhotoProduct());
+                Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                photoLabel.setIcon(new ImageIcon(scaledPhoto));
+                productPanel.add(photoLabel);
 
-            if (product instanceof Book) {
-                Book book = (Book) product;
-                JLabel bookLabel = new JLabel("Author: " + book.getAuthor());
-                bookLabel.setFont(contentFont);
-                productPanel.add(bookLabel);
-            } else if (product instanceof Clothing) {
-                Clothing clothing = (Clothing) product;
-                JLabel clothingLabel = new JLabel("Color: " + clothing.getColor());
-                clothingLabel.setFont(contentFont);
-                productPanel.add(clothingLabel);
-            } else if (product instanceof Electronic) {
-                Electronic electronic = (Electronic) product;
-                JLabel electronicLabel = new JLabel("Warranty: " + electronic.getWarranty());
-                electronicLabel.setFont(contentFont);
-                productPanel.add(electronicLabel);
-            } else if (product instanceof Grocery) {
-                Grocery grocery = (Grocery) product;
-                JLabel groceryLabel = new JLabel("Expiry Date: " + grocery.getExpDate());
-                groceryLabel.setFont(contentFont);
-                productPanel.add(groceryLabel);
+                JLabel nameLabel = new JLabel("Name: " + product.getName());
+                nameLabel.setFont(contentFont);
+                nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                productPanel.add(nameLabel);
+
+                if (product instanceof Book) {
+                    Book book = (Book) product;
+                    JLabel bookLabel = new JLabel("Author: " + book.getAuthor());
+                    bookLabel.setFont(contentFont);
+                    bookLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(bookLabel);
+
+                    JLabel pageNum = new JLabel("Page Num: " + book.getPageNum());
+                    pageNum.setFont(contentFont);
+                    pageNum.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(pageNum);
+                } else if (product instanceof Clothing) {
+                    Clothing clothing = (Clothing) product;
+                    JLabel color = new JLabel("Color: " + clothing.getColor());
+                    color.setFont(contentFont);
+                    color.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(color);
+
+                    JLabel size = new JLabel("Size: " + clothing.getSize());
+                    size.setFont(contentFont);
+                    size.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(size);
+                } else if (product instanceof Electronic) {
+                    Electronic electronic = (Electronic) product;
+                    JLabel electronicLabel = new JLabel("Warranty: " + electronic.getWarranty());
+                    electronicLabel.setFont(contentFont);
+                    electronicLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(electronicLabel);
+
+                    JLabel color = new JLabel("Color: " + electronic.getColor());
+                    color.setFont(contentFont);
+                    color.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(color);
+                } else if (product instanceof Grocery) {
+                    Grocery grocery = (Grocery) product;
+                    JLabel groceryLabel = new JLabel("Expiry Date: " + grocery.getExpDate());
+                    groceryLabel.setFont(contentFont);
+                    groceryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(groceryLabel);
+
+                    JLabel productionDate = new JLabel("Production Date: " + grocery.getProductionDate());
+                    productionDate.setFont(contentFont);
+                    productionDate.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    productPanel.add(productionDate);
+                }
+
+                DecimalFormat priceFormat = new DecimalFormat("#,###.00");
+
+                double priceAfterDisc = product.getPrice();
+                if (product.getDiscount() > 0) {
+                    priceAfterDisc = product.getPrice() - (product.getPrice() * (product.getDiscount()/100));
+                }
+
+                if (product.getDiscount() > 0) {
+                    JLabel discLabel = new JLabel("Discount: " + product.getDiscount() + "%");
+                    discLabel.setFont(contentFont);
+                    discLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    discLabel.setBackground(Color.RED);
+                    productPanel.add(discLabel);
+                }
+
+                JLabel priceLabel = new JLabel("Price: Rp " + priceFormat.format(priceAfterDisc));
+                priceLabel.setFont(contentFont);
+                priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                productPanel.add(priceLabel);
+
+                transactionPanel.add(productPanel);
+                transactionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
             }
 
-            panel.add(productPanel);
-            panel.add(Box.createRigidArea(new Dimension(0, 10))); 
+            transactionGrid.add(transactionPanel);
         }
+
+        panel.add(transactionGrid);
 
         JButton backButton = new JButton("Back");
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setBackground(Color.GRAY);
+        backButton.setBackground(Color.decode("#007BFF"));
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         backButton.addActionListener(e -> {
             frame.dispose();
             new HomeBuyer(user);
@@ -108,6 +177,7 @@ public class TransactionViewer {
         panel.add(backButton);
 
         JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         frame.add(scrollPane);
         frame.setVisible(true);
     }
