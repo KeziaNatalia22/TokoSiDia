@@ -1,22 +1,18 @@
 package View;
 
-import javax.swing.*;
-
 import Modul.Product;
 import Modul.TokosiDiaFrame;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.*;
 
 public class SearchedProduct {
     static JPanel mainPanel;
     static JScrollPane scrollPane;
+    static JButton showMoreButton;
     static int offset = 0;
-    static int i = 0;
     final static int SHOW_MORE = 8;
 
     public SearchedProduct(String search){
@@ -33,22 +29,19 @@ public class SearchedProduct {
         frame.setResizable(false);
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(0, 4, 10, 10)); // Flexible rows, 4 columns
+        mainPanel.setLayout(new GridLayout(0, 4, 10, 10));
         mainPanel.setBackground(Color.decode("#D9DFC6"));
 
         addFirst8Searched(search);
 
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        JButton showMoreButton = new JButton("Show More");
+        showMoreButton = new JButton("Show More");
         showMoreButton.setFont(new Font("Arial", Font.PLAIN, 14));
         showMoreButton.setBackground(new Color(220, 220, 220));
         showMoreButton.setFocusPainted(false);
-        showMoreButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addMoreProducts(search);
-            }
+        showMoreButton.addActionListener(e -> {
+            addMoreProducts(search);
         });
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());
@@ -59,30 +52,35 @@ public class SearchedProduct {
         frame.setVisible(true);
     }
 
-    private static void addFirst8Searched(String search) {
+    private void addFirst8Searched(String search) {
         ArrayList<Product> searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
         for (Product product : searchedProduct) {
             mainPanel.add(createProductCard(product));
         }
     }
 
-    private static void addMoreProducts(String search) {
+    private void addMoreProducts(String search) {
         offset += SHOW_MORE;
 
         ArrayList<Product> searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
-        for (Product product : searchedProduct) {
-            mainPanel.add(createProductCard(product));
-        }
 
-        mainPanel.revalidate(); 
-        mainPanel.repaint(); 
+        if (searchedProduct.isEmpty()) {
+            showMoreButton.setVisible(false);
+        }
+        else{
+            for (Product product : searchedProduct) {
+                mainPanel.add(createProductCard(product));
+            }
+            mainPanel.revalidate(); 
+            mainPanel.repaint(); 
+        }
     }
 
-    private static JPanel createProductCard(Product product) {
+    private JPanel createProductCard(Product product) {
         String productName = product.getName();
-        String originalPrice = Controller.RupiahFormatter.formatRupiah((int)product.getPrice());
-        String price = Controller.RupiahFormatter.formatRupiah((int)(product.getPrice() * (100 - product.getDiscount())/100));
         int discount = (int)(product.getDiscount());
+        String originalPrice = Controller.RupiahFormatter.formatRupiah((int)product.getPrice());
+        String price = Controller.RupiahFormatter.formatRupiah((int)(product.getPrice() * (100 - discount)/100));
         String sellerName = product.getSellerName();
         String photo = product.getPhotoProduct();
     
@@ -125,7 +123,7 @@ public class SearchedProduct {
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsPanel.add(priceLabel);
     
-        if (!originalPrice.equals("Rp0")) {
+        if (!originalPrice.equals(price)) {
             JLabel originalPriceLabel = new JLabel("Original: " + originalPrice);
             originalPriceLabel.setFont(new Font("Arial", Font.ITALIC, 12));
             originalPriceLabel.setForeground(Color.GRAY);
@@ -133,7 +131,7 @@ public class SearchedProduct {
             detailsPanel.add(originalPriceLabel);
         }
     
-        JLabel storeLabel = new JLabel("Store: " + sellerName);
+        JLabel storeLabel = new JLabel("Seller: " + sellerName);
         storeLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         storeLabel.setForeground(Color.BLUE);
         storeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
