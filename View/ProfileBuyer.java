@@ -5,9 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Modul.Buyer;
+import Modul.TokosiDiaFrame;
 
 public class ProfileBuyer {
-    JFrame frame;
+    TokosiDiaFrame frame;
     JPanel panel;
 
     public ProfileBuyer(Buyer user) {
@@ -22,12 +23,12 @@ public class ProfileBuyer {
         int screenHeight = screenSize.height; // Screen height
 
         final int FRAME_WIDTH = 400; // Set frame width
-        final int FRAME_HEIGHT = 450; // Set frame height (adjusted to accommodate content)
+        final int FRAME_HEIGHT = 500; // Set frame height (adjusted to accommodate content)
 
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2); // Center frame horizontally
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2); // Center frame vertically
 
-        frame = new JFrame("Profile"); 
+        frame = new TokosiDiaFrame("Profile"); 
         frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT); // Set frame bounds
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -71,7 +72,7 @@ public class ProfileBuyer {
         panel.add(address);
 
         JButton backHome = new JButton("Back");
-        backHome.setBounds(60, 310, 120, 30);
+        backHome.setBounds(30, 310, 150, 30);
         backHome.setBackground(Color.gray);
         backHome.addActionListener(new ActionListener() {
             @Override
@@ -82,7 +83,7 @@ public class ProfileBuyer {
         });
 
         JButton updateData = new JButton("Change Data");
-        updateData.setBounds(220, 310, 120, 30);
+        updateData.setBounds(200, 310, 150, 30);
         updateData.setBackground(Color.CYAN);
         updateData.addActionListener(new ActionListener() {
             @Override
@@ -93,7 +94,7 @@ public class ProfileBuyer {
         });
 
         JButton addBalance = new JButton("Add Balance");
-        addBalance.setBounds(60, 350, 120, 30);
+        addBalance.setBounds(30, 350, 150, 30);
         addBalance.setBackground(Color.pink);
         addBalance.addActionListener(new ActionListener() {
             @Override
@@ -118,8 +119,9 @@ public class ProfileBuyer {
         });
 
         JButton logout = new JButton("Log Out");
-        logout.setBounds(220, 350, 120, 30);
         logout.setBackground(Color.RED);
+        logout.setBounds(90, 400, 200, 30);
+        logout.setHorizontalAlignment(SwingConstants.CENTER);
         logout.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,6 +136,16 @@ public class ProfileBuyer {
             }
         });
         panel.add(logout);
+
+        JButton historyTransaksi = new JButton("History Transaksi");
+        historyTransaksi.setBounds(200, 350, 150, 30);
+        historyTransaksi.setBackground(Color.YELLOW);
+        panel.add(historyTransaksi);
+
+        historyTransaksi.addActionListener(e -> {
+            frame.dispose();
+            new TransactionViewer(user);
+        });
 
         panel.add(backHome);
         panel.add(updateData);
