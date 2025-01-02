@@ -23,7 +23,7 @@ public class HistoryTransaction {
             "LEFT JOIN electronic e ON p.id_product = e.id_product " +
             "LEFT JOIN toko tok ON t.id_shop = tok.id_shop " +
             "WHERE t.username = ? " +
-            "ORDER BY t.id_transaksi";
+            "ORDER BY t.date DESC";
     
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);

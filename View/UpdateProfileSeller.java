@@ -152,10 +152,10 @@ public class UpdateProfileSeller {
                     Register.updatePhotoPath(name, selectedPhotoProfile); 
                 }
                 
-                if (selectedPhotoShop != null) {
-                    user.setPhotoPath(selectedPhotoShop.getAbsolutePath());
-                    Register.updatePhotoShop(name, selectedPhotoShop); 
-                }
+                // if (selectedPhotoShop != null) {
+                //     user.setPhotoPath(selectedPhotoShop.getAbsolutePath());
+                //     Register.updatePhotoShop(name, selectedPhotoShop); 
+                // }
 
                 if (Register.updateData(name, phone, emailText, city, shop)) {
                     JOptionPane.showMessageDialog(frame, "Data updated successfully!");
