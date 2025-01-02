@@ -6,9 +6,14 @@ import Modul.ClothingSize_Enum;
 import Modul.Electronic;
 import Modul.Grocery;
 import Modul.Product;
+import Modul.Seller;
+import Modul.SingletonManager;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.JOptionPane;
 
 public class BuyerSection {
@@ -105,6 +110,28 @@ public class BuyerSection {
             System.out.println("SQLState: " + e.getLocalizedMessage());
             // Handle or log the error, return empty list in case of failure
             return searchedProduct;
+        }
+
+    }
+
+    public static void addToCart(Product product, int quantity){
+        SingletonManager login = SingletonManager.getInstance();
+        HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
+        String seller = product.getSellerName();
+        if (cart.containsKey(seller)) {
+            HashMap<Product, Integer> prodInCart = cart.get(seller);
+            int quantityBefore = prodInCart.get(product);
+            int quantityAfter = quantityBefore + quantity;
+            SingletonManager.getInstance().getCart().get(seller).put(product, quantityAfter);
+            JOptionPane.showMessageDialog(null, "Berhasil");
+            JOptionPane.showMessageDialog(null, "" + quantityAfter);
+        }
+        else{
+            HashMap<Product, Integer> newProd = new HashMap<>();
+            newProd.put(product, quantity);
+            SingletonManager.getInstance().getCart().put(seller, newProd);
+            JOptionPane.showMessageDialog(null, "Berhasil");
+            JOptionPane.showMessageDialog(null, "" + SingletonManager.getInstance().getCart().get(seller).get(product));
         }
 
     }

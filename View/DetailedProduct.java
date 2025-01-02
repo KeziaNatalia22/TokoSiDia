@@ -5,10 +5,10 @@ import Modul.Clothing;
 import Modul.Electronic;
 import Modul.Grocery;
 import Modul.Product;
+import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -213,6 +213,10 @@ public class DetailedProduct {
             scrollPane.setBorder(null);
             belowPanel.add(scrollPane, BorderLayout.CENTER);
         }
+
+        addToCartButton.addActionListener(e -> {
+            Controller.BuyerSection.addToCart(product, Integer.parseInt(quantityField.getText()));
+        });
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));

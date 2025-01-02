@@ -10,6 +10,7 @@ import Modul.*;
 
 public class Login {
     public static void loginTokoSidia(String username, String password) {
+        SingletonManager login = SingletonManager.getInstance();
         String query = "select * from user where username = ?";
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
@@ -40,6 +41,7 @@ public class Login {
                         rsSeller.getString("shop_name"),
                         rsSeller.getString("city_located"))
                         ;
+                        login.setUser(user1);
                         new View.HomeSeller(user1);}
                     } else {
                         Buyer user = new Buyer(
@@ -51,6 +53,7 @@ public class Login {
                         rs.getDouble("emoney"),
                         AccountStatus_Enum.valueOf(rs.getString("acc_stat")),
                         rs.getString("address"));
+                        login.setUser(user);
                         new View.HomeBuyer(user);
                     }
                 } else {

@@ -6,8 +6,8 @@ import java.util.HashMap;
 public class SingletonManager {
     private static SingletonManager instance;
     private User user;
-    private HashMap<String, ArrayList<Product>> cart;
-    private ArrayList<Transaction> transactions;
+    private HashMap<String, HashMap<Product, Integer>> cart = new HashMap<>();
+    private ArrayList<Transaction> transactions = new ArrayList<>();
 
     SingletonManager(){
     }
@@ -27,10 +27,10 @@ public class SingletonManager {
     public void setUser(User user) {
         this.user = user;
     }
-    public HashMap<String, ArrayList<Product>> getCart() {
+    public HashMap<String, HashMap<Product, Integer>> getCart() {
         return cart;
     }
-    public void setCart(HashMap<String, ArrayList<Product>> cart) {
+    public void setCart(HashMap<String, HashMap<Product, Integer>> cart) {
         this.cart = cart;
     }
     public ArrayList<Transaction> getTransactions() {
