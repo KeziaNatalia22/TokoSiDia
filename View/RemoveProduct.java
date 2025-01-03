@@ -3,12 +3,14 @@ package View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,11 +20,13 @@ import javax.swing.SwingConstants;
 
 import org.w3c.dom.events.MouseEvent;
 
+import Controller.ProductSection;
+import Modul.Grocery;
 import Modul.Product;
 import Modul.Seller;
 import Modul.TokosiDiaFrame;
 
-public class RemoveProduct implements ActionListener {
+public class RemoveProduct {
     static JPanel mainPanel;
     static JScrollPane scrollPane;
     JButton backButton;
@@ -130,8 +134,17 @@ public class RemoveProduct implements ActionListener {
         removeButton.setForeground(Color.white);
         removeButton.setSize(190, 40);
         removeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        removeButton.setActionCommand(product.getIdProduct());
-        removeButton.addActionListener(this);
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int dialogResult = JOptionPane.showConfirmDialog (null, "Are You Sure You Want To Delete " + product.getName() + "?","Warning",JOptionPane.YES_NO_OPTION);
+                if(dialogResult == JOptionPane.YES_OPTION){
+                    frame.dispose();
+                    Controller.RemoveProduct.removeProduct(product.getIdProduct());
+                    new RemoveProduct(globalSeller);
+                }
+            }
+        });
 
         detailsPanel.add(removeButton);
     
@@ -139,19 +152,4 @@ public class RemoveProduct implements ActionListener {
     
         return card;
     }    
-
-    public void actionPerformed(ActionEvent event) {
-        if(event.getSource() !=  backButton){
-            int dialogResult = JOptionPane.showConfirmDialog (null, "Are You Sure You Want To Delete This Item?","Warning",JOptionPane.YES_NO_OPTION);
-            if(dialogResult == JOptionPane.YES_OPTION){
-                frame.dispose();
-                Controller.RemoveProduct.removeProduct(event.getActionCommand());
-                new RemoveProduct(globalSeller);
-            }
-            
-        }
-    }
-
-
-    
 }
