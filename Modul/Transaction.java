@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Transaction {
     private ArrayList<Product> listProduct = new ArrayList<Product>();
-    private String shopName, buyerName;
+    private ArrayList<Integer> qty = new ArrayList<Integer>();
+    private String idTransaksi, shopName, buyerName;
     private ShipmentStatus_Enum shipmentStatus;
     private Date transactionDate;
 
@@ -20,14 +21,24 @@ public class Transaction {
         
     }
     
-    public Transaction(ArrayList<Product> listProduct, String shopName, String buyerName,
+    public Transaction(String idTransaksi, ArrayList<Product> listProduct, ArrayList<Integer> listQty, String shopName, String buyerName,
             ShipmentStatus_Enum shipmentStatus, Date transactionDate) {
+        this.idTransaksi = idTransaksi;
         this.listProduct = listProduct;
+        this.qty = listQty;
         this.shopName = shopName;
         this.buyerName = buyerName;
         this.shipmentStatus = shipmentStatus;
         this.transactionDate = transactionDate;
     }
+    
+    public ArrayList<Integer> getListQty() {
+        return qty;
+    }
+    public void setListQty(ArrayList<Integer> listQty) {
+        this.qty = listQty;
+    }
+
     
     public ArrayList<Product> getListProduct() {
         return listProduct;
@@ -41,6 +52,14 @@ public class Transaction {
     public void setShopName(String shopName) {
         this.shopName = shopName;
     }
+
+    public String getIdTransaksi() {
+        return idTransaksi;
+    }
+    public void setIdTransaksi(String idTransaksi) {
+        this.idTransaksi = idTransaksi;
+    }
+
     public String getBuyerName() {
         return buyerName;
     }
