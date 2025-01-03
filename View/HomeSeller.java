@@ -99,6 +99,11 @@ public class HomeSeller {
             new RemoveProduct(user);
         });
 
+        historyPenjualan.addActionListener(e -> {
+            frame.dispose();
+            new TransactionViewer(user);
+        });
+
         frame.setVisible(true);
     }
 
