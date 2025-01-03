@@ -89,6 +89,16 @@ public class HomeSeller {
             new ProfileSeller(user);
         });
 
+        addProduct.addActionListener(e -> {
+            frame.dispose();
+            new AddProduct(user);
+        });
+
+        deleteProduct.addActionListener(e -> {
+            frame.dispose();
+            new RemoveProduct(user);
+        });
+
         frame.setVisible(true);
     }
 

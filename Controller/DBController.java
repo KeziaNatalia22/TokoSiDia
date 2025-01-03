@@ -12,7 +12,7 @@ public class DBController {
         String query = "update product set name = ?, stock = ?, discount = ?, price = ?, photo_product_path = ? where id_product = ?";
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
-            st.setString(1, books.getSellerName());
+            st.setString(1, books.getName());
             st.setInt(2, books.getStock());
             st.setDouble(3, books.getDiscount());
             st.setDouble(4, books.getPrice());
@@ -43,7 +43,7 @@ public class DBController {
         String query = "update product set name = ?, stock = ?, discount = ?, price = ?, photo_product_path = ? where id_product = ?";
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
-            st.setString(1, clothing.getSellerName());
+            st.setString(1, clothing.getName());
             st.setInt(2, clothing.getStock());
             st.setDouble(3, clothing.getDiscount());
             st.setDouble(4, clothing.getPrice());
@@ -55,7 +55,7 @@ public class DBController {
                 st = DatabaseHandler.connect().prepareStatement(query);
                 st.setString(1, clothing.getSize().toString());
                 st.setString(2, clothing.getColor());
-                st.setString(6, clothing.getIdProduct());
+                st.setString(3, clothing.getIdProduct());
                 st.executeUpdate();
             }
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class DBController {
         String query = "update product set name = ?, stock = ?, discount = ?, price = ?, photo_product_path = ? where id_product = ?";
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
-            st.setString(1, electronic.getSellerName());
+            st.setString(1, electronic.getName());
             st.setInt(2, electronic.getStock());
             st.setDouble(3, electronic.getDiscount());
             st.setDouble(4, electronic.getPrice());
@@ -98,7 +98,7 @@ public class DBController {
         String query = "update product set name = ?, stock = ?, discount = ?, price = ?, photo_product_path = ? where id_product = ?";
         try {
             PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
-            st.setString(1, grocery.getSellerName());
+            st.setString(1, grocery.getName());
             st.setInt(2, grocery.getStock());
             st.setDouble(3, grocery.getDiscount());
             st.setDouble(4, grocery.getPrice());
