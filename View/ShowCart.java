@@ -1,10 +1,8 @@
 package View;
 
-import Modul.Book;
-import Modul.Clothing;
-import Modul.Electronic;
-import Modul.Grocery;
+import Controller.BuyerSection;
 import Modul.Product;
+import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,50 +11,95 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.BorderFactory;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
-
-public class DetailedProduct {
-
+public class ShowCart {
     private static TokosiDiaFrame frame;
 
-    public static void detailProduct(Product product){
-        if (frame != null) {
+    public ShowCart() {
+        showCart();
+    }
+
+    public void showCart() {
+        if(frame != null){
             frame.dispose();
         }
 
+        SingletonManager login = SingletonManager.getInstance();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
+        frame = new TokosiDiaFrame("Cart");
+        frame.setDefaultCloseOperation(TokosiDiaFrame.DISPOSE_ON_CLOSE);
+        frame.setBounds(screenSize.width / 2 - 450 / 2, screenSize.height / 2 - 600 / 2, 450, 600);
+        frame.setResizable(false);
+
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
+        containerPanel.setBackground(Color.decode("#D9EAFD"));
+
+        int i = 0;
+        HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
+        for (Map.Entry<String, HashMap<Product, Integer>> entry : cart.entrySet()) {
+            String seller = entry.getKey();
+            HashMap<Product, Integer> productInCart = entry.getValue();
+
+            JPanel sellerPanel = new JPanel();
+            sellerPanel.setLayout(new BorderLayout());
+            sellerPanel.setBackground(Color.decode("#4DA1A9"));
+            sellerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(Color.GRAY));
+
+            JLabel sellerLabel = new JLabel("Seller: " + seller);
+            sellerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+            sellerPanel.add(sellerLabel, BorderLayout.NORTH);
+
+            JPanel productListPanel = new JPanel();
+            productListPanel.setLayout(new BoxLayout(productListPanel, BoxLayout.Y_AXIS));
+            productListPanel.setBackground(Color.WHITE);
+
+            for (Map.Entry<Product, Integer> productEntry : productInCart.entrySet()) {
+                Product product = productEntry.getKey();
+                int amount = productEntry.getValue();
+                productListPanel.add(makeProductPanel(product, amount));
+                i++;
+            }
+
+            sellerPanel.add(productListPanel, BorderLayout.CENTER);
+            containerPanel.add(sellerPanel);
+        }
+        if (i == 1) {
+            frame.setBounds(screenSize.width / 2 - 450 / 2, screenSize.height / 2 - 600 / 2, 450, 300);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(containerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        
+        frame.setVisible(true);
+    }
+
+    public static JPanel makeProductPanel(Product product, int amount) {
         String photo = product.getPhotoProduct();
         int stock = product.getStock();
-        int discount = (int)(product.getDiscount());
-        int originalPrice = (int)product.getPrice();
-        int price = (int)(originalPrice * (100 - discount)/100);
+        int discount = (int) (product.getDiscount());
+        int originalPrice = (int) product.getPrice();
+        int price = (int) (originalPrice * (100 - discount) / 100);
         String subTotal = Controller.RupiahFormatter.formatRupiah(price);
 
-        frame = new TokosiDiaFrame("Detail Product");
-        frame.setDefaultCloseOperation(TokosiDiaFrame.DISPOSE_ON_CLOSE);
-        frame.setBounds(screenSize.width/2 - 450/2, screenSize.height/2 - 600/2, 450, 600); 
-        frame.setResizable(false);
-        frame.setLayout(new BorderLayout());
-
-        JPanel abovePanel = new JPanel();
-        abovePanel.setPreferredSize(new Dimension(450, 260));
-        abovePanel.setLayout(new GridLayout(0, 2, 0, 0));
-        abovePanel.setBackground(Color.decode("#D9EAFD"));
+        JPanel productPanel = new JPanel();
+        productPanel.setPreferredSize(new Dimension(450, 260));
+        productPanel.setLayout(new GridLayout(0, 2, 0, 0));
+        productPanel.setBackground(Color.decode("#D9EAFD"));
 
         JPanel picturePanel = new JPanel();
         picturePanel.setLayout(new BorderLayout());
@@ -81,15 +124,11 @@ public class DetailedProduct {
             picturePanel.add(discountLabel, BorderLayout.NORTH);
         }
 
-        abovePanel.add(picturePanel);
+        productPanel.add(picturePanel);
 
         JPanel buyPanel = new JPanel();
         buyPanel.setBackground(Color.decode("#D9EAFD"));
         buyPanel.setLayout(null);
-
-        JLabel titleLabel = new JLabel("Atur Jumlah");
-        titleLabel.setBounds(10, 5, 200, 30);
-        buyPanel.add(titleLabel);
 
         JButton minusQuantity = new JButton("-");
         minusQuantity.setBackground(Color.decode("#4DA1A9"));
@@ -97,7 +136,7 @@ public class DetailedProduct {
         minusQuantity.setBounds(10, 40, 45, 30);
         buyPanel.add(minusQuantity);
 
-        JTextField quantityField = new JTextField("1");
+        JTextField quantityField = new JTextField("" + amount);
         quantityField.setBounds(55, 40, 70, 30);
         quantityField.setHorizontalAlignment(JTextField.CENTER);
         buyPanel.add(quantityField);
@@ -121,17 +160,11 @@ public class DetailedProduct {
         priceLabel.setBounds(10, 110, 200, 30);
         buyPanel.add(priceLabel);
 
-        JButton addToCartButton = new JButton("+ Keranjang");
+        JButton addToCartButton = new JButton("Remove");
         addToCartButton.setBackground(Color.decode("#4DA1A9"));
         addToCartButton.setForeground(Color.WHITE);
-        addToCartButton.setBounds(10, 160, 190, 40);
+        addToCartButton.setBounds(10, 160, 190, 80);
         buyPanel.add(addToCartButton);
-
-        JButton buyButton = new JButton("Beli");
-        buyButton.setBackground(Color.WHITE);
-        buyButton.setForeground(Color.decode("#4DA1A9"));
-        buyButton.setBounds(10, 210, 190, 40);
-        buyPanel.add(buyButton);
  
         JLabel originalPriceLabel = new JLabel("Original: " + Controller.RupiahFormatter.formatRupiah(originalPrice));
         originalPriceLabel.setBounds(10, 130, 200, 30);
@@ -166,17 +199,13 @@ public class DetailedProduct {
                     if (quantity <= 0 || quantity > stock) {
                         priceLabel.setText("Invalid Quantity");
                         originalPriceLabel.setText("Invalid Quantity");
-                        addToCartButton.setEnabled(false);
-                        buyButton.setEnabled(false);
-                    }else{
-                        addToCartButton.setEnabled(true);
-                        buyButton.setEnabled(true);
+                    }
+                    else{
+                        BuyerSection.updateCart(product, quantity);
                     }
                 } catch (NumberFormatException ex) {
                     priceLabel.setText("Invalid Quantity");
                     originalPriceLabel.setText("Invalid Quantity");
-                    addToCartButton.setEnabled(false);
-                    buyButton.setEnabled(false);
                 }
             }
         });
@@ -193,61 +222,7 @@ public class DetailedProduct {
             quantityField.setText("" + quantity);
         });
 
-        abovePanel.add(buyPanel);
-
-        JPanel belowPanel = new JPanel();
-        belowPanel.setLayout(new BorderLayout());
-
-        JPanel detailPanel = createDetailProduct(product);
-        belowPanel.add(detailPanel);
-
-        addToCartButton.addActionListener(e -> {
-            Controller.BuyerSection.addToCart(product, Integer.parseInt(quantityField.getText()));
-            new ShowCart();
-        });
-
-        JPanel wrapperPanel = new JPanel(new BorderLayout());
-        wrapperPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        wrapperPanel.setBackground(Color.WHITE);
-        wrapperPanel.add(belowPanel);
-
-        frame.add(abovePanel, BorderLayout.NORTH);
-        frame.add(wrapperPanel, BorderLayout.CENTER);
-        frame.setVisible(true);
+        productPanel.add(buyPanel, BorderLayout.CENTER);
+        return productPanel;
     }
-
-    private static JPanel createDetailProduct(Product product) {
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
-        detailsPanel.setBackground(Color.WHITE);
-
-        StringBuilder detailsText = new StringBuilder();
-        detailsText.append("Product: ").append(product.getName()).append("\n")
-                .append("Seller: ").append(product.getSellerName()).append("\n\n");
-
-        if (product instanceof Book book) {
-            detailsText.append(book.getDetail());
-        } else if (product instanceof Clothing clothing) {
-            detailsText.append(clothing.getDetail());
-        } else if (product instanceof Electronic electronic) {
-            detailsText.append(electronic.getDetail());
-        } else if (product instanceof Grocery grocery) {
-            detailsText.append(grocery.getDetail());
-        }
-
-        JTextArea detailsTextArea = new JTextArea(detailsText.toString());
-        detailsTextArea.setLineWrap(true);
-        detailsTextArea.setWrapStyleWord(true);
-        detailsTextArea.setEditable(false);
-        detailsTextArea.setBackground(Color.WHITE);
-        detailsTextArea.setForeground(Color.BLACK);
-
-        JScrollPane scrollPane = new JScrollPane(detailsTextArea);
-        scrollPane.setPreferredSize(new Dimension(400, 150));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        detailsPanel.add(scrollPane);
-        return detailsPanel;
-    }
-
 }

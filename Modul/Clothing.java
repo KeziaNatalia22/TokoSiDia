@@ -24,8 +24,10 @@ public class Clothing extends Product implements Product_Interface{
     }
 
     @Override
-    public Product addProduct (Product product) {
-        Dummy.listProducts.add(product);
-        return product;
+    public String getDetail(){
+        String detail = "";
+        detail += ("Size: " + getSize() + "\n");
+        detail += ("Color: " + getColor() + "\n");
+        return detail;
     }
 }

@@ -3,7 +3,7 @@ package Modul;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Buyer extends User implements User_Interface{
+public class Buyer extends User{
     private ArrayList<Product> cart= new ArrayList<Product>();
     private String alamat;
 

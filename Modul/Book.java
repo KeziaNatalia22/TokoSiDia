@@ -48,8 +48,13 @@ public class Book extends Product implements Product_Interface{
     }
 
     @Override
-    public Product addProduct (Product product) {
-        Dummy.listProducts.add(product);
-        return product;
+    public String getDetail(){
+        String detail = "";
+        detail += ("Title: " + getTitle() + "\n");
+        detail += ("Author: " + getAuthor() + "\n");
+        detail += ("Synopsis: " + getSynopsis() + "\n");
+        detail += ("Release Date: " + getReleaseDate() + "\n");
+        detail += ("Page Num: " + getPageNum() + "\n");
+        return detail;
     }
 }

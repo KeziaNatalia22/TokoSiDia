@@ -2,7 +2,7 @@ package Modul;
 
 import java.util.HashMap;
 
-public class Seller extends User implements User_Interface{
+public class Seller extends User{
     private HashMap<String, Product> product= new HashMap<String, Product>();
     private String shopName, cityLocated;
     

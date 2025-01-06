@@ -26,8 +26,10 @@ public class Grocery extends Product implements Product_Interface{
     }
 
     @Override
-    public Product addProduct (Product product) {
-        Dummy.listProducts.add(product);
-        return product;
+    public String getDetail(){
+        String detail = "";
+        detail += ("Production Date: " + getProductionDate() + "\n");
+        detail += ("Expired Date: " + getExpDate() + "\n");
+        return detail;
     }
 }

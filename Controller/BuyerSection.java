@@ -120,19 +120,28 @@ public class BuyerSection {
         String seller = product.getSellerName();
         if (cart.containsKey(seller)) {
             HashMap<Product, Integer> prodInCart = cart.get(seller);
-            int quantityBefore = prodInCart.get(product);
-            int quantityAfter = quantityBefore + quantity;
-            SingletonManager.getInstance().getCart().get(seller).put(product, quantityAfter);
-            JOptionPane.showMessageDialog(null, "Berhasil");
-            JOptionPane.showMessageDialog(null, "" + quantityAfter);
+            if (prodInCart.containsKey(product)) {
+                int quantityBefore = prodInCart.get(product);
+                int quantityAfter = quantityBefore + quantity;
+                SingletonManager.getInstance().getCart().get(seller).put(product, quantityAfter);
+            }
+            else{
+                SingletonManager.getInstance().getCart().get(seller).put(product, quantity);
+            }
         }
         else{
             HashMap<Product, Integer> newProd = new HashMap<>();
             newProd.put(product, quantity);
             SingletonManager.getInstance().getCart().put(seller, newProd);
-            JOptionPane.showMessageDialog(null, "Berhasil");
-            JOptionPane.showMessageDialog(null, "" + SingletonManager.getInstance().getCart().get(seller).get(product));
         }
+    }
 
+    public static void updateCart(Product product, int quantity){
+        String seller = product.getSellerName();
+        SingletonManager.getInstance().getCart().get(seller).put(product, quantity);
+    }
+
+    public static void removeProductFromCart(){
+        
     }
 }

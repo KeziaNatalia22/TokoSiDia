@@ -33,8 +33,11 @@ public class Electronic extends Product implements Product_Interface{
     }
     
     @Override
-    public Product addProduct (Product product) {
-        Dummy.listProducts.add(product);
-        return product;
+    public String getDetail(){
+        String detail = "";
+        detail += ("Color: " + getColor() + "\n");
+        detail += ("Warranty: " + getWarranty() + "\n");
+        detail += ("Manual Book: " + getManualBook() + "\n");
+        return detail;
     }
 }
