@@ -5,6 +5,9 @@ import Modul.TokosiDiaFrame;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -15,11 +18,11 @@ public class SearchedProduct {
     static int offset = 0;
     final static int SHOW_MORE = 8;
 
-    public SearchedProduct(String search){
-        searchedProduct(search);
+    public SearchedProduct(String search, int type){
+        searchedProduct(search, type);
     }
 
-    public void searchedProduct(String search) {
+    public void searchedProduct(String search, int type) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
@@ -32,7 +35,7 @@ public class SearchedProduct {
         mainPanel.setLayout(new GridLayout(0, 4, 10, 10));
         mainPanel.setBackground(Color.decode("#D9DFC6"));
 
-        addFirst8Searched(search);
+        addFirst8Searched(search, type);
 
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -41,28 +44,69 @@ public class SearchedProduct {
         showMoreButton.setBackground(new Color(220, 220, 220));
         showMoreButton.setFocusPainted(false);
         showMoreButton.addActionListener(e -> {
-            addMoreProducts(search);
+            addMoreProducts(search, type);
         });
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.add(scrollPane, BorderLayout.CENTER);
         wrapperPanel.add(showMoreButton, BorderLayout.SOUTH);
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                offset = 0;
+            }
+        });
+
         frame.add(wrapperPanel);
         frame.setVisible(true);
     }
 
-    private void addFirst8Searched(String search) {
-        ArrayList<Product> searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
+    private void addFirst8Searched(String search, int type) {
+        ArrayList<Product> searchedProduct = new ArrayList<>();
+        switch (type) {
+            case 1:
+                searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
+                break;
+            case 2:
+                searchedProduct = Controller.BuyerSection.searchBook(search, offset);
+                break;
+            case 3:
+                searchedProduct = Controller.BuyerSection.searchClothing(search, offset);
+                break;
+            case 4:
+                searchedProduct = Controller.BuyerSection.searchElectronic(search, offset);
+                break;
+            default:
+                searchedProduct = Controller.BuyerSection.searchGrocery(search, offset);
+                break;
+        }
         for (Product product : searchedProduct) {
             mainPanel.add(createProductCard(product));
         }
     }
 
-    private void addMoreProducts(String search) {
+    private void addMoreProducts(String search, int type) {
         offset += SHOW_MORE;
 
-        ArrayList<Product> searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
+        ArrayList<Product> searchedProduct = new ArrayList<>();
+        switch (type) {
+            case 1:
+                searchedProduct = Controller.BuyerSection.searchProduct(search, offset);
+                break;
+            case 2:
+                searchedProduct = Controller.BuyerSection.searchBook(search, offset);
+                break;
+            case 3:
+                searchedProduct = Controller.BuyerSection.searchClothing(search, offset);
+                break;
+            case 4:
+                searchedProduct = Controller.BuyerSection.searchElectronic(search, offset);
+                break;
+            default:
+                searchedProduct = Controller.BuyerSection.searchGrocery(search, offset);
+                break;
+        }
 
         if (searchedProduct.isEmpty()) {
             showMoreButton.setVisible(false);

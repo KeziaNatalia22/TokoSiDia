@@ -112,6 +112,198 @@ public class BuyerSection {
 
     }
 
+    public static ArrayList<Product> searchBook(String input, int offset) {
+        ArrayList<Product> searchedProduct = new ArrayList<Product>();
+        String query =  "SELECT p.*, b.* "
+                        + "FROM product AS p "
+                        + "INNER JOIN book AS b ON b.id_product = p.id_product "
+                        + "WHERE p.name LIKE ?"
+                        + "LIMIT 8 OFFSET ?";
+
+        try {
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+            st.setString(1, "%" + input + "%");
+            st.setInt(2, offset);
+            ResultSet rs = st.executeQuery();
+            boolean hasResults = false;
+            while (rs.next()) {
+                hasResults = true;
+                Book book = new Book(
+                        rs.getString("author"),
+                        rs.getInt("page_num"),
+                        rs.getDate("release_date"), 
+                        rs.getString("synopsis"),
+                        rs.getString("title"), 
+                        Integer.toString(rs.getInt("id_product")), 
+                        rs.getString("seller_name"), 
+                        rs.getString("name"), 
+                        rs.getInt("stock"), 
+                        rs.getDouble("discount"), 
+                        rs.getDouble("price"), 
+                        rs.getString("photo_product_path"));
+                searchedProduct.add(book);
+            }
+            if (!hasResults && offset == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf sekali barang yang anda cari saat ini tidak tersedia", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if (!hasResults) {
+                JOptionPane.showMessageDialog(null, "Sudah tidak ada barang", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            return searchedProduct;
+
+        } catch (Exception e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getLocalizedMessage());
+            // Handle or log the error, return empty list in case of failure
+            return searchedProduct;
+        }
+
+    }
+
+    public static ArrayList<Product> searchClothing(String input, int offset) {
+        ArrayList<Product> searchedProduct = new ArrayList<Product>();
+        String query =  "SELECT p.*, c.* "
+                        + "FROM product AS p "
+                        + "INNER JOIN clothing AS c ON c.id_product = p.id_product "
+                        + "WHERE p.name LIKE ?"
+                        + "LIMIT 8 OFFSET ?";
+
+        try {
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+            st.setString(1, "%" + input + "%");
+            st.setInt(2, offset);
+            ResultSet rs = st.executeQuery();
+            boolean hasResults = false;
+            while (rs.next()) {
+                hasResults = true;
+                Clothing cloth = new Clothing( 
+                        rs.getString("color"),
+                        ClothingSize_Enum.valueOf(rs.getString("size").toUpperCase()),
+                        Integer.toString(rs.getInt("id_product")), 
+                        rs.getString("seller_name"), 
+                        rs.getString("name"), 
+                        rs.getInt("stock"), 
+                        rs.getDouble("discount"), 
+                        rs.getDouble("price"), 
+                        rs.getString("photo_product_path"));
+                searchedProduct.add(cloth);
+            }
+            if (!hasResults && offset == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf sekali barang yang anda cari saat ini tidak tersedia", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if (!hasResults) {
+                JOptionPane.showMessageDialog(null, "Sudah tidak ada barang", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            return searchedProduct;
+
+        } catch (Exception e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getLocalizedMessage());
+            // Handle or log the error, return empty list in case of failure
+            return searchedProduct;
+        }
+
+    }
+
+    public static ArrayList<Product> searchElectronic(String input, int offset) {
+        ArrayList<Product> searchedProduct = new ArrayList<Product>();
+        String query =  "SELECT p.*, e.* "
+                        + "FROM product AS p "
+                        + "INNER JOIN electronic AS e ON e.id_product = p.id_product "
+                        + "WHERE p.name LIKE ?"
+                        + "LIMIT 8 OFFSET ?";
+
+        try {
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+            st.setString(1, "%" + input + "%");
+            st.setInt(2, offset);
+            ResultSet rs = st.executeQuery();
+            boolean hasResults = false;
+            while (rs.next()) {
+                hasResults = true;
+                Electronic electronic = new Electronic( 
+                        rs.getString("color"),
+                        rs.getString("manual_book"), 
+                        rs.getDate("warranty"), 
+                        Integer.toString(rs.getInt("id_product")), 
+                        rs.getString("seller_name"), 
+                        rs.getString("name"), 
+                        rs.getInt("stock"), 
+                        rs.getDouble("discount"), 
+                        rs.getDouble("price"), 
+                        rs.getString("photo_product_path"));
+                searchedProduct.add(electronic);
+            }
+            if (!hasResults && offset == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf sekali barang yang anda cari saat ini tidak tersedia", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if (!hasResults) {
+                JOptionPane.showMessageDialog(null, "Sudah tidak ada barang", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            return searchedProduct;
+
+        } catch (Exception e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getLocalizedMessage());
+            // Handle or log the error, return empty list in case of failure
+            return searchedProduct;
+        }
+
+    }
+
+    public static ArrayList<Product> searchGrocery(String input, int offset) {
+        ArrayList<Product> searchedProduct = new ArrayList<Product>();
+        String query =  "SELECT p.*, g.* "
+                        + "FROM product AS p "
+                        + "INNER JOIN grocery AS g ON g.id_product = p.id_product "
+                        + "WHERE p.name LIKE ?"
+                        + "LIMIT 8 OFFSET ?";
+
+        try {
+            PreparedStatement st = DatabaseHandler.connect().prepareStatement(query);
+            st.setString(1, "%" + input + "%");
+            st.setInt(2, offset);
+            ResultSet rs = st.executeQuery();
+            boolean hasResults = false;
+            while (rs.next()) {
+                hasResults = true;
+                Grocery grocery = new Grocery( 
+                        rs.getDate("exp_date"), 
+                        rs.getDate("production_date"),
+                        Integer.toString(rs.getInt("id_product")), 
+                        rs.getString("seller_name"), 
+                        rs.getString("name"), 
+                        rs.getInt("stock"), 
+                        rs.getDouble("discount"), 
+                        rs.getDouble("price"), 
+                        rs.getString("photo_product_path"));
+                searchedProduct.add(grocery);
+            }
+            if (!hasResults && offset == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf sekali barang yang anda cari saat ini tidak tersedia", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if (!hasResults) {
+                JOptionPane.showMessageDialog(null, "Sudah tidak ada barang", 
+                    "Hasil Pencarian Barang", JOptionPane.INFORMATION_MESSAGE);
+            }
+            return searchedProduct;
+
+        } catch (Exception e) {
+            System.out.println("SQLException: " + e.getMessage());
+            System.out.println("SQLState: " + e.getLocalizedMessage());
+            // Handle or log the error, return empty list in case of failure
+            return searchedProduct;
+        }
+
+    }
+
     public static void addToCart(Product product, int quantity){
         SingletonManager login = SingletonManager.getInstance();
         HashMap<String, HashMap<Product, Integer>> cart = login.getCart();

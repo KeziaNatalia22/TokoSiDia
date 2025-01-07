@@ -105,24 +105,23 @@ public class HomeBuyer {
         });
 
         searchButton.addActionListener(e -> {
-            new SearchedProduct(searchField.getText());
+            new SearchedProduct(searchField.getText(), 1);
         });
 
         bookButton.addActionListener(e -> {
-            frame.dispose();
-            new TransactionViewer(user);
+            new SearchedProduct(searchField.getText(), 2);
         });
 
         clothingButton.addActionListener(e -> {
-
+            new SearchedProduct(searchField.getText(), 3);
         });
 
         electronicButton.addActionListener(e -> {
-
+            new SearchedProduct(searchField.getText(), 4);
         });
 
         groceryButton.addActionListener(e -> {
-
+            new SearchedProduct(searchField.getText(), 5);
         });
 
         frame.setVisible(true);
