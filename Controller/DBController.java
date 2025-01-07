@@ -1,11 +1,50 @@
 package Controller;
 
-import java.io.File;
 import java.sql.*;
 
 import Modul.*;
 
 public class DBController {
+
+    public static int getIDShop(String seller) {
+        String query = "SELECT id_shop FROM toko WHERE username = ?";
+        try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
+            st.setString(1, seller);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_shop");
+                } else {
+                    System.out.println("No shop found for seller: " + seller);
+                    return -1;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("SQLException: " + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
+    }
+    
+    public static int getIDCart(int idShop) {
+        String query = "SELECT id_cart FROM cart WHERE username = ? AND id_shop = ?";
+        try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
+            st.setString(1, SingletonManager.getInstance().getUser().getName());
+            st.setInt(2, idShop);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_cart");
+                } else {
+                    System.out.println("No cart found for user: " 
+                        + SingletonManager.getInstance().getUser().getName() + ", idShop: " + idShop);
+                    return -1;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("SQLException: " + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
+    }    
 
     public static boolean updateBook(Book books) {
         Boolean success = false;

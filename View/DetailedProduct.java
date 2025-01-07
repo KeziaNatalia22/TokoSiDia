@@ -98,14 +98,14 @@ public class DetailedProduct {
         buyPanel.add(minusQuantity);
 
         JTextField quantityField = new JTextField("1");
-        quantityField.setBounds(55, 40, 70, 30);
+        quantityField.setBounds(55, 40, 100, 30);
         quantityField.setHorizontalAlignment(JTextField.CENTER);
         buyPanel.add(quantityField);
 
         JButton plusQuantity = new JButton("+");
         plusQuantity.setBackground(Color.decode("#4DA1A9"));
         plusQuantity.setForeground(Color.WHITE);
-        plusQuantity.setBounds(125, 40, 45, 30);
+        plusQuantity.setBounds(155, 40, 45, 30);
         buyPanel.add(plusQuantity);
 
         JLabel stockLabel = new JLabel("Stok: " + stock);
@@ -203,6 +203,7 @@ public class DetailedProduct {
 
         addToCartButton.addActionListener(e -> {
             Controller.BuyerSection.addToCart(product, Integer.parseInt(quantityField.getText()));
+            Controller.CartSection.insertCartDB(product, Integer.parseInt(quantityField.getText()));
             new ShowCart();
         });
 

@@ -1,13 +1,11 @@
 package Modul;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SingletonManager {
     private static SingletonManager instance;
     private User user;
     private HashMap<String, HashMap<Product, Integer>> cart = new HashMap<>();
-    private ArrayList<Transaction> transactions = new ArrayList<>();
 
     SingletonManager(){
     }
@@ -32,11 +30,5 @@ public class SingletonManager {
     }
     public void setCart(HashMap<String, HashMap<Product, Integer>> cart) {
         this.cart = cart;
-    }
-    public ArrayList<Transaction> getTransactions() {
-        return transactions;
-    }
-    public void setTransactions(ArrayList<Transaction> transactions) {
-        this.transactions = transactions;
     }
 }

@@ -101,7 +101,7 @@ public class HomeBuyer {
         });
 
         cartButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Menu Keranjang belum diimplementasikan!");
+            new ShowCart();
         });
 
         searchButton.addActionListener(e -> {

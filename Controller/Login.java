@@ -55,6 +55,7 @@ public class Login {
                         rs.getString("address"));
                         login.setUser(user);
                         new View.HomeBuyer(user);
+                        CartSection.getCartFromDB(username);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Login Gagal\nPassword Salah", "Login Gagal",

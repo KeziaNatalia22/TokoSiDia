@@ -1,6 +1,7 @@
 package View;
 
 import Controller.BuyerSection;
+import Controller.CartSection;
 import Modul.Product;
 import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
@@ -11,11 +12,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +31,7 @@ import javax.swing.event.DocumentListener;
 
 public class ShowCart {
     private static TokosiDiaFrame frame;
+    private static HashMap<String, HashMap<Product, Integer>> checkoutList = new HashMap<>();
 
     public ShowCart() {
         showCart();
@@ -49,11 +55,13 @@ public class ShowCart {
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
         containerPanel.setBackground(Color.decode("#D9EAFD"));
 
-        int i = 0;
         HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
         for (Map.Entry<String, HashMap<Product, Integer>> entry : cart.entrySet()) {
             String seller = entry.getKey();
             HashMap<Product, Integer> productInCart = entry.getValue();
+
+            HashMap<Product, Integer> prodToCheckout = new HashMap<>();
+            checkoutList.put(seller, prodToCheckout);
 
             JPanel sellerPanel = new JPanel();
             sellerPanel.setLayout(new BorderLayout());
@@ -64,6 +72,18 @@ public class ShowCart {
             sellerLabel.setFont(new Font("Arial", Font.BOLD, 16));
             sellerPanel.add(sellerLabel, BorderLayout.NORTH);
 
+            JButton checkout = new JButton("Checkout");
+            checkout.setBackground(Color.WHITE);
+            checkout.setForeground(Color.decode("#4DA1A9"));
+            checkout.setBounds(300, 0, 100, 20);
+            sellerPanel.add(checkout);
+
+            checkout.addActionListener(e -> {
+                if (!checkoutList.get(seller).isEmpty()) {
+                    new Checkout(checkoutList.get(seller));
+                }
+            });
+
             JPanel productListPanel = new JPanel();
             productListPanel.setLayout(new BoxLayout(productListPanel, BoxLayout.Y_AXIS));
             productListPanel.setBackground(Color.WHITE);
@@ -72,14 +92,10 @@ public class ShowCart {
                 Product product = productEntry.getKey();
                 int amount = productEntry.getValue();
                 productListPanel.add(makeProductPanel(product, amount));
-                i++;
             }
 
             sellerPanel.add(productListPanel, BorderLayout.CENTER);
             containerPanel.add(sellerPanel);
-        }
-        if (i == 1) {
-            frame.setBounds(screenSize.width / 2 - 450 / 2, screenSize.height / 2 - 600 / 2, 450, 300);
         }
 
         JScrollPane scrollPane = new JScrollPane(containerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -100,6 +116,7 @@ public class ShowCart {
         productPanel.setPreferredSize(new Dimension(450, 260));
         productPanel.setLayout(new GridLayout(0, 2, 0, 0));
         productPanel.setBackground(Color.decode("#D9EAFD"));
+        productPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
         JPanel picturePanel = new JPanel();
         picturePanel.setLayout(new BorderLayout());
@@ -137,34 +154,39 @@ public class ShowCart {
         buyPanel.add(minusQuantity);
 
         JTextField quantityField = new JTextField("" + amount);
-        quantityField.setBounds(55, 40, 70, 30);
+        quantityField.setBounds(55, 40, 100, 30);
         quantityField.setHorizontalAlignment(JTextField.CENTER);
         buyPanel.add(quantityField);
 
         JButton plusQuantity = new JButton("+");
         plusQuantity.setBackground(Color.decode("#4DA1A9"));
         plusQuantity.setForeground(Color.WHITE);
-        plusQuantity.setBounds(125, 40, 45, 30);
+        plusQuantity.setBounds(155, 40, 45, 30);
         buyPanel.add(plusQuantity);
 
         JLabel stockLabel = new JLabel("Stok: " + stock);
         stockLabel.setForeground(Color.BLUE);
         stockLabel.setBounds(10, 70, 100, 30);
         buyPanel.add(stockLabel);
-
+        
         JLabel subtotalLabel = new JLabel("Subtotal:");
         subtotalLabel.setBounds(10, 90, 100, 30);
         buyPanel.add(subtotalLabel);
+
+        JCheckBox addCheckOut = new JCheckBox("checkout");
+        addCheckOut.setBackground(Color.decode("#D9EAFD"));
+        addCheckOut.setBounds(90, 90, 100, 20);
+        buyPanel.add(addCheckOut);
         
         JLabel priceLabel = new JLabel(subTotal);
         priceLabel.setBounds(10, 110, 200, 30);
         buyPanel.add(priceLabel);
 
-        JButton addToCartButton = new JButton("Remove");
-        addToCartButton.setBackground(Color.decode("#4DA1A9"));
-        addToCartButton.setForeground(Color.WHITE);
-        addToCartButton.setBounds(10, 160, 190, 80);
-        buyPanel.add(addToCartButton);
+        JButton remove = new JButton("Remove");
+        remove.setBackground(Color.decode("#4DA1A9"));
+        remove.setForeground(Color.WHITE);
+        remove.setBounds(10, 160, 190, 80);
+        buyPanel.add(remove);
  
         JLabel originalPriceLabel = new JLabel("Original: " + Controller.RupiahFormatter.formatRupiah(originalPrice));
         originalPriceLabel.setBounds(10, 130, 200, 30);
@@ -202,6 +224,7 @@ public class ShowCart {
                     }
                     else{
                         BuyerSection.updateCart(product, quantity);
+                        CartSection.updateCartDB(product, quantity);
                     }
                 } catch (NumberFormatException ex) {
                     priceLabel.setText("Invalid Quantity");
@@ -221,6 +244,35 @@ public class ShowCart {
             quantity++;
             quantityField.setText("" + quantity);
         });
+
+        remove.addActionListener(e -> {
+            Controller.CartSection.removeCartDB(product);
+            Controller.BuyerSection.removeProductFromCart(product);
+
+            JPanel productListPanel = (JPanel) productPanel.getParent();
+            JPanel sellerPanel = (JPanel) productListPanel.getParent();
+            JPanel containerPanel = (JPanel) sellerPanel.getParent();
+        
+            productListPanel.remove(productPanel);
+        
+            if (productListPanel.getComponentCount() == 0) {
+                containerPanel.remove(sellerPanel);
+            }
+        
+            containerPanel.revalidate();
+            containerPanel.repaint();
+        });
+
+        addCheckOut.addActionListener(e -> {
+            String seller = product.getSellerName();
+            if (addCheckOut.isSelected()) {
+                int amountProduct = Integer.parseInt(quantityField.getText());
+                checkoutList.get(seller).put(product, amountProduct);
+            } else {
+                checkoutList.get(seller).remove(product);
+            }
+        });
+        
 
         productPanel.add(buyPanel, BorderLayout.CENTER);
         return productPanel;
