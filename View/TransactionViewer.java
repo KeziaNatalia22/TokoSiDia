@@ -2,7 +2,6 @@ package View;
 
 import javax.swing.*;
 import Controller.HistoryTransaction;
-import Controller.UpdateShipment;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -11,22 +10,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import Modul.*;
+import Controller.UpdateShipment;
 
 
 public class TransactionViewer {
     TokosiDiaFrame frame;
     JPanel panel;
+    
+    public TransactionViewer(Seller user) {
+        displayTransactionSeller(user);
+    }
 
     public TransactionViewer(Buyer user) {
-        displayTransaction(user);
-    }
-
-    public TransactionViewer(Seller user) {
-        displayTransaction(user);
+        displayTransactionBuyer(user);
     }
 
 
-    public void displayTransaction(Buyer user) {
+
+    public void displayTransactionBuyer(Buyer user) {
         List<Transaction> transactions = HistoryTransaction.transactionHistory(user.getName());
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -66,7 +67,6 @@ public class TransactionViewer {
             JPanel transactionPanel = new JPanel();
             transactionPanel.setLayout(new BoxLayout(transactionPanel, BoxLayout.Y_AXIS));
             transactionPanel.setBackground(Color.WHITE);
-            // transactionPanel.setPreferredSize(new Dimension(280, 150)); 
             transactionPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.decode("#dddddd"), 1),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
@@ -189,10 +189,30 @@ public class TransactionViewer {
             transactionPanel.add(totalLabel);
 
 
-            JLabel shipmentStatus = new JLabel("Shipment Status: " + transaction.getShipmentStatus());
-            shipmentStatus.setFont(new Font ("Segoe UI", Font.BOLD, 14));
+            String[] shipmentStatusList = {"DELIVERED", "COMPLETED"};
+
+            JComboBox shipmentStatus = new JComboBox(shipmentStatusList);
+            shipmentStatus.setMaximumSize(new Dimension(190,20));
+            shipmentStatus.setSelectedItem(transaction.getShipmentStatus().toString());
             shipmentStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
             transactionPanel.add(shipmentStatus);
+
+            JButton changeButton = new JButton("Change Shipment Status");
+            changeButton.setBackground(Color.BLUE);
+            changeButton.setForeground(Color.white);
+            changeButton.setSize(190, 40);
+            changeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            changeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(null,"Shipment Status Changed");
+                    transaction.setShipmentStatus(ShipmentStatus_Enum.valueOf(shipmentStatus.getSelectedItem().toString()));
+                    UpdateShipment.updateShipment(transaction);
+                    frame.dispose();
+                    new TransactionViewer(user);
+                }
+            });
+            transactionPanel.add(changeButton);
 
             transactionGrid.add(transactionPanel);
         }
@@ -217,7 +237,7 @@ public class TransactionViewer {
         frame.setVisible(true);
     }
 
-    public void displayTransaction(Seller user) {
+    public void displayTransactionSeller(Seller user) {
         List<Transaction> transactions = HistoryTransaction.transactionSeller(user.getName());
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
@@ -378,7 +398,7 @@ public class TransactionViewer {
             totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             transactionPanel.add(totalLabel);
 
-            String[] shipmentStatusList = {"PACKED", "SHIPPED", "DELIVERED", "COMPLETED"};
+            String[] shipmentStatusList = {"PACKED", "SHIPPED"};
 
             JComboBox shipmentStatus = new JComboBox(shipmentStatusList);
             shipmentStatus.setMaximumSize(new Dimension(190,20));
@@ -425,4 +445,6 @@ public class TransactionViewer {
         frame.add(scrollPane);
         frame.setVisible(true);
     }
+
+    
 }

@@ -40,14 +40,35 @@ public class UpdateProfileSeller {
         panel.setLayout(null);
         panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
-        JButton photoButton = new JButton("Update Photo Profile");
-        photoButton.setBounds(40, 30, 100, 100);
-        photoButton.setHorizontalAlignment(SwingConstants.CENTER);
+        // JButton photoButton = new JButton("Update Photo Profile");
+        // photoButton.setBounds(40, 30, 100, 100);
+        // photoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
-        // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        // photoButton.setIcon(new ImageIcon(scaledPhoto));
+        // // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
+        // // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        // // photoButton.setIcon(new ImageIcon(scaledPhoto));
+        // // panel.add(photoButton);
+
+        // photoButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         JFileChooser fileChooser = new JFileChooser();
+        //         int returnValue = fileChooser.showOpenDialog(null);
+        //         if (returnValue == JFileChooser.APPROVE_OPTION) {
+        //             selectedPhotoProfile = fileChooser.getSelectedFile();
+        //         }
+        //     }
+        // });
         // panel.add(photoButton);
+
+        JLabel photoLabel = new JLabel();
+        photoLabel.setBounds(50, 30, 120, 100);
+        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        photoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel.add(photoLabel);
+
+        JButton photoButton = new JButton("Photo");
+        photoButton.setBounds(60, 140, 100, 30);
+        photoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
         photoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -55,73 +76,99 @@ public class UpdateProfileSeller {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedPhotoProfile = fileChooser.getSelectedFile();
+                    photoLabel.setIcon(new ImageIcon(new ImageIcon(selectedPhotoProfile.getAbsolutePath()).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
                 }
             }
         });
+
         panel.add(photoButton);
 
-        JButton shopPhotoButton = new JButton("Update Shop Profile");
-        shopPhotoButton.setBounds(210, 30, 100, 100);
-        shopPhotoButton.setHorizontalAlignment(SwingConstants.CENTER);
+        // JButton shopPhotoButton = new JButton("Update Shop Profile");
+        // shopPhotoButton.setBounds(210, 30, 100, 100);
+        // shopPhotoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
-        // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        // shopPhotoButton.setIcon(new ImageIcon(scaledPhoto));
+        // // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
+        // // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        // // shopPhotoButton.setIcon(new ImageIcon(scaledPhoto));
+        // // panel.add(shopPhotoButton);
+
+        // shopPhotoButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         JFileChooser fileChooser = new JFileChooser();
+        //         int returnValue = fileChooser.showOpenDialog(null);
+        //         if (returnValue == JFileChooser.APPROVE_OPTION) {
+        //             selectedPhotoShop = fileChooser.getSelectedFile();
+        //         }
+        //     }
+        // });
         // panel.add(shopPhotoButton);
+
+        JLabel shopPhoto = new JLabel();
+        shopPhoto.setBounds(220, 30, 120, 100);
+        shopPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+        shopPhoto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel.add(shopPhoto);
+
+        JButton shopPhotoButton = new JButton("Shop");
+        shopPhotoButton.setBounds(230, 140, 110, 30);
+        shopPhotoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
         shopPhotoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    selectedPhotoShop = fileChooser.getSelectedFile();
+                    selectedPhotoProfile = fileChooser.getSelectedFile();
+                    shopPhoto.setIcon(new ImageIcon(new ImageIcon(selectedPhotoProfile.getAbsolutePath()).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
                 }
             }
         });
+
         panel.add(shopPhotoButton);
 
+
         JLabel nameLabel = new JLabel("Name  ");
-        nameLabel.setBounds(20, 170, 100, 20);
+        nameLabel.setBounds(20, 180, 100, 20);
         panel.add(nameLabel);
 
         JTextField nameField = new JTextField(user.getName());
-        nameField.setBounds(150, 170, 200, 20);
+        nameField.setBounds(150, 180, 200, 20);
         panel.add(nameField);
 
         JLabel phoneNum = new JLabel("Phone Number  ");
-        phoneNum.setBounds(20, 200, 100, 20);
+        phoneNum.setBounds(20, 210, 100, 20);
         panel.add(phoneNum);
 
         JTextField phoneField = new JTextField(user.getPhoneNum());
-        phoneField.setBounds(150, 200, 200, 20);
+        phoneField.setBounds(150, 210, 200, 20);
         panel.add(phoneField);
 
         JLabel email = new JLabel("Email  ");
-        email.setBounds(20, 230, 100, 20);
+        email.setBounds(20, 240, 100, 20);
         panel.add(email);
 
         JTextField emailField = new JTextField(user.getEmail());
-        emailField.setBounds(150, 230, 200, 20);
+        emailField.setBounds(150, 240, 200, 20);
         panel.add(emailField);
 
         JLabel city = new JLabel("City Located  ");
-        city.setBounds(20, 260, 100, 20);
+        city.setBounds(20, 270, 100, 20);
         panel.add(city);
 
         JTextField cityLocated = new JTextField(user.getCityLocated());
-        cityLocated.setBounds(150, 260, 200, 20);
+        cityLocated.setBounds(150, 270, 200, 20);
         panel.add(cityLocated);
 
         JLabel shop = new JLabel("Shop Name  ");
-        shop.setBounds(20, 290, 100, 20);
+        shop.setBounds(20, 300, 100, 20);
         panel.add(shop);
 
         JTextField shopName = new JTextField(user.getShopName());
-        shopName.setBounds(150, 290, 200, 20);
+        shopName.setBounds(150, 300, 200, 20);
         panel.add(shopName);
 
         JButton backHome = new JButton("Back");
-        backHome.setBounds(20, 320, 80, 20);
+        backHome.setBounds(20, 330, 80, 20);
         panel.add(backHome);
         backHome.addActionListener(new ActionListener() {
             @Override
@@ -132,7 +179,7 @@ public class UpdateProfileSeller {
         });
 
         JButton updateData = new JButton("Change Data");
-        updateData.setBounds(220, 320, 120, 20);
+        updateData.setBounds(220, 330, 120, 20);
         panel.add(updateData);
         updateData.addActionListener(new ActionListener() {
             @Override

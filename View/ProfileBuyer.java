@@ -73,7 +73,7 @@ public class ProfileBuyer {
 
         JButton backHome = new JButton("Back");
         backHome.setBounds(30, 310, 150, 30);
-        backHome.setBackground(Color.gray);
+        backHome.setBackground(new Color(244, 164, 96));
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,7 +84,7 @@ public class ProfileBuyer {
 
         JButton updateData = new JButton("Change Data");
         updateData.setBounds(200, 310, 150, 30);
-        updateData.setBackground(Color.CYAN);
+        updateData.setBackground(new Color(72, 209, 204));
         updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,7 +95,7 @@ public class ProfileBuyer {
 
         JButton addBalance = new JButton("Add Balance");
         addBalance.setBounds(30, 350, 150, 30);
-        addBalance.setBackground(Color.pink);
+        addBalance.setBackground(new Color(72, 209, 204));
         addBalance.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,7 +139,7 @@ public class ProfileBuyer {
 
         JButton historyTransaksi = new JButton("History Transaksi");
         historyTransaksi.setBounds(200, 350, 150, 30);
-        historyTransaksi.setBackground(Color.YELLOW);
+        historyTransaksi.setBackground(new Color(244, 164, 96));
         panel.add(historyTransaksi);
 
         historyTransaksi.addActionListener(e -> {

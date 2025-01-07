@@ -39,14 +39,35 @@ public class UpdateProfile {
         panel.setLayout(null);
         panel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
-        JButton photoButton = new JButton("Upload Photo");
-        photoButton.setBounds(150, 30, 100, 100);
-        photoButton.setHorizontalAlignment(SwingConstants.CENTER);
+        // JButton photoButton = new JButton("Upload Photo");
+        // photoButton.setBounds(150, 30, 100, 100);
+        // photoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
-        // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        // photoButton.setIcon(new ImageIcon(scaledPhoto));
+        // // ImageIcon photoIcon = new ImageIcon(user.getPhotoPath().getAbsolutePath());
+        // // Image scaledPhoto = photoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        // // photoButton.setIcon(new ImageIcon(scaledPhoto));
+        // // panel.add(photoButton);
+
+        // photoButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //         JFileChooser fileChooser = new JFileChooser();
+        //         int returnValue = fileChooser.showOpenDialog(null);
+        //         if (returnValue == JFileChooser.APPROVE_OPTION) {
+        //             selectedPhotoPath = fileChooser.getSelectedFile();
+        //         }
+        //     }
+        // });
         // panel.add(photoButton);
+
+        JLabel photoLabel = new JLabel();
+        photoLabel.setBounds(150, 30, 100, 100);
+        photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        photoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panel.add(photoLabel);
+
+        JButton photoButton = new JButton("Upload Photo");
+        photoButton.setBounds(145, 140, 110, 20);
+        photoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
         photoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -54,9 +75,11 @@ public class UpdateProfile {
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedPhotoPath = fileChooser.getSelectedFile();
+                    photoLabel.setIcon(new ImageIcon(new ImageIcon(selectedPhotoPath.getAbsolutePath()).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
                 }
             }
         });
+
         panel.add(photoButton);
 
         JLabel nameLabel = new JLabel("Name  ");

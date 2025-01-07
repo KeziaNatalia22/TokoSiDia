@@ -67,7 +67,6 @@ public class AddProduct {
         photoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         photoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panel.add(photoLabel);
-        
 
         JButton photoButton = new JButton("Upload Photo");
         photoButton.setBounds(145, 140, 110, 20);
