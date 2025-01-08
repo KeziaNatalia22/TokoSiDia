@@ -7,11 +7,20 @@ import Modul.Electronic;
 import Modul.Grocery;
 import Modul.Product;
 import Modul.SingletonManager;
+import Modul.User;
+import View.ShowCart;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.swing.JOptionPane;
 
 public class BuyerSection {
@@ -353,6 +362,80 @@ public class BuyerSection {
                     break;
                 }
             }
+        }
+    }
+
+    public static void removeProductCheckout(Product product){
+        SingletonManager login = SingletonManager.getInstance();
+        HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
+        String seller = product.getSellerName();
+        HashMap<Product, Integer> prodInCart = cart.get(seller);
+        for (Map.Entry<Product, Integer> productEntry : prodInCart.entrySet()) {
+            Product prod = productEntry.getKey();
+            if (prod.getIdProduct().equalsIgnoreCase(product.getIdProduct())) {
+                if (SingletonManager.getInstance().getCart().get(seller).size() != 1) {
+                    SingletonManager.getInstance().getCart().get(seller).remove(prod);
+                }
+                else{
+                    SingletonManager.getInstance().getCart().remove(seller);
+                }
+                break;
+            }
+        }
+    }
+
+    public static void checkout(HashMap<Product, Integer> productList, AtomicInteger totalPrice, int idShop){
+        User login = SingletonManager.getInstance().getUser();
+        DateTimeFormatter format = DateTimeFormatter.BASIC_ISO_DATE;
+        String date = LocalDate.now().format(format);
+        int totalPrice2 = totalPrice.get();
+        if (login.geteMoney() >= totalPrice2) {
+            int dialogButton = JOptionPane.showConfirmDialog (null, "Apakah yakin?","Buy Items",JOptionPane.YES_NO_OPTION);
+            if (dialogButton == JOptionPane.YES_OPTION) {
+                try {
+                    String query1 = "INSERT INTO transaction (username, id_shop, date, shipment_status) VALUES (?, ?, ?, ?)";
+                    PreparedStatement st1 = DatabaseHandler.connect().prepareStatement(query1);
+                    st1.setString(1, login.getName());
+                    st1.setInt(2, idShop);
+                    st1.setString(3, date);
+                    st1.setString(4, Modul.ShipmentStatus_Enum.PACKED.toString());
+                    st1.execute();
+
+                    int idTransaction = DBController.getIDTransaction(login.getName(), idShop);
+
+                    for (Map.Entry<Product, Integer> productEntry : productList.entrySet()) {
+                        Product product = productEntry.getKey();
+                        int amount = productEntry.getValue();
+                        String query2 = "INSERT INTO detail_transaction (id_transaksi, id_product, quantity) VALUES (?, ?, ?)";
+                        PreparedStatement st2 = DatabaseHandler.connect().prepareStatement(query2);
+                        st2.setInt(1, idTransaction);
+                        st2.setInt(2, Integer.parseInt(product.getIdProduct()));
+                        st2.setInt(3, amount);
+                        st2.execute();
+
+                        CartSection.removeCartDB(product);
+                        BuyerSection.removeProductCheckout(product);
+                    }
+
+                    double balance = (int)login.geteMoney() - totalPrice2;
+                    SingletonManager.getInstance().getUser().seteMoney(balance);
+
+                    String query3 = "update user set emoney = ? where username = ?";
+                    PreparedStatement st3 = DatabaseHandler.connect().prepareStatement(query3);
+                    st3.setDouble(1, SingletonManager.getInstance().getUser().geteMoney());
+                    st3.setString(2, login.getName());
+                    st3.execute();
+
+                    JOptionPane.showMessageDialog(null, "Pembelian berhasil", "Buying", JOptionPane.INFORMATION_MESSAGE);
+                    new ShowCart();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Uang anda tidak cukup, silahkan mengisi balance","Balance", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

@@ -12,8 +12,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
@@ -58,6 +56,7 @@ public class ShowCart {
         HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
         for (Map.Entry<String, HashMap<Product, Integer>> entry : cart.entrySet()) {
             String seller = entry.getKey();
+            int idShop = Controller.DBController.getIDShop(seller);
             HashMap<Product, Integer> productInCart = entry.getValue();
 
             HashMap<Product, Integer> prodToCheckout = new HashMap<>();
@@ -80,7 +79,7 @@ public class ShowCart {
 
             checkout.addActionListener(e -> {
                 if (!checkoutList.get(seller).isEmpty()) {
-                    new Checkout(checkoutList.get(seller));
+                    new Checkout(checkoutList.get(seller), idShop);
                 }
             });
 
@@ -109,8 +108,10 @@ public class ShowCart {
         int stock = product.getStock();
         int discount = (int) (product.getDiscount());
         int originalPrice = (int) product.getPrice();
+        int totalOriginalPrice = originalPrice * amount;
         int price = (int) (originalPrice * (100 - discount) / 100);
-        String subTotal = Controller.RupiahFormatter.formatRupiah(price);
+        int totalPrice = price * amount;
+        String subTotal = Controller.RupiahFormatter.formatRupiah(totalPrice);
 
         JPanel productPanel = new JPanel();
         productPanel.setPreferredSize(new Dimension(450, 260));
@@ -188,7 +189,7 @@ public class ShowCart {
         remove.setBounds(10, 160, 190, 80);
         buyPanel.add(remove);
  
-        JLabel originalPriceLabel = new JLabel("Original: " + Controller.RupiahFormatter.formatRupiah(originalPrice));
+        JLabel originalPriceLabel = new JLabel("Original: " + Controller.RupiahFormatter.formatRupiah(totalOriginalPrice));
         originalPriceLabel.setBounds(10, 130, 200, 30);
         originalPriceLabel.setFont(new Font("Arial", Font.ITALIC, 12));
         originalPriceLabel.setForeground(Color.GRAY);
@@ -225,6 +226,9 @@ public class ShowCart {
                     else{
                         BuyerSection.updateCart(product, quantity);
                         CartSection.updateCartDB(product, quantity);
+                        if (addCheckOut.isSelected()) {
+                            checkoutList.get(product.getSellerName()).put(product, quantity);
+                        }
                     }
                 } catch (NumberFormatException ex) {
                     priceLabel.setText("Invalid Quantity");

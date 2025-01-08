@@ -1,19 +1,7 @@
 package View;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-
 import Modul.Product;
 import Modul.TokosiDiaFrame;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,15 +9,27 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 public class Checkout {
     private static TokosiDiaFrame frame;
 
-    public Checkout(HashMap<Product, Integer> productList){
-        checkout(productList);
+    public Checkout(HashMap<Product, Integer> productList, int idShop){
+        checkout(productList, idShop);
     }
 
-    public void checkout(HashMap<Product, Integer> productList){
+    public void checkout(HashMap<Product, Integer> productList, int idShop){
         if(frame != null){
             frame.dispose();
         }
@@ -46,11 +46,36 @@ public class Checkout {
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
         containerPanel.setBackground(Color.decode("#D9EAFD"));
 
+        JPanel checkoutPanel = new JPanel();
+        checkoutPanel.setPreferredSize(new Dimension(450, 40));
+        checkoutPanel.setBackground(Color.WHITE);
+        checkoutPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+
+        AtomicInteger totalPrice = new AtomicInteger(0);
+
         for (Map.Entry<Product, Integer> productEntry : productList.entrySet()) {
             Product product = productEntry.getKey();
             int amount = productEntry.getValue();
+            totalPrice.addAndGet(((int)product.getPrice() * (100 - (int)product.getDiscount())/100) * amount);
             containerPanel.add(makeProductPanel(product, amount));
         }
+
+        int totalPrice2 = totalPrice.get();
+
+        JLabel subtotalLabel = new JLabel("Subtotal: " + Controller.RupiahFormatter.formatRupiah(totalPrice2));
+        subtotalLabel.setBounds(10, 70, 100, 30);
+        checkoutPanel.add(subtotalLabel);
+
+        JButton buy = new JButton("BUY");
+        buy.setBounds(10, 120, 50, 30);
+        checkoutPanel.add(buy);
+        
+        containerPanel.add(checkoutPanel, BorderLayout.WEST);
+
+        buy.addActionListener(e -> {
+            Controller.BuyerSection.checkout(productList, totalPrice, idShop);
+            frame.dispose();
+        });
 
         JScrollPane scrollPane = new JScrollPane(containerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -60,9 +85,9 @@ public class Checkout {
 
     public static JPanel makeProductPanel(Product product, int amount) {
         String photo = product.getPhotoProduct();
-        int discount = (int) (product.getDiscount());
-        int originalPrice = (int) product.getPrice();
-        int price = (int) (originalPrice * (100 - discount) / 100);
+        int discount = (int)product.getDiscount();
+        int originalPrice = (int)product.getPrice() * amount;
+        int price = ((int)product.getPrice() * (100 - (int)product.getDiscount())/100) * amount;
         String subTotal = Controller.RupiahFormatter.formatRupiah(price);
     
         JPanel productPanel = new JPanel();
