@@ -349,19 +349,16 @@ public class BuyerSection {
         HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
         String seller = product.getSellerName();
         HashMap<Product, Integer> prodInCart = cart.get(seller);
-        int dialogButton = JOptionPane.showConfirmDialog (null, "Apakah yakin?","Remove From Cart",JOptionPane.YES_NO_OPTION);
-        if (dialogButton == JOptionPane.YES_OPTION) {
-            for (Map.Entry<Product, Integer> productEntry : prodInCart.entrySet()) {
-                Product prod = productEntry.getKey();
-                if (prod.getIdProduct().equalsIgnoreCase(product.getIdProduct())) {
-                    if (SingletonManager.getInstance().getCart().get(seller).size() != 1) {
-                        SingletonManager.getInstance().getCart().get(seller).remove(prod);
-                    }
-                    else{
-                        SingletonManager.getInstance().getCart().remove(seller);
-                    }
-                    break;
+        for (Map.Entry<Product, Integer> productEntry : prodInCart.entrySet()) {
+            Product prod = productEntry.getKey();
+            if (prod.getIdProduct().equalsIgnoreCase(product.getIdProduct())) {
+                if (SingletonManager.getInstance().getCart().get(seller).size() != 1) {
+                    SingletonManager.getInstance().getCart().get(seller).remove(prod);
                 }
+                else{
+                    SingletonManager.getInstance().getCart().remove(seller);
+                }
+                break;
             }
         }
     }
