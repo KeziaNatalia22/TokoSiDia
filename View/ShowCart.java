@@ -250,21 +250,23 @@ public class ShowCart {
         });
 
         remove.addActionListener(e -> {
-            Controller.CartSection.removeCartDB(product);
-            Controller.BuyerSection.removeProductFromCart(product);
-
-            JPanel productListPanel = (JPanel) productPanel.getParent();
-            JPanel sellerPanel = (JPanel) productListPanel.getParent();
-            JPanel containerPanel = (JPanel) sellerPanel.getParent();
-        
-            productListPanel.remove(productPanel);
-        
-            if (productListPanel.getComponentCount() == 0) {
-                containerPanel.remove(sellerPanel);
+            boolean removeStatement = Controller.CartSection.removeCartDB(product);
+            if (removeStatement) {
+                Controller.BuyerSection.removeProductFromCart(product);
+    
+                JPanel productListPanel = (JPanel) productPanel.getParent();
+                JPanel sellerPanel = (JPanel) productListPanel.getParent();
+                JPanel containerPanel = (JPanel) sellerPanel.getParent();
+            
+                productListPanel.remove(productPanel);
+            
+                if (productListPanel.getComponentCount() == 0) {
+                    containerPanel.remove(sellerPanel);
+                }
+            
+                containerPanel.revalidate();
+                containerPanel.repaint();
             }
-        
-            containerPanel.revalidate();
-            containerPanel.repaint();
         });
 
         addCheckOut.addActionListener(e -> {

@@ -6,15 +6,10 @@ import Modul.ClothingSize_Enum;
 import Modul.Electronic;
 import Modul.Grocery;
 import Modul.Product;
-import Modul.ShipmentStatus_Enum;
 import Modul.SingletonManager;
-import Modul.Transaction;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
 public class CartSection {
@@ -87,29 +82,33 @@ public class CartSection {
         }
     }
 
-    public static void removeCartDB(Product product) {
+    public static boolean removeCartDB(Product product) {
         int idShop = DBController.getIDShop(product.getSellerName());
         int idCart = DBController.getIDCart(idShop);
-
-        try {
-            if (SingletonManager.getInstance().getCart().get(product.getSellerName()).size() == 1) {
-                String query = "DELETE FROM cart WHERE id_cart = ? AND username = ?";
-                try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
-                    st.setInt(1, idCart);
-                    st.setString(2, SingletonManager.getInstance().getUser().getName());
-                    st.executeUpdate();
+        int dialogButton = JOptionPane.showConfirmDialog (null, "Apakah yakin?","Remove From Cart",JOptionPane.YES_NO_OPTION);
+        if (dialogButton == JOptionPane.YES_OPTION) {
+            try {
+                if (SingletonManager.getInstance().getCart().get(product.getSellerName()).size() == 1) {
+                    String query = "DELETE FROM cart WHERE id_cart = ? AND username = ?";
+                    try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
+                        st.setInt(1, idCart);
+                        st.setString(2, SingletonManager.getInstance().getUser().getName());
+                        st.executeUpdate();
+                    }
+                } else {
+                    String query = "DELETE FROM cart_detail WHERE id_cart = ? AND id_product = ?";
+                    try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
+                        st.setInt(1, idCart);
+                        st.setInt(2, Integer.parseInt(product.getIdProduct()));
+                        st.executeUpdate();
+                    }
                 }
-            } else {
-                String query = "DELETE FROM cart_detail WHERE id_cart = ? AND id_product = ?";
-                try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
-                    st.setInt(1, idCart);
-                    st.setInt(2, Integer.parseInt(product.getIdProduct()));
-                    st.executeUpdate();
-                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return true;
         }
+        return false;
     }
 
     public static void getCartFromDB(String username){
