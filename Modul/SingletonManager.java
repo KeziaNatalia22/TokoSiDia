@@ -16,6 +16,10 @@ public class SingletonManager {
         }
         return instance;
     }
+
+    public static void removeInstance (){
+        instance = null;
+    }
     public static void setInstance(SingletonManager instance) {
         SingletonManager.instance = instance;
     }

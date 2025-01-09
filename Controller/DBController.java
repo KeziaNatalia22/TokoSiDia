@@ -5,26 +5,6 @@ import java.sql.*;
 
 public class DBController {
 
-    public static int getIDTransaction(String buyer, int idShop) {
-        String query = "SELECT id_transaksi FROM transaction WHERE username = ? and id_shop = ?";
-        try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
-            st.setString(1, buyer);
-            st.setInt(2, idShop);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("id_transaksi");
-                } else {
-                    System.out.println("No transaction found for buyer: " + buyer);
-                    return -1;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("SQLException: " + e.getMessage());
-            e.printStackTrace();
-            return -1;
-        }
-    }
-
     public static int getIDShop(String seller) {
         String query = "SELECT id_shop FROM toko WHERE username = ?";
         try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {

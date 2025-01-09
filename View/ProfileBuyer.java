@@ -5,17 +5,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Modul.Buyer;
+import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
 
 public class ProfileBuyer {
     TokosiDiaFrame frame;
     JPanel panel;
 
-    public ProfileBuyer(Buyer user) {
-        ProfileBuyer(user);
+    public ProfileBuyer() {
+        ProfileBuyer();
     }
 
-    public void ProfileBuyer(Buyer user) {
+    public void ProfileBuyer() {
+        SingletonManager login = SingletonManager.getInstance();
+        Buyer user = (Buyer) login.getUser();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -78,7 +81,7 @@ public class ProfileBuyer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeBuyer(user);
+                new HomeBuyer();
             }
         });
 
@@ -88,7 +91,7 @@ public class ProfileBuyer {
         updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new UpdateProfile(user);
+                new UpdateProfile();
                 frame.dispose();
             }
         });
@@ -104,9 +107,9 @@ public class ProfileBuyer {
                     try {
                         double amount = Double.parseDouble(input);
                         if (amount > 0) {
-                            user.seteMoney(user.geteMoney() + amount);
-                            if (BalanceSection.addBalance(user.getName(), user.geteMoney())) {
-                                JOptionPane.showMessageDialog(frame, "Balance added successfully! New Balance: " + user.geteMoney(), "Success", JOptionPane.INFORMATION_MESSAGE);
+                            SingletonManager.getInstance().getUser().seteMoney(SingletonManager.getInstance().getUser().geteMoney() + amount);;
+                            if (BalanceSection.addBalance(SingletonManager.getInstance().getUser().getName(), SingletonManager.getInstance().getUser().geteMoney())) {
+                                JOptionPane.showMessageDialog(frame, "Balance added successfully! New Balance: " + SingletonManager.getInstance().getUser().geteMoney(), "Success", JOptionPane.INFORMATION_MESSAGE);
                             }
                         } else {
                             JOptionPane.showMessageDialog(frame, "Please enter a positive amount.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
@@ -131,6 +134,7 @@ public class ProfileBuyer {
                         JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     frame.dispose();
+                    SingletonManager.removeInstance();
                     new MenuLogin();
                 }
             }

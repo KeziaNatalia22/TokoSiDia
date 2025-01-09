@@ -4,16 +4,19 @@ import javax.swing.*;
 
 import java.awt.*;
 import Modul.Buyer;
+import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
 
 public class HomeBuyer {
     private TokosiDiaFrame frame;
 
-    public HomeBuyer(Buyer user) {
-        initialize(user);
+    public HomeBuyer() {
+        initialize();
     }
 
-    private void initialize(Buyer user) {
+    private void initialize() {
+        SingletonManager login = SingletonManager.getInstance();
+        Buyer user = (Buyer) login.getUser();
         frame = new TokosiDiaFrame("Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 550);
@@ -97,7 +100,7 @@ public class HomeBuyer {
 
         profileButton.addActionListener(e -> {
             frame.dispose();
-            new ProfileBuyer(user);
+            new ProfileBuyer();
         });
 
         cartButton.addActionListener(e -> {

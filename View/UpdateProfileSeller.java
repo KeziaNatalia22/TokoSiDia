@@ -5,7 +5,11 @@ import Controller.Register;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Modul.Buyer;
 import Modul.Seller;
+import Modul.SingletonManager;
+
 import java.io.File;
 
 public class UpdateProfileSeller {
@@ -14,11 +18,13 @@ public class UpdateProfileSeller {
     File selectedPhotoProfile; 
     File selectedPhotoShop; 
 
-    public UpdateProfileSeller(Seller user) {
-        Seller(user);
+    public UpdateProfileSeller() {
+        Seller();
     }
 
-    public void Seller(Seller user) {
+    public void Seller() {
+        SingletonManager login = SingletonManager.getInstance();
+        Seller user = (Seller) login.getUser();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -174,7 +180,7 @@ public class UpdateProfileSeller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeSeller(user);
+                new HomeSeller();
             }
         });
 

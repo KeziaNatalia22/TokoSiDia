@@ -5,17 +5,22 @@ import Controller.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Modul.Buyer;
 import Modul.Seller;
+import Modul.SingletonManager;
 
 public class ProfileSeller {
     JFrame frame;
     JPanel panel;
 
-    public ProfileSeller(Seller user) {
-        ProfileSeller(user);
+    public ProfileSeller() {
+        ProfileSeller();
     }
 
-    public void ProfileSeller(Seller user) {
+    public void ProfileSeller() {
+        SingletonManager login = SingletonManager.getInstance();
+        Seller user = (Seller) login.getUser();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -84,7 +89,7 @@ public class ProfileSeller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeSeller(user);
+                new HomeSeller();
             }
         });
 
@@ -94,7 +99,7 @@ public class ProfileSeller {
         updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new UpdateProfileSeller(user);
+                new UpdateProfileSeller();
                 frame.dispose();
             }
         });

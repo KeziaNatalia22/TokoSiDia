@@ -136,7 +136,7 @@ public class AddProduct {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeSeller(user);
+                new HomeSeller();
             }
         });
 

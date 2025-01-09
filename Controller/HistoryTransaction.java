@@ -15,8 +15,8 @@ public class HistoryTransaction {
         String query = 
             "SELECT t.*, dt.quantity, p.*, tok.*, b.author, b.synopsis, b.title, b.release_date, b.page_num, g.exp_date, g.production_date, c.color AS clothing_color, c.size, e.color AS electronic_color, e.manual_book, e.warranty " +
             "FROM transaction t " +
-            "INNER JOIN detail_transaction dt ON t.id_transaksi = dt.id_transaksi " +
-            "INNER JOIN product p ON dt.id_product = p.id_product " +
+            "LEFT JOIN detail_transaction dt ON t.id_transaksi = dt.id_transaksi " +
+            "LEFT JOIN product p ON dt.id_product = p.id_product " +
             "LEFT JOIN book b ON p.id_product = b.id_product " +
             "LEFT JOIN grocery g ON p.id_product = g.id_product " +
             "LEFT JOIN clothing c ON p.id_product = c.id_product " +

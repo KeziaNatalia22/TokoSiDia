@@ -21,9 +21,11 @@ import javax.swing.SwingConstants;
 import org.w3c.dom.events.MouseEvent;
 
 import Controller.ProductSection;
+import Modul.Buyer;
 import Modul.Grocery;
 import Modul.Product;
 import Modul.Seller;
+import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
 
 public class RemoveProduct {
@@ -31,16 +33,16 @@ public class RemoveProduct {
     static JScrollPane scrollPane;
     JButton backButton;
     TokosiDiaFrame frame;
-    Seller globalSeller;
     
 
-    public RemoveProduct(Seller seller){
-        removeProduct(seller);
+    public RemoveProduct(){
+        removeProduct();
     }
 
-    public void removeProduct(Seller seller){
-        globalSeller = seller;
-        String username = seller.getName();
+    public void removeProduct(){
+        SingletonManager login = SingletonManager.getInstance();
+        Seller user = (Seller) login.getUser();
+        String username = user.getName();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
@@ -63,7 +65,7 @@ public class RemoveProduct {
         backButton.setFocusPainted(false);
         backButton.addActionListener(e -> {
             frame.dispose();
-            new HomeSeller(seller);
+            new HomeSeller();
         });
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());
@@ -141,7 +143,7 @@ public class RemoveProduct {
                 if(dialogResult == JOptionPane.YES_OPTION){
                     frame.dispose();
                     Controller.RemoveProduct.removeProduct(product.getIdProduct());
-                    new RemoveProduct(globalSeller);
+                    new RemoveProduct();
                 }
             }
         });

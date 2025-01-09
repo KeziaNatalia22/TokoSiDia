@@ -5,16 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Modul.Buyer;
+import Modul.SingletonManager;
 
 public class DetailProduct {
     JFrame frame;
     JPanel panel;
 
-    public DetailProduct(Buyer user) {
-        Detail(user);
+    public DetailProduct() {
+        Detail();
     }
 
-    public void Detail(Buyer user) {
+    public void Detail() {
+        SingletonManager login = SingletonManager.getInstance();
+        Buyer user = (Buyer) login.getUser();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -72,7 +75,7 @@ public class DetailProduct {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new HomeBuyer(user);
+                new HomeBuyer();
             }
         });
 

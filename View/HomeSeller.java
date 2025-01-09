@@ -2,16 +2,21 @@ package View;
 
 import javax.swing.*;
 import java.awt.*;
+
+import Modul.Buyer;
 import Modul.Seller;
+import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
 
 public class HomeSeller {
     private TokosiDiaFrame frame;
-    public HomeSeller(Seller user) {
-        initialize(user);
+    public HomeSeller() {
+        initialize();
     }
 
-    private void initialize(Seller user) {
+    private void initialize() {
+        SingletonManager login = SingletonManager.getInstance();
+        Seller user = (Seller) login.getUser();
         frame = new TokosiDiaFrame("Home Seller - Tokosidia");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -41,7 +46,7 @@ public class HomeSeller {
         balancePanel.setBackground(Color.WHITE);
         balancePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
-        JLabel balanceLabel = new JLabel("Balance: Rp." + user.geteMoney());
+        JLabel balanceLabel = new JLabel("Income: Rp." ); // manggil function di controller buat income nya ntar
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
         balanceLabel.setForeground(Color.BLACK);
         balancePanel.add(balanceLabel, BorderLayout.CENTER);
@@ -86,7 +91,7 @@ public class HomeSeller {
 
         profileButton.addActionListener(e -> {
             frame.dispose();
-            new ProfileSeller(user);
+            new ProfileSeller();
         });
 
         addProduct.addActionListener(e -> {
@@ -96,7 +101,7 @@ public class HomeSeller {
 
         deleteProduct.addActionListener(e -> {
             frame.dispose();
-            new RemoveProduct(user);
+            new RemoveProduct();
         });
 
         historyPenjualan.addActionListener(e -> {

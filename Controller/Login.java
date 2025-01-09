@@ -42,7 +42,7 @@ public class Login {
                         rsSeller.getString("city_located"))
                         ;
                         login.setUser(user1);
-                        new View.HomeSeller(user1);}
+                        new View.HomeSeller();}
                     } else {
                         Buyer user = new Buyer(
                         rs.getString("username"),
@@ -54,7 +54,7 @@ public class Login {
                         AccountStatus_Enum.valueOf(rs.getString("acc_stat")),
                         rs.getString("address"));
                         login.setUser(user);
-                        new View.HomeBuyer(user);
+                        new View.HomeBuyer();
                         CartSection.getCartFromDB(username);
                     }
                 } else {

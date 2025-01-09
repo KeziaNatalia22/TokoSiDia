@@ -13,6 +13,7 @@ import View.ShowCart;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -394,14 +395,16 @@ public class BuyerSection {
             if (dialogButton == JOptionPane.YES_OPTION) {
                 try {
                     String query1 = "INSERT INTO transaction (username, id_shop, date, shipment_status) VALUES (?, ?, ?, ?)";
-                    PreparedStatement st1 = DatabaseHandler.connect().prepareStatement(query1);
+                    PreparedStatement st1 = DatabaseHandler.connect().prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
                     st1.setString(1, login.getName());
                     st1.setInt(2, idShop);
                     st1.setString(3, date);
                     st1.setString(4, Modul.ShipmentStatus_Enum.PACKED.toString());
                     st1.execute();
 
-                    int idTransaction = DBController.getIDTransaction(login.getName(), idShop);
+                    ResultSet rs = st1.getGeneratedKeys();
+                    rs.next();
+                    int idTransaction = rs.getInt(1);
 
                     for (Map.Entry<Product, Integer> productEntry : productList.entrySet()) {
                         Product product = productEntry.getKey();

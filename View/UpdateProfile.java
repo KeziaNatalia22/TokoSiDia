@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Modul.Buyer;
+import Modul.SingletonManager;
+
 import java.io.File;
 
 public class UpdateProfile {
@@ -13,11 +15,13 @@ public class UpdateProfile {
     JPanel panel;
     File selectedPhotoPath; 
 
-    public UpdateProfile(Buyer user) {
-        UpdateProfile(user);
+    public UpdateProfile() {
+        UpdateProfile();
     }
 
-    public void UpdateProfile(Buyer user) {
+    public void UpdateProfile() {
+        SingletonManager login = SingletonManager.getInstance();
+        Buyer user = (Buyer) login.getUser();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize(); // Get screen size
 
@@ -121,7 +125,7 @@ public class UpdateProfile {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                new ProfileBuyer(user);
+                new ProfileBuyer();
             }
         });
 
@@ -147,6 +151,8 @@ public class UpdateProfile {
 
                 if (Register.updateData(name, phone, emailText, addressText)) {
                     JOptionPane.showMessageDialog(frame, "Data updated successfully!");
+                    frame.dispose();
+                    new ProfileBuyer();
                 }
             }
         });
