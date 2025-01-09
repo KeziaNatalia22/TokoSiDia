@@ -79,12 +79,10 @@ public class HomeSeller {
 
         JButton historyPenjualan = createButton("History Penjualan", new Color(72, 209, 204));
         JButton addProduct = createButton("Add Product", new Color(244, 164, 96));
-        JButton deleteProduct = createButton("Delete Product", new Color(255, 99, 71));
         JButton updateProduct = createButton("Update Product", new Color(72, 209, 204));
 
         contentPanel.add(historyPenjualan);
         contentPanel.add(addProduct);
-        contentPanel.add(deleteProduct);
         contentPanel.add(updateProduct);
 
         panelMain.add(contentPanel);
@@ -99,9 +97,9 @@ public class HomeSeller {
             new AddProduct(user);
         });
 
-        deleteProduct.addActionListener(e -> {
+        updateProduct.addActionListener(e -> {
             frame.dispose();
-            new RemoveProduct();
+            new UpdateProduct(user);
         });
 
         historyPenjualan.addActionListener(e -> {
