@@ -562,7 +562,7 @@ public class BuyerSection {
 
                         product.setStock(product.getStock()-amount);
                         UpdateProduct.updateProduct(product);
-                        CartSection.removeCartDB(product);
+                        CartSection.adminRemoveCart(product);
                         BuyerSection.removeProductCheckout(product);
                     }
 
