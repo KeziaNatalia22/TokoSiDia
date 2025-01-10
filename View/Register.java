@@ -1,12 +1,11 @@
 package View;
 
+import Modul.TokosiDiaFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.*;
-
-import Modul.TokosiDiaFrame;
 
 public class Register {
     TokosiDiaFrame frame;
@@ -227,7 +226,7 @@ public class Register {
                 String photoPath = "Photos/" + selectedFilePath.getName();
 
                 if (Controller.Register.inputDatatoDB(username.getText(), phone.getText(), email.getText(),
-                        new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText(), new File(photoPath))) {
+                        new String(password.getPassword()), address.getText(), type, shopName.getText(), city.getText(), photoPath)) {
                     new Login();
                     frame.dispose();
                 } else {

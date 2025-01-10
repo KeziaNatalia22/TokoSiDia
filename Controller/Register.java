@@ -1,11 +1,9 @@
 package Controller;
 
 import java.io.File;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 
 public class Register {
@@ -75,7 +73,7 @@ public class Register {
     // }
 
     public static boolean inputDatatoDB(String username, String phoneNum, String email, String password, String address,
-            String type, String shopName, String city, File photoPath) {
+            String type, String shopName, String city, String photoPath) {
         try {
             if (type.equalsIgnoreCase("buyer")) {
                 String query = "INSERT INTO user (username, phone_number, email, password, address, acc_stat, type, photo_path)"
@@ -88,7 +86,7 @@ public class Register {
                 st.setString(4, password);
                 st.setString(5, address);
                 st.setString(6, type);
-                st.setString(7, photoPath.getAbsolutePath());
+                st.setString(7, photoPath);
 
                 st.execute();
             } else {
@@ -102,7 +100,7 @@ public class Register {
                 st1.setString(4, password);
                 st1.setString(5, address);
                 st1.setString(6, type);
-                st1.setString(7, photoPath.getAbsolutePath());
+                st1.setString(7, photoPath);
 
                 st1.executeUpdate();
                 st1.close();
