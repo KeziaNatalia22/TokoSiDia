@@ -1,12 +1,12 @@
 package View;
-import javax.swing.*;
 import Controller.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import Modul.Buyer;
 import Modul.SingletonManager;
 import Modul.TokosiDiaFrame;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class ProfileBuyer {
     TokosiDiaFrame frame;
@@ -123,7 +123,7 @@ public class ProfileBuyer {
 
         JButton logout = new JButton("Log Out");
         logout.setBackground(Color.RED);
-        logout.setBounds(90, 400, 200, 30);
+        logout.setBounds(30, 400, 150, 30);
         logout.setHorizontalAlignment(SwingConstants.CENTER);
         logout.addActionListener(new ActionListener() { 
             @Override
@@ -140,6 +140,18 @@ public class ProfileBuyer {
             }
         });
         panel.add(logout);
+
+        JButton changePass = new JButton("Change Password");
+        changePass.setBackground(Color.ORANGE);
+        changePass.setBounds(200, 400, 150, 30);
+        changePass.setHorizontalAlignment(SwingConstants.CENTER);
+        changePass.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ChangePassword(SingletonManager.getInstance().getUser().getName());
+            }
+        });
+        panel.add(changePass);
 
         JButton historyTransaksi = new JButton("History Transaksi");
         historyTransaksi.setBounds(200, 350, 150, 30);

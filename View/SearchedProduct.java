@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class SearchedProduct {
+    static TokosiDiaFrame frame;
     static JPanel mainPanel;
     static JScrollPane scrollPane;
     static JButton showMoreButton;
@@ -26,7 +27,7 @@ public class SearchedProduct {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
-        TokosiDiaFrame frame = new TokosiDiaFrame("Searched Product");
+        frame = new TokosiDiaFrame("Searched Product");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setBounds(screenSize.width/2 - 900/2, screenSize.height/2 - 600/2, 900, 600); 
         frame.setResizable(false);
@@ -77,6 +78,9 @@ public class SearchedProduct {
             case 4:
                 searchedProduct = Controller.BuyerSection.searchElectronic(search, offset);
                 break;
+            case 5:
+                searchedProduct = Controller.BuyerSection.searchProduct1Seller(search, offset);
+                break;
             default:
                 searchedProduct = Controller.BuyerSection.searchGrocery(search, offset);
                 break;
@@ -102,6 +106,9 @@ public class SearchedProduct {
                 break;
             case 4:
                 searchedProduct = Controller.BuyerSection.searchElectronic(search, offset);
+                break;
+            case 5:
+                searchedProduct = Controller.BuyerSection.searchProduct1Seller(search, offset);
                 break;
             default:
                 searchedProduct = Controller.BuyerSection.searchGrocery(search, offset);

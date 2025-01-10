@@ -1,38 +1,33 @@
 package View;
 
-import javax.swing.*;
-
+import Modul.TokosiDiaFrame;
+import Modul.User;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import Modul.*;
-import java.io.File;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import javax.swing.*;
 
-public class UpdateProduct {
-
+public class SearchedSeller {
+    static TokosiDiaFrame frame;
     static JPanel mainPanel;
     static JScrollPane scrollPane;
-    JButton backButton;
-    TokosiDiaFrame frame;
-    Seller globalSeller;
-    
+    static JButton showMoreButton;
+    static int offset = 0;
+    final static int SHOW_MORE = 8;
 
-    public UpdateProduct(Seller seller){
-        updateProduct(seller);
+    public SearchedSeller(String search){
+        searchedSeller(search);
     }
 
-    public void updateProduct(Seller seller){
-        globalSeller = seller;
-        String username = seller.getName();
+    public void searchedSeller(String search) {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
 
-        frame = new TokosiDiaFrame("Searched Product");
+        frame = new TokosiDiaFrame("Searched Seller");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setBounds(screenSize.width/2 - 900/2, screenSize.height/2 - 600/2, 900, 600); 
         frame.setResizable(false);
@@ -41,53 +36,71 @@ public class UpdateProduct {
         mainPanel.setLayout(new GridLayout(0, 4, 10, 10));
         mainPanel.setBackground(Color.decode("#D9DFC6"));
 
-        addProducts(username);
+        addFirst8Searched(search);
 
         scrollPane = new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        backButton = new JButton("Back");
-        backButton.setFont(new Font("Arial", Font.PLAIN, 14));
-        backButton.setBackground(new Color(220, 220, 220));
-        backButton.setFocusPainted(false);
-        backButton.addActionListener(e -> {
-            frame.dispose();
-            new HomeSeller();
+        showMoreButton = new JButton("Show More");
+        showMoreButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        showMoreButton.setBackground(new Color(220, 220, 220));
+        showMoreButton.setFocusPainted(false);
+        showMoreButton.addActionListener(e -> {
+            addMoreProducts(search);
         });
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.add(scrollPane, BorderLayout.CENTER);
-        wrapperPanel.add(backButton, BorderLayout.SOUTH);
+        wrapperPanel.add(showMoreButton, BorderLayout.SOUTH);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                offset = 0;
+            }
+        });
 
         frame.add(wrapperPanel);
         frame.setVisible(true);
     }
 
-    private void addProducts(String sellerName) {
-        ArrayList<Product> searchedProduct = Controller.RemoveProduct.productList(sellerName);
-        for (Product product : searchedProduct) {
-            mainPanel.add(createProductCard(product));
+    private void addFirst8Searched(String search) {
+        ArrayList<User> searchedSeller = Controller.BuyerSection.searchSeller(search, offset);
+        for (User user : searchedSeller) {
+            mainPanel.add(createSellerCard(user));
         }
-        mainPanel.revalidate(); 
-        mainPanel.repaint(); 
     }
-    
 
-    private JPanel createProductCard(Product product) {
-        String productName = product.getName();
-        int discount = (int)(product.getDiscount());
-        String price = Controller.RupiahFormatter.formatRupiah((int)product.getPrice());
-        String photo = product.getPhotoProduct();
+    private void addMoreProducts(String search) {
+        offset += SHOW_MORE;
+
+        ArrayList<User> searchedSeller = Controller.BuyerSection.searchSeller(search, offset);
+
+        if (searchedSeller.isEmpty()) {
+            showMoreButton.setVisible(false);
+        }
+        else{
+            for (User seller : searchedSeller) {
+                mainPanel.add(createSellerCard(seller));
+            }
+            mainPanel.revalidate(); 
+            mainPanel.repaint(); 
+        }
+    }
+
+    private JPanel createSellerCard(User seller) {
+        String sellerName = seller.getName();
+        String photo = seller.getPhotoPath();
     
         JPanel card = new JPanel();
         card.setLayout(new BorderLayout());
         card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
         card.setBackground(Color.WHITE);
         card.setPreferredSize(new Dimension(180, 250));
-
+    
         JLabel imageLabel = new JLabel();
-        ImageIcon icon = new ImageIcon("Photos/Seller/" + photo);
+        ImageIcon icon = new ImageIcon(photo);
         Dimension dimImg = new Dimension(icon.getIconWidth(), icon.getIconHeight());
-        Dimension dimBound = new Dimension(200, 180);
+        Dimension dimBound = new Dimension(200, 200);
         Dimension scalledImg = Controller.ImageScaling.getScaledDimension(dimImg, dimBound);
         Image img = icon.getImage().getScaledInstance(scalledImg.width, scalledImg.height, Image.SCALE_REPLICATE);
         imageLabel.setIcon(new ImageIcon(img));
@@ -98,24 +111,13 @@ public class UpdateProduct {
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
         detailsPanel.setBackground(Color.WHITE);
     
-        JLabel nameLabel = new JLabel(productName);
+        JLabel nameLabel = new JLabel(sellerName);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         detailsPanel.add(nameLabel);
     
-        JLabel priceLabel = new JLabel("Price: " + price);
-        priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        detailsPanel.add(priceLabel);
-
-        JLabel discountLabel = new JLabel("Discount: " + discount + "%");
-        discountLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-        discountLabel.setForeground(Color.GRAY);
-        discountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        detailsPanel.add(discountLabel);
-
         card.add(detailsPanel, BorderLayout.SOUTH);
-
+    
         card.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -129,12 +131,10 @@ public class UpdateProduct {
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                DetailedUpdateProduct.detailProduct(product, globalSeller);
+                new SearchedProduct(sellerName, 5);
             }
         });
     
         return card;
     }    
-
-    
 }

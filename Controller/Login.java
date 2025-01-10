@@ -119,7 +119,7 @@ public class Login {
             st.setString(1, password);
             st.setString(2, username);
             st.executeUpdate();
-            new View.Login();
+            JOptionPane.showMessageDialog(null, "Password berhasil diganti!", "Change Password", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
         }

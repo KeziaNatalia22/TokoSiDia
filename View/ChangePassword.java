@@ -1,11 +1,12 @@
 package View;
 
+import Modul.TokosiDiaFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class ChangePassword {
-    JFrame frame;
+    TokosiDiaFrame frame;
     JPanel panel;
 
     public ChangePassword(String username) {
@@ -25,7 +26,7 @@ public class ChangePassword {
         int start_x = screenWidth / 2 - (FRAME_WIDTH / 2); // Center frame horizontally
         int start_y = screenHeight / 2 - (FRAME_HEIGHT / 2); // Center frame vertically
 
-        frame = new JFrame("Change Password"); // Create frame and set title
+        frame = new TokosiDiaFrame("Change Password"); // Create frame and set title
 
         frame.setBounds(start_x, start_y, FRAME_WIDTH, FRAME_HEIGHT); // Set frame bounds
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

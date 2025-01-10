@@ -21,7 +21,7 @@ public class HomeBuyer {
         Buyer user = (Buyer) login.getUser();
         frame = new TokosiDiaFrame("Home");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 550);
+        frame.setSize(1000, 550);
         frame.setLocationRelativeTo(null);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
@@ -92,11 +92,13 @@ public class HomeBuyer {
         JButton clothingButton = createButtonCategory("Clothing", new Color(244, 164, 96));
         JButton electronicButton = createButtonCategory("Electronic", new Color(255, 99, 71));
         JButton groceryButton = createButtonCategory("Grocery", new Color(50, 205, 50));
+        JButton sellerButton = createButtonCategory("Seller", new Color(45, 200, 124));
 
         categoryPanel.add(bookButton);
         categoryPanel.add(clothingButton);
         categoryPanel.add(electronicButton);
         categoryPanel.add(groceryButton);
+        categoryPanel.add(sellerButton);
 
         mainPanel.add(categoryPanel, BorderLayout.SOUTH);
 
@@ -127,6 +129,10 @@ public class HomeBuyer {
 
         groceryButton.addActionListener(e -> {
             new SearchedProduct(searchField.getText(), 5);
+        });
+
+        sellerButton.addActionListener(e -> {
+            new SearchedSeller(searchField.getText());
         });
 
         frame.setVisible(true);
