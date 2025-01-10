@@ -105,7 +105,7 @@ public class ProfileSeller {
         });
 
         JButton logout = new JButton("Log Out");
-        logout.setBounds(120, 350, 120, 30);
+        logout.setBounds(60, 350, 100, 30);
         logout.setBackground(Color.RED);
         logout.addActionListener(new ActionListener() { 
             @Override
@@ -122,9 +122,21 @@ public class ProfileSeller {
             }
         });
 
+        JButton changePass = new JButton("Change Password");
+        changePass.setBackground(Color.ORANGE);
+        changePass.setBounds(220, 350, 120, 30);
+        changePass.setHorizontalAlignment(SwingConstants.CENTER);
+        changePass.addActionListener(new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ChangePassword(SingletonManager.getInstance().getUser().getName());
+            }
+        });
+        
         panel.add(backHome);
         panel.add(updateData);
         panel.add(logout);
+        panel.add(changePass);
 
         frame.add(panel);
         frame.setVisible(true);
