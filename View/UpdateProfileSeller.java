@@ -124,8 +124,8 @@ public class UpdateProfileSeller {
                 JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    selectedPhotoProfile = fileChooser.getSelectedFile();
-                    shopPhoto.setIcon(new ImageIcon(new ImageIcon(selectedPhotoProfile.getAbsolutePath()).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+                    selectedPhotoShop = fileChooser.getSelectedFile();
+                    shopPhoto.setIcon(new ImageIcon(new ImageIcon(selectedPhotoShop.getAbsolutePath()).getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
                 }
             }
         });
@@ -205,10 +205,10 @@ public class UpdateProfileSeller {
                     Register.updatePhotoPath(name, selectedPhotoProfile); 
                 }
                 
-                // if (selectedPhotoShop != null) {
-                //     user.setPhotoPath(selectedPhotoShop.getAbsolutePath());
-                //     Register.updatePhotoShop(name, selectedPhotoShop); 
-                // }
+                if (selectedPhotoShop != null) {
+                    user.setPhotoPath(selectedPhotoShop.getPath());
+                    Register.updatePhotoShop(shop, selectedPhotoShop); 
+                }
 
                 if (Register.updateData(name, phone, emailText, city, shop)) {
                     JOptionPane.showMessageDialog(frame, "Data updated successfully!");

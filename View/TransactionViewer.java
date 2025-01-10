@@ -12,11 +12,10 @@ import java.util.List;
 import Modul.*;
 import Controller.UpdateShipment;
 
-
 public class TransactionViewer {
     TokosiDiaFrame frame;
     JPanel panel;
-    
+
     public TransactionViewer(Seller user) {
         displayTransactionSeller(user);
     }
@@ -24,8 +23,6 @@ public class TransactionViewer {
     public TransactionViewer(Buyer user) {
         displayTransactionBuyer(user);
     }
-
-
 
     public void displayTransactionBuyer(Buyer user) {
         List<Transaction> transactions = HistoryTransaction.transactionHistory(user.getName());
@@ -59,23 +56,22 @@ public class TransactionViewer {
         panel.add(titleLabel);
 
         JPanel transactionGrid = new JPanel();
-        transactionGrid.setLayout(new GridLayout(0, 3, 10, 10)); 
+        transactionGrid.setLayout(new GridLayout(0, 3, 10, 10));
         transactionGrid.setBackground(Color.decode("#f4f4f9"));
-
 
         for (Transaction transaction : transactions) {
             JPanel transactionPanel = new JPanel();
             transactionPanel.setLayout(new BoxLayout(transactionPanel, BoxLayout.Y_AXIS));
             transactionPanel.setBackground(Color.WHITE);
             transactionPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.decode("#dddddd"), 1),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                    BorderFactory.createLineBorder(Color.decode("#dddddd"), 1),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
             String formattedDate = dateFormat.format(transaction.getTransactionDate());
 
             JLabel date = new JLabel("Transaction Date: " + formattedDate);
-            date.setFont(new Font ("Segoe UI", Font.BOLD, 14));
+            date.setFont(new Font("Segoe UI", Font.BOLD, 14));
             date.setAlignmentX(Component.CENTER_ALIGNMENT);
             transactionPanel.add(date);
             transactionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -151,10 +147,9 @@ public class TransactionViewer {
                     productPanel.add(productionDate);
                 }
 
-
                 double priceAfterDisc = product.getPrice();
                 if (product.getDiscount() > 0) {
-                    priceAfterDisc = product.getPrice() - (product.getPrice() * (product.getDiscount()/100));
+                    priceAfterDisc = product.getPrice() - (product.getPrice() * (product.getDiscount() / 100));
                 }
 
                 if (product.getDiscount() > 0) {
@@ -165,7 +160,7 @@ public class TransactionViewer {
                     productPanel.add(discLabel);
                 }
 
-                total += priceAfterDisc*qty;
+                total += priceAfterDisc * qty;
 
                 JLabel qtyLabel = new JLabel("Quantity: " + transaction.getListQty().get(index));
                 qtyLabel.setFont(contentFont);
@@ -184,35 +179,58 @@ public class TransactionViewer {
             }
 
             JLabel totalLabel = new JLabel("Total: Rp " + priceFormat.format(total));
-            totalLabel.setFont(new Font ("Segoe UI", Font.BOLD, 14));
+            totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
             totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             transactionPanel.add(totalLabel);
 
+            String[] shipmentStatusList = { "DELIVERED", "COMPLETED" };
 
-            String[] shipmentStatusList = {"DELIVERED", "COMPLETED"};
+            String currentStatus = transaction.getShipmentStatus().toString();
 
-            JComboBox shipmentStatus = new JComboBox(shipmentStatusList);
-            shipmentStatus.setMaximumSize(new Dimension(190,20));
-            shipmentStatus.setSelectedItem(transaction.getShipmentStatus().toString());
-            shipmentStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
-            transactionPanel.add(shipmentStatus);
+            if ("COMPLETED".equals(currentStatus)) {
+                JLabel shipmentStatusLabel = new JLabel("Shipment Status: " + currentStatus);
+                shipmentStatusLabel.setMaximumSize(new Dimension(190, 20));
+                shipmentStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                transactionPanel.add(shipmentStatusLabel);
+            } else {
+                JComboBox<String> shipmentStatus = new JComboBox<>(shipmentStatusList);
+                shipmentStatus.setMaximumSize(new Dimension(190, 20));
+                shipmentStatus.setSelectedItem(currentStatus);
+                shipmentStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+                transactionPanel.add(shipmentStatus);
 
-            JButton changeButton = new JButton("Change Shipment Status");
-            changeButton.setBackground(Color.BLUE);
-            changeButton.setForeground(Color.white);
-            changeButton.setSize(190, 40);
-            changeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            changeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(null,"Shipment Status Changed");
-                    transaction.setShipmentStatus(ShipmentStatus_Enum.valueOf(shipmentStatus.getSelectedItem().toString()));
+                JButton changeButton = new JButton("Change Shipment Status");
+                changeButton.setBackground(Color.BLUE);
+                changeButton.setForeground(Color.WHITE);
+                changeButton.setMaximumSize(new Dimension(190, 40));
+                changeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                changeButton.addActionListener(e -> {
+                    String selectedStatus = shipmentStatus.getSelectedItem().toString();
+                    if ("COMPLETED".equals(selectedStatus)) {
+                        transactionPanel.remove(shipmentStatus);
+                        transactionPanel.remove(changeButton);
+
+                        JLabel completedLabel = new JLabel("Shipment Status: " + selectedStatus);
+                        completedLabel.setMaximumSize(new Dimension(190, 20));
+                        completedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        transactionPanel.add(completedLabel);
+                    }
+
+                    transaction.setShipmentStatus(ShipmentStatus_Enum.valueOf(selectedStatus));
                     UpdateShipment.updateShipment(transaction);
+
+                    JOptionPane.showMessageDialog(null, "Shipment Status Changed to " + selectedStatus);
+
+                    transactionPanel.revalidate();
+                    transactionPanel.repaint();
+
                     frame.dispose();
                     new TransactionViewer(user);
-                }
-            });
-            transactionPanel.add(changeButton);
+                });
+
+                transactionPanel.add(changeButton);
+            }
 
             transactionGrid.add(transactionPanel);
         }
@@ -227,7 +245,7 @@ public class TransactionViewer {
         backButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         backButton.addActionListener(e -> {
             frame.dispose();
-            new HomeBuyer(user);
+            new HomeBuyer();
         });
         panel.add(backButton);
 
@@ -269,17 +287,17 @@ public class TransactionViewer {
         panel.add(titleLabel);
 
         JPanel transactionGrid = new JPanel();
-        transactionGrid.setLayout(new GridLayout(0, 3, 10, 10)); 
+        transactionGrid.setLayout(new GridLayout(0, 3, 10, 10));
         transactionGrid.setBackground(Color.decode("#f4f4f9"));
 
         for (Transaction transaction : transactions) {
             JPanel transactionPanel = new JPanel();
             transactionPanel.setLayout(new BoxLayout(transactionPanel, BoxLayout.Y_AXIS));
             transactionPanel.setBackground(Color.WHITE);
-            // transactionPanel.setPreferredSize(new Dimension(280, 150)); 
+            // transactionPanel.setPreferredSize(new Dimension(280, 150));
             transactionPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(Color.decode("#dddddd"), 1),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+                    BorderFactory.createLineBorder(Color.decode("#dddddd"), 1),
+                    BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
             String formattedDate = dateFormat.format(transaction.getTransactionDate());
@@ -288,7 +306,7 @@ public class TransactionViewer {
             DecimalFormat priceFormat = new DecimalFormat("#,###.00");
 
             JLabel date = new JLabel("Transaction Date: " + formattedDate);
-            date.setFont(new Font ("Segoe UI", Font.BOLD, 14));
+            date.setFont(new Font("Segoe UI", Font.BOLD, 14));
             date.setAlignmentX(Component.CENTER_ALIGNMENT);
             transactionPanel.add(date);
             transactionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -364,7 +382,7 @@ public class TransactionViewer {
 
                 double priceAfterDisc = product.getPrice();
                 if (product.getDiscount() > 0) {
-                    priceAfterDisc = product.getPrice() - (product.getPrice() * (product.getDiscount()/100));
+                    priceAfterDisc = product.getPrice() - (product.getPrice() * (product.getDiscount() / 100));
                 }
 
                 if (product.getDiscount() > 0) {
@@ -375,7 +393,7 @@ public class TransactionViewer {
                     productPanel.add(discLabel);
                 }
 
-                total += priceAfterDisc*qty;
+                total += priceAfterDisc * qty;
 
                 JLabel qtyLabel = new JLabel("Quantity: " + qty);
                 qtyLabel.setFont(contentFont);
@@ -386,7 +404,7 @@ public class TransactionViewer {
                 priceLabel.setFont(contentFont);
                 priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
                 productPanel.add(priceLabel);
-                
+
                 transactionPanel.add(productPanel);
                 transactionPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
@@ -394,34 +412,57 @@ public class TransactionViewer {
             }
 
             JLabel totalLabel = new JLabel("Total: Rp " + priceFormat.format(total));
-            totalLabel.setFont(new Font ("Segoe UI", Font.BOLD, 14));
+            totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
             totalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             transactionPanel.add(totalLabel);
 
-            String[] shipmentStatusList = {"PACKED", "SHIPPED"};
+            String[] shipmentStatusList = { "PACKED", "SHIPPED" };
+            String currentStatus = transaction.getShipmentStatus().toString();
 
-            JComboBox shipmentStatus = new JComboBox(shipmentStatusList);
-            shipmentStatus.setMaximumSize(new Dimension(190,20));
-            shipmentStatus.setSelectedItem(transaction.getShipmentStatus().toString());
-            shipmentStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
-            transactionPanel.add(shipmentStatus);
+            if ("SHIPPED".equals(currentStatus)) {
+                JLabel shipmentStatusLabel = new JLabel("Shipment Status: " + currentStatus);
+                shipmentStatusLabel.setMaximumSize(new Dimension(190, 20));
+                shipmentStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                transactionPanel.add(shipmentStatusLabel);
+            } else {
+                JComboBox<String> shipmentStatus = new JComboBox<>(shipmentStatusList);
+                shipmentStatus.setMaximumSize(new Dimension(190, 20));
+                shipmentStatus.setSelectedItem(currentStatus);
+                shipmentStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+                transactionPanel.add(shipmentStatus);
 
-            JButton changeButton = new JButton("Change Shipment Status");
-            changeButton.setBackground(Color.BLUE);
-            changeButton.setForeground(Color.white);
-            changeButton.setSize(190, 40);
-            changeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            changeButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(null,"Shipment Status Changed");
-                    transaction.setShipmentStatus(ShipmentStatus_Enum.valueOf(shipmentStatus.getSelectedItem().toString()));
+                JButton changeButton = new JButton("Change Shipment Status");
+                changeButton.setBackground(Color.BLUE);
+                changeButton.setForeground(Color.WHITE);
+                changeButton.setMaximumSize(new Dimension(190, 40));
+                changeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                changeButton.addActionListener(e -> {
+                    String selectedStatus = shipmentStatus.getSelectedItem().toString();
+                    if ("SHIPPED".equals(selectedStatus)) {
+                        transactionPanel.remove(shipmentStatus);
+                        transactionPanel.remove(changeButton);
+
+                        JLabel shippedLabel = new JLabel("Shipment Status: " + selectedStatus);
+                        shippedLabel.setMaximumSize(new Dimension(190, 20));
+                        shippedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        transactionPanel.add(shippedLabel);
+                    }
+
+                    transaction.setShipmentStatus(ShipmentStatus_Enum.valueOf(selectedStatus));
                     UpdateShipment.updateShipment(transaction);
+
+                    JOptionPane.showMessageDialog(null, "Shipment Status Changed to " + selectedStatus);
+
+                    transactionPanel.revalidate();
+                    transactionPanel.repaint();
+
                     frame.dispose();
                     new TransactionViewer(user);
-                }
-            });
-            transactionPanel.add(changeButton);
+                });
+
+                transactionPanel.add(changeButton);
+            }
 
             transactionGrid.add(transactionPanel);
         }
@@ -436,7 +477,7 @@ public class TransactionViewer {
         backButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         backButton.addActionListener(e -> {
             frame.dispose();
-            new HomeSeller(user);
+            new HomeSeller();
         });
         panel.add(backButton);
 
@@ -446,5 +487,4 @@ public class TransactionViewer {
         frame.setVisible(true);
     }
 
-    
 }

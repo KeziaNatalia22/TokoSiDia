@@ -2,6 +2,8 @@ package View;
 
 import javax.swing.*;
 
+import Controller.RupiahFormatter;
+
 import java.awt.*;
 import Modul.Buyer;
 import Modul.SingletonManager;
@@ -57,7 +59,7 @@ public class HomeBuyer {
         balancePanel.setBackground(Color.WHITE);
         balancePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
-        JLabel balanceLabel = new JLabel("Balance: Rp." + user.geteMoney());
+        JLabel balanceLabel = new JLabel("Balance: "+ RupiahFormatter.formatRupiah((int)user.geteMoney()));
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         balanceLabel.setForeground(Color.BLACK);
         balancePanel.add(balanceLabel, BorderLayout.CENTER);

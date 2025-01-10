@@ -1,6 +1,10 @@
 package View;
 
 import javax.swing.*;
+
+import Controller.RupiahFormatter;
+import Controller.ViewIncome;
+
 import java.awt.*;
 
 import Modul.Buyer;
@@ -46,7 +50,7 @@ public class HomeSeller {
         balancePanel.setBackground(Color.WHITE);
         balancePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 
-        JLabel balanceLabel = new JLabel("Income: Rp." ); // manggil function di controller buat income nya ntar
+        JLabel balanceLabel = new JLabel("Income: " + RupiahFormatter.formatRupiah(ViewIncome.viewIncome(user.getName()))); // manggil function di controller buat income nya ntar
         balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
         balanceLabel.setForeground(Color.BLACK);
         balancePanel.add(balanceLabel, BorderLayout.CENTER);

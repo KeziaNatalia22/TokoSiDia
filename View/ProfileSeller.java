@@ -84,7 +84,7 @@ public class ProfileSeller {
 
         JButton backHome = new JButton("Back");
         backHome.setBounds(60, 310, 100, 30);
-        backHome.setBackground(Color.LIGHT_GRAY);
+        backHome.setBackground(new Color(244, 164, 96));
         backHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,7 +95,7 @@ public class ProfileSeller {
 
         JButton updateData = new JButton("Change Data");
         updateData.setBounds(220, 310, 120, 30);
-        updateData.setBackground(Color.CYAN);
+        updateData.setBackground(new Color(72, 209, 204));
         updateData.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,6 +116,7 @@ public class ProfileSeller {
                         JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     frame.dispose();
+                    SingletonManager.removeInstance();
                     new MenuLogin();
                 }
             }
