@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.HashMap;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -205,6 +207,12 @@ public class DetailedProduct {
             Controller.BuyerSection.addToCart(product, Integer.parseInt(quantityField.getText()));
             Controller.CartSection.insertCartDB(product, Integer.parseInt(quantityField.getText()));
             new ShowCart();
+        });
+
+        buyButton.addActionListener(e -> {
+            HashMap<Product,Integer> checkout = new HashMap<>();
+            checkout.put(product,Integer.parseInt(quantityField.getText()));
+            new Checkout(checkout, Controller.DBController.getIDShop(product.getSellerName()));
         });
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());

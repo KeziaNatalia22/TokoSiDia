@@ -111,6 +111,36 @@ public class CartSection {
         return false;
     }
 
+    public static boolean adminRemoveCart(Product product) {
+        int idShop = DBController.getIDShop(product.getSellerName());
+        int idCart = DBController.getIDCart(idShop);
+        if(SingletonManager.getInstance().getCart().get(product.getSellerName()) != null){
+            try {
+                if (SingletonManager.getInstance().getCart().get(product.getSellerName()).size() == 1) {
+                    String query = "DELETE FROM cart WHERE id_cart = ? AND username = ?";
+                    try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
+                        st.setInt(1, idCart);
+                        st.setString(2, SingletonManager.getInstance().getUser().getName());
+                        st.executeUpdate();
+                    }
+                } else {
+                    String query = "DELETE FROM cart_detail WHERE id_cart = ? AND id_product = ?";
+                    try (PreparedStatement st = DatabaseHandler.connect().prepareStatement(query)) {
+                        st.setInt(1, idCart);
+                        st.setInt(2, Integer.parseInt(product.getIdProduct()));
+                        st.executeUpdate();
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public static void getCartFromDB(String username){
         String query = 
             "SELECT c.*, cd.*, p.*, b.*, g.*, cl.*, e.* " +
