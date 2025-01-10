@@ -513,16 +513,18 @@ public class BuyerSection {
         HashMap<String, HashMap<Product, Integer>> cart = login.getCart();
         String seller = product.getSellerName();
         HashMap<Product, Integer> prodInCart = cart.get(seller);
-        for (Map.Entry<Product, Integer> productEntry : prodInCart.entrySet()) {
-            Product prod = productEntry.getKey();
-            if (prod.getIdProduct().equalsIgnoreCase(product.getIdProduct())) {
-                if (SingletonManager.getInstance().getCart().get(seller).size() != 1) {
-                    SingletonManager.getInstance().getCart().get(seller).remove(prod);
+        if(prodInCart != null){
+            for (Map.Entry<Product, Integer> productEntry : prodInCart.entrySet()) {
+                Product prod = productEntry.getKey();
+                if (prod.getIdProduct().equalsIgnoreCase(product.getIdProduct())) {
+                    if (SingletonManager.getInstance().getCart().get(seller).size() != 1) {
+                        SingletonManager.getInstance().getCart().get(seller).remove(prod);
+                    }
+                    else{
+                        SingletonManager.getInstance().getCart().remove(seller);
+                    }
+                    break;
                 }
-                else{
-                    SingletonManager.getInstance().getCart().remove(seller);
-                }
-                break;
             }
         }
     }
@@ -558,6 +560,8 @@ public class BuyerSection {
                         st2.setInt(3, amount);
                         st2.execute();
 
+                        product.setStock(product.getStock()-amount);
+                        UpdateProduct.updateProduct(product);
                         CartSection.removeCartDB(product);
                         BuyerSection.removeProductCheckout(product);
                     }
