@@ -1,8 +1,6 @@
 # TokoSiDia
 
-TokoSiDia adalah aplikasi desktop Java untuk penjual dan pembeli, menyediakan manajemen produk, keranjang, checkout, histori transaksi, pengiriman, autentikasi, dan antarmuka grafis lengkap untuk toko daring lokal dengan dukungan gambar produk, laporan, dan notifikasi email otomatis.
-
-Deskripsi singkat (35 karakter): `TokoSiDia: Aplikasi e-commerce desktop.`
+TokoSiDia adalah aplikasi e-commerce desktop Java untuk penjual dan pembeli, menyediakan manajemen produk, keranjang, checkout, histori transaksi, pengiriman, autentikasi, dan antarmuka grafis lengkap untuk toko daring lokal dengan dukungan gambar produk, laporan, dan notifikasi email otomatis.
 
 **Fitur Utama:**
 - **Manajemen Produk:** Tambah, edit, hapus, dan tampilkan produk dengan gambar.
